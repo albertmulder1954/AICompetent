@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactieve Gids: GenAI Whitepaper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+        - Report Info: AI Adoptie Cijfers (CBS, AWS, bedrijfsgrootte, NLG groei, werknemersgebruik). Goal: Inform & Compare. Viz/Presentation: Bar charts (Chart.js). Interaction: Tooltips on hover. Justification: Clear visual comparison of quantitative data. Library: Chart.js.
+        - Report Info: Sectorale Penetratie (Informatie & Communicatie, Zakelijke Dienstverlening, Financiële Dienstverlening). Goal: Compare. Viz/Presentation: Bar chart (Chart.js). Interaction: Tooltips. Justification: Easy comparison of adoption across sectors. Library: Chart.js.
+        - Report Info: Populaire GenAI Tools (ChatGPT, Copilot, Gemini). Goal: Inform. Viz/Presentation: Donut chart (Chart.js). Interaction: Tooltips. Justification: Show market share/usage. Library: Chart.js.
+        - Report Info: Primaire Toepassingen GenAI (Ideeën, Info zoeken, etc.). Goal: Inform. Viz/Presentation: Horizontal bar chart (Chart.js). Interaction: Tooltips. Justification: Clear display of usage patterns. Library: Chart.js.
+        - Report Info: EU AI Act Risicocategorieën. Goal: Organize & Inform. Viz/Presentation: Accordion/collapsible sections for each category (Verboden, Hoog-Risico, GPAI, Transparantie). Interaction: Click to expand/collapse. Justification: Structured presentation of complex information. Method: HTML/JS.
+        - Report Info: Checklist Risicomanagement & Aanbevelingen (Tabel 4 & Hoofdsectie 7). Goal: Action & Organize. Viz/Presentation: Interactive checklist (HTML checkboxes). Interaction: User can check/uncheck items. Justification: Practical tool for users. Method: HTML/JS.
+        - Report Info: Trainingsfocus per Doelgroep (Tabel 5). Goal: Organize & Inform. Viz/Presentation: Accordion for each target group. Interaction: Click to view details for a group. Justification: Clear, comparative overview. Method: HTML/JS.
+        - All textual content will be presented in collapsible sections or clear paragraphs with headings to improve readability and navigation. Key terms will be highlighted or have tooltips for definitions.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                 max-height: 450px;
+            }
+        }
+        .content-section {
+            scroll-margin-top: 80px;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-button.active + .accordion-content {
+            max-height: 2000px; /* Adjust as needed */
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #38bdf8; /* sky-400 */
+        }
+        .table-responsive {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+        }
+        th, td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #e5e7eb; /* gray-200 */
+        }
+        th {
+            background-color: #f9fafb; /* gray-50 */
+            font-weight: 600;
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header class="bg-sky-700 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex flex-wrap justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold">Interactieve Gids: GenAI Whitepaper</h1>
+            <nav class="mt-2 md:mt-0">
+                <ul class="flex flex-wrap space-x-2 md:space-x-4 text-sm md:text-base">
+                    <li><a href="#intro" class="nav-link hover:text-sky-300">Start</a></li>
+                    <li><a href="#groei" class="nav-link hover:text-sky-300">Groei & Adoptie</a></li>
+                    <li><a href="#risicos" class="nav-link hover:text-sky-300">Risico's</a></li>
+                    <li><a href="#regelgeving" class="nav-link hover:text-sky-300">Regelgeving</a></li>
+                    <li><a href="#risicomanagement" class="nav-link hover:text-sky-300">Management</a></li>
+                    <li><a href="#training" class="nav-link hover:text-sky-300">Training</a></li>
+                    <li><a href="#checklist" class="nav-link hover:text-sky-300">Checklist</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="intro" class="content-section bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-sky-700 mb-4">Start: Kerninzichten GenAI Whitepaper</h2>
+            <p class="mb-4 text-stone-700">Deze sectie biedt een direct overzicht van de meest cruciale informatie uit het whitepaper "De Explosieve Groei en Ongeautoriseerde Implementatie van Generatieve AI in Professionele Omgevingen: Risico's, Regelgeving en Risicomanagementstrategieën" (23 mei 2025). Het dient als een beknopte samenvatting om u snel op weg te helpen met de belangrijkste bevindingen en aanbevelingen.</p>
+
+            <div>
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Beknopte Samenvatting van het Whitepaper</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <p class="mb-3">Generatieve Artificiële Intelligentie (GenAI) hervormt de professionele wereld in een ongekend tempo. Werknemers omarmen tools zoals ChatGPT, Copilot, Gemini en Claude voor productiviteits- en efficiëntiewinst. Dit whitepaper analyseert deze snelle groei, met focus op Nederland, en de aanzienlijke risico's van wijdverbreid, vaak ongeautoriseerd, gebruik ("schaduw-AI"). Risico's omvatten juridische aansprakelijkheid (AVG, IE), operationele schade en reputatieverlies.</p>
+                    <p class="mb-3">Het analyseert de EU AI Act, ISO 42001, de noodzaak voor top-down beleid en uitdagingen voor verzekeraars. Concrete risicomanagementstrategieën (technisch, organisatorisch, contractueel) en aanbevelingen voor voorlichting en training worden uiteengezet. Het doel is organisaties handvatten te bieden om kansen van GenAI te benutten en risico's proactief te beheersen.</p>
+                    <p class="mb-3">De snelheid van GenAI-transformatie overstijgt vaak de ontwikkeling van adequaat beleid, wat een spanningsveld creëert. "Schaduw-AI" signaleert niet alleen ongeautoriseerd gebruik, maar ook potentiële hiaten in IT-governance en managementzichtbaarheid.</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Belangrijkste Conclusies & Aanbevelingen (Overzicht)</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <h4 class="font-semibold text-lg mb-2 text-stone-700">Kernbevindingen:</h4>
+                    <ul class="list-disc list-inside mb-3 text-stone-600 space-y-1">
+                        <li>GenAI-gebruik is wijdverbreid en groeit exponentieel in Nederland, gedreven door productiviteitswinst.</li>
+                        <li>Ongeautoriseerd gebruik ("schaduw-AI") leidt tot significante juridische, operationele en reputatierisico's.</li>
+                        <li>EU AI Act biedt basis voor AI-governance maar adresseert schaduw-AI niet direct; intern beleid is cruciaal.</li>
+                    </ul>
+                    <h4 class="font-semibold text-lg mb-2 text-stone-700">Belangrijkste Aanbevelingen:</h4>
+                    <ul class="list-disc list-inside text-stone-600 space-y-1">
+                        <li>Ontwikkel en Implementeer een Duidelijk GenAI-Beleid.</li>
+                        <li>Investeer in AI-Geletterdheid en Training.</li>
+                        <li>Implementeer Robuuste Technische Maatregelen.</li>
+                        <li>Stel een AI Governance Structuur In.</li>
+                    </ul>
+                    <p class="mt-3 text-sm text-stone-500">Deze aanbevelingen zijn onderling afhankelijk. Proactief investeren is cruciaal om grotere problemen en kosten op termijn te voorkomen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="groei" class="content-section bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-sky-700 mb-4">I. GenAI: Groei & Adoptie in Nederland</h2>
+            <p class="mb-6 text-stone-700">Deze sectie licht de schaal en snelheid toe waarmee Generatieve AI (GenAI) wordt geïntegreerd in Nederlandse professionele omgevingen. We kijken naar recente data, trends, sectorale verschillen en het gebruik door werknemers, inclusief populaire tools en toepassingen.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <h3 class="text-xl font-medium text-stone-700 mb-3">AI-Adoptie Bedrijven (10+ werknemers)</h3>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="aiAdoptieChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-2 text-center">Bron: CBS (data 2024, publ. feb 2025) & AWS (apr 2025)</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-medium text-stone-700 mb-3">AI-Adoptie naar Bedrijfsgrootte (2024)</h3>
+                     <div class="chart-container h-64 md:h-80">
+                        <canvas id="aiAdoptieGrootteChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-2 text-center">Bron: CBS (data 2024)</p>
+                </div>
+            </div>
+             <div class="mb-6">
+                <button class="accordion-button w-full text-left text-lg font-medium text-stone-700 p-3 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Meer Details: Cijfers & Trends</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <p class="mb-2">In 2024 gebruikte 22,7% van de Nederlandse bedrijven (10+ werknemers) AI, een groei van 64,5% t.o.v. 2023 (CBS). AWS rapporteerde 49% AI-adoptie in NL (april 2025). Het gebruik van *Natural Language Generation* verdrievoudigde in 2024 t.o.v. 2023. Grotere bedrijven (500+ werknemers) lopen voorop met 59,2% AI-gebruik. 28% van de Nederlandse werknemers gebruikt GenAI voor werk (Deloitte, okt 2024), wat neerkomt op potentieel >2,7 miljoen gebruikers.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <h3 class="text-xl font-medium text-stone-700 mb-3">Sectorale Penetratie AI (2024)</h3>
+                    <div class="chart-container h-72 md:h-96">
+                        <canvas id="sectoralePenetratieChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-2 text-center">Bron: CBS (data 2024)</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-medium text-stone-700 mb-3">Populairste GenAI Tools (Gebruikers)</h3>
+                    <div class="chart-container h-72 md:h-96">
+                        <canvas id="populaireToolsChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-2 text-center">Bron: UGent (Vlaams onderzoek, relevant als indicatie)</p>
+                </div>
+            </div>
+             <div class="mb-6">
+                <button class="accordion-button w-full text-left text-lg font-medium text-stone-700 p-3 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Meer Details: Sectorale Penetratie & Populaire Tools</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                     <p class="mb-2">Kennisintensieve sectoren leiden: Informatie & Communicatie (58%), Specialistische zakelijke dienstverlening (39,8%), Financiële dienstverlening (37,4%). KPMG verwacht dat 91% van corporate finance afdelingen binnen 3 jaar GenAI gebruikt.</p>
+                    <p class="mb-2">ChatGPT is de meest gebruikte tool (76% AI-gebruikers volgens UGent). Microsoft Copilot (32%) en Google Gemini (9%) volgen. Primaire toepassingen (Deloitte NL): ideeën genereren (40%), informatie zoeken (38%), tekst samenvatten (38%), content creatie/bewerking (37%).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="risicos" class="content-section bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-sky-700 mb-4">II. Risico's van "Schaduw-AI"</h2>
+            <p class="mb-6 text-stone-700">Deze sectie richt zich op "schaduw-AI": het gebruik van GenAI-tools door werknemers zonder expliciete toestemming of controle van de werkgever. We bespreken de prevalentie, drijfveren en de diverse juridische, operationele en reputatierisico's die hiermee gepaard gaan.</p>
+            
+            <div>
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Wat is Schaduw-AI? Prevalentie en Drijfveren</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <p class="mb-2"><strong>Definitie:</strong> Gebruik van GenAI-tools door werknemers zonder expliciete toestemming, medeweten of controle van de werkgever.</p>
+                    <p class="mb-2"><strong>Prevalentie:</strong>
+                        <ul class="list-disc list-inside ml-4 mb-2 text-sm">
+                            <li>NL: ~22% van alle werknemers gebruikte ChatGPT zonder toestemming (MT/Sprout, nov 2023).</li>
+                            <li>Internationaal: 50% werknemers gebruikt niet-goedgekeurde AI-tools (SecurityWeek, Q1 2025). 57% van hen voert gevoelige bedrijfsinformatie in (TELUS, feb 2025).</li>
+                        </ul>
+                    </p>
+                    <p class="mb-2"><strong>Drijfveren:</strong>
+                        <ul class="list-disc list-inside ml-4 text-sm">
+                            <li>Productiviteitsdruk/efficiëntiewinst (sneller werken 60%, werk vergemakkelijken 57%).</li>
+                            <li>Gebrek aan officiële tools of beperkend beleid.</li>
+                            <li>Gemak en toegankelijkheid van publieke tools.</li>
+                            <li>Onvoldoende bewustzijn/training (80% NL gebruikers geen training).</li>
+                            <li>Nieuwsgierigheid en experimenteerdrift.</li>
+                        </ul>
+                    </p>
+                    <p class="mt-2 text-xs text-stone-500">De hoge prevalentie is een gevolg van laagdrempeligheid en gepercipieerde voordelen versus trage reactie van organisaties (beleid, veilige alternatieven, training).</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Specifieke Juridische Risico's</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <ul class="space-y-3">
+                        <li><strong>Privacy en AVG/GDPR:</strong> Werkgever primair aansprakelijk. Risico op datalekken (boetes tot €20M/4% omzet), onrechtmatige verwerking.</li>
+                        <li><strong>Intellectueel Eigendom (IE):</strong> Complexe auteursrechtstatus output. Risico op IE-inbreuk door input/training. Verlies bedrijfsgeheimen.</li>
+                        <li><strong>Aansprakelijkheid voor Foutieve Output:</strong> Werkgeversaansprakelijkheid voor schade door fouten werknemers (art. 6:170 BW). Risico op beroepsfouten.</li>
+                        <li><strong>Bedrijfsspionage en Strafrechtelijke Risico's:</strong> Strafbare handelingen werknemer (art. 272/273 WvS). Nieuwe wetgeving spionage (mei 2025) met zware straffen.</li>
+                        <li><strong>Arbeidsrechtelijke Consequenties:</strong> Van waarschuwing tot ontslag voor werknemer. Duidelijke richtlijnen cruciaal.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Operationele & Reputatierisico's</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <h4 class="font-semibold text-lg mb-2 text-stone-700">Operationele Risico's:</h4>
+                    <ul class="list-disc list-inside mb-3 text-stone-600 space-y-1">
+                        <li>Incorrecte besluitvorming door foutieve/gehallucineerde output.</li>
+                        <li>Verlies van concurrentievoordeel door lekkage IE/strategische info.</li>
+                        <li>Bias en discriminatie door overname vooroordelen uit trainingsdata.</li>
+                        <li>Cybersecurity risico's (malware, geavanceerde phishing).</li>
+                    </ul>
+                    <h4 class="font-semibold text-lg mb-2 text-stone-700">Reputatierisico's:</h4>
+                    <ul class="list-disc list-inside text-stone-600 space-y-1">
+                        <li>Verlies van klantvertrouwen door datalekken of onethisch AI-gebruik.</li>
+                        <li>Beschadiging merkimago door misinformatie of falende AI-systemen.</li>
+                        <li>Aantasting werkgeversmerk door gebrek aan richtlijnen/controle.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="regelgeving" class="content-section bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-sky-700 mb-4">III. Regelgeving & Beleid</h2>
+            <p class="mb-6 text-stone-700">De snelle opkomst van GenAI dwingt tot actie. Deze sectie belicht het wettelijk kader, met name de EU AI Act, de Nederlandse aanpak, en het belang van robuust intern beleid en ISO-normen.</p>
+
+            <div>
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>De EU AI Act Uitgelegd</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <p class="mb-3">De EU AI Act hanteert een risico-gebaseerde aanpak. Kernpunten:</p>
+                    <ul class="space-y-2 mb-3">
+                        <li><strong>Verboden AI-systemen:</strong> Onaanvaardbaar risico (bv. sociale scoring overheden, emotieherkenning werk/onderwijs - verbod feb 2025).</li>
+                        <li><strong>Hoogrisico AI-systemen:</strong> Strenge eisen voor AI in o.a. kritieke infra, onderwijs, werkgelegenheid (bv. werving, personeelsbeheer). Eisen omvatten risicomanagement, datakwaliteit, transparantie, menselijk toezicht. Gefaseerde invoering (deadlines aug 2026).</li>
+                        <li><strong>Algemene AI-modellen (GPAI):</strong> Transparantieverplichtingen voor ontwikkelaars (bv. documentatie, EU-auteursrecht, risicobeleid). Zwaardere eisen voor GPAI met "systemisch risico".</li>
+                        <li><strong>Transparantieverplichtingen:</strong> Gebruikers informeren bij interactie met AI (chatbots) of AI-gegenereerde content (deepfakes).</li>
+                    </ul>
+                    <p class="mb-2"><strong>Verplichtingen voor Organisaties:</strong></p>
+                    <ul class="list-disc list-inside ml-4 mb-2 text-sm">
+                        <li>Voldoende AI-geletterdheid personeel (Art. 4 AI Act).</li>
+                        <li>Robuust risicomanagement voor hoogrisicosystemen.</li>
+                    </ul>
+                    <p class="mb-2"><strong>Handhaving:</strong> Aanzienlijke boetes mogelijk.</p>
+                    <p class="text-sm text-stone-500">De EU AI Act pakt "schaduw-AI" niet direct aan; organisaties moeten dit zelf opvullen met intern beleid, controles en training.</p>
+                    
+                    <div class="mt-4 table-responsive">
+                        <h4 class="font-semibold text-md mb-2 text-stone-700">Overzicht EU AI Act Risicocategorieën & Implicaties Werkvloer:</h4>
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Risicocategorie</th>
+                                    <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Voorbeelden Werkvloer</th>
+                                    <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Belangrijkste Verplichtingen (organisatie)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                                <tr>
+                                    <td class="px-4 py-2">Verboden AI</td>
+                                    <td class="px-4 py-2">AI voor emotieherkenning werk/onderwijs; sociale scoringssystemen.</td>
+                                    <td class="px-4 py-2">Niet ontwikkelen, aanbieden of gebruiken.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Hoog-Risico AI</td>
+                                    <td class="px-4 py-2">Werving & selectie tools; systemen voor promotie/prestatiebeoordeling; personeelsbeheer.</td>
+                                    <td class="px-4 py-2">Risicomanagementsysteem; hoge datakwaliteit; transparantie; menselijk toezicht; AI-geletterdheid personeel.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Algemene AI-Modellen (GPAI)</td>
+                                    <td class="px-4 py-2">(bv. onderliggend model bedrijfsinterne chatbot)</td>
+                                    <td class="px-4 py-2">Technische documentatie; voldoen EU-auteursrecht; risicobeheer.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Transparantierisico</td>
+                                    <td class="px-4 py-2">Interne/externe chatbots; systemen die deepfakes genereren.</td>
+                                    <td class="px-4 py-2">Duidelijk informeren gebruikers over interactie met AI.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Nederlandse Aanpak & Bestaande Wetgeving</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                     <ul class="list-disc list-inside text-stone-600 space-y-1">
+                        <li><strong>Overheidsbrede Visie Generatieve AI (jan 2024):</strong> Nadruk op mensgerichte, veilige, eerlijke inzet.</li>
+                        <li><strong>Implementatie EU AI Act:</strong> NL werkt aan implementatie en richtlijnen.</li>
+                        <li><strong>Standpunt Inzet GenAI Overheid (apr 2025):</strong> Meer ruimte voor ambtenaren binnen kaders; voorkeur open-source/Europese/NL oplossingen.</li>
+                        <li><strong>Bestaande Wetgeving:</strong> AVG, Auteurswet, sectorspecifieke wetten blijven cruciaal en vullen AI Act aan.</li>
+                    </ul>
+                </div>
+            </div>
+             <div class="mt-4">
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Noodzaak Top-Down Intern Beleid & ISO-Normen</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <p class="mb-2">Effectief GenAI-management vereist actieve, interne sturing (top-down beleid) vanwege:</p>
+                    <ul class="list-disc list-inside ml-4 mb-2 text-sm">
+                        <li>Hoge risico's; Consistentie & standaardisatie; Aansprakelijkheid organisatie; Strategische afstemming; Voorkomen fragmentatie & schaduw-AI.</li>
+                    </ul>
+                    <p class="mb-2">Lessen uit BYOD & social media: top-down kader is essentieel voor riskante technologieën.</p>
+                    <p class="mb-1 font-semibold">ISO-Normen:</p>
+                     <ul class="list-disc list-inside ml-4 mb-2 text-sm">
+                        <li><strong>ISO/IEC 42001 (AIMS):</strong> Raamwerk AI-managementsysteem (verantwoorde ontwikkeling/gebruik, risicomanagement).</li>
+                        <li><strong>ISO/IEC 27001 (ISMS):</strong> Fundamenteel voor informatiebeveiliging (databeveiliging, toegang, incidentmanagement).</li>
+                    </ul>
+                    <p class="text-xs text-stone-500">ISO 42001 & 27001 zijn complementair. Hiaten voor GenAI: dynamische aard, IP-complexiteit, effectiviteit tegen schaduw-AI hangt af van implementatie & cultuur.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="risicomanagement" class="content-section bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-sky-700 mb-4">IV. Risicomanagement in de Praktijk</h2>
+            <p class="mb-6 text-stone-700">Effectief risicomanagement voor GenAI vereist een gelaagde aanpak met technische, organisatorische en contractuele maatregelen. Deze sectie beschrijft concrete stappen die organisaties kunnen nemen.</p>
+
+            <div>
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Technische Beveiligingsmaatregelen</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <ul class="list-disc list-inside text-stone-600 space-y-2">
+                        <li><strong>Data Loss Prevention (DLP):</strong> Geavanceerde, context-aware tools die LLM-workflows (parafraseren, samenvatten) ondersteunen. Real-time inzicht in datastromen.</li>
+                        <li><strong>Sandboxing:</strong> Beveiligde "AI Sandbox"-omgevingen voor veilig experimenteren met goedgekeurde tools, zonder bedrijfsdata bloot te stellen.</li>
+                        <li><strong>Monitoring Tools en Toegangsbeheer:</strong> Software voor AI-toolgebruik, User Behavior Analytics (UBA). Strikte IAM, MFA, RBAC.</li>
+                        <li><strong>Content Filtering/Blokkering:</strong> Proactief blokkeren van risicovolle/niet-goedgekeurde GenAI-sites/apps.</li>
+                        <li><strong>Endpoint en Netwerkbeveiliging:</strong> Versterken tegen AI-gegenereerde malware, phishing etc.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Organisatorische Stappen (Beleid, Governance, Incident Response)</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                     <ul class="list-disc list-inside text-stone-600 space-y-2">
+                        <li><strong>Helder Beleid en Governance:</strong> Alomvattend, top-down AI-gebruiksbeleid (acceptabel gebruik, datahantering, ethiek, IE, menselijk toezicht, consequenties).</li>
+                        <li><strong>AI Governance Framework & Ethische Commissie:</strong> Multidisciplinair team voor toezicht, implementatie, handhaving beleid; advies ethische/juridische kwesties.</li>
+                        <li><strong>Incident Response Plan:</strong> Bijwerken IRP voor AI-specifieke incidenten (datalekken via GenAI, IP-verlies, deepfakes, etc.).</li>
+                        <li><strong>Risicobeoordeling:</strong> Periodieke, systematische risicobeoordelingen specifiek voor GenAI-gebruik (gesanctioneerd & schaduw-AI).</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Contractuele Waarborgen (Leveranciersmanagement)</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <ul class="list-disc list-inside text-stone-600 space-y-2">
+                        <li><strong>Grondige Due Diligence van Leveranciers:</strong> Beoordeel beveiliging, dataverwerkingsbeleid (vooral trainingdata, scheiding bedrijfsdata), compliance (AVG, EU AI Act), IE-bescherming.</li>
+                        <li><strong>Duidelijke Contractuele Afspraken:</strong>
+                            <ul class="list-circle list-inside ml-4 text-sm">
+                                <li>Data-eigendom (input/output).</li>
+                                <li>Gebruiksrechten data (verbod op gebruik bedrijfsdata voor training publieke modellen zonder expliciete toestemming).</li>
+                                <li>Aansprakelijkheid voor fouten/bias/hallucinaties.</li>
+                                <li>Vrijwaring voor IE-inbreuk.</li>
+                                <li>Procedures melding beveiligingsincidenten.</li>
+                                <li>Auditrechten (transparantie/verifieerbaarheid belangrijk, vooral voor hoog-risico).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-sky-50 rounded-lg">
+                 <h3 class="text-lg font-semibold text-sky-700 mb-3">Interactieve Checklist Risicomanagement & Aanbevelingen GenAI</h3>
+                 <p class="text-sm text-stone-600 mb-3">Vink de maatregelen af die uw organisatie al heeft geïmplementeerd of waar actie op wordt ondernomen.</p>
+                 <div id="risicomanagementChecklist" class="space-y-2">
+                 </div>
+            </div>
+        </section>
+
+        <section id="training" class="content-section bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-sky-700 mb-4">V. Voorlichting & Training</h2>
+            <p class="mb-6 text-stone-700">Effectieve voorlichting en training zijn onmisbaar voor bewustwording over kansen en risico's van GenAI en voor het bevorderen van verantwoord en veilig gebruik. Dit is een cruciale preventieve maatregel.</p>
+            
+            <div>
+                <button class="accordion-button w-full text-left text-xl font-medium text-stone-700 p-4 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>Essentiële Trainingsinhoud & Implementatieprincipes</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <h4 class="font-semibold text-lg mb-2 text-stone-700">Basisprincipes:</h4>
+                     <ul class="list-disc list-inside mb-3 text-stone-600 space-y-1">
+                        <li><strong>AI-Basisgeletterdheid:</strong> Fundamenteel begrip AI/GenAI (werking, toepassingen, beperkingen).</li>
+                        <li><strong>Praktische Ervaring:</strong> Hands-on met goedgekeurde tools in veilige (sandbox) omgeving.</li>
+                    </ul>
+                    <h4 class="font-semibold text-lg mb-2 text-stone-700">Kerninhoud (altijd, ongeacht doelgroep):</h4>
+                     <ul class="list-disc list-inside mb-3 text-stone-600 space-y-1">
+                        <li>Ethisch Gebruik (bias, fairness, impact).</li>
+                        <li>Data Privacy (AVG) (omgang persoonsgegevens, datalekken).</li>
+                        <li>Informatiebeveiliging (cybersecurity risico's).</li>
+                        <li>Intellectueel Eigendom (IE) (auteursrecht input/output, bedrijfsgeheimen).</li>
+                        <li>Herkennen van Bias en "Hallucinaties".</li>
+                        <li>Beperkingen van GenAI-tools.</li>
+                        <li>Menselijk Toezicht en Verificatie (cruciaal!).</li>
+                    </ul>
+                    <p class="mb-2"><strong>Continue Educatie:</strong> Eenmalige training volstaat niet; cultuur van continu leren is essentieel (updates, e-learnings, workshops).</p>
+                    <p class="text-sm text-stone-500">Effectieve training gaat verder dan technische vaardigheden; het cultiveert kritisch denken en verantwoordelijk handelen.</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                 <h3 class="text-xl font-medium text-stone-700 mb-3 mt-6">Aanpak per Doelgroep</h3>
+                 <p class="text-sm text-stone-600 mb-4">Een gedifferentieerde aanpak maximaliseert relevantie en impact. Klik op een doelgroep voor details.</p>
+                 <div id="trainingDoelgroepenContainer" class="space-y-2">
+                 </div>
+            </div>
+        </section>
+
+        <section id="checklist" class="content-section bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-sky-700 mb-4">VI. Checklist: Aanbevelingen voor Uw Organisatie</h2>
+            <p class="mb-6 text-stone-700">Deze sectie dient als een "call to action" en vertaalt de inzichten uit het whitepaper naar concrete, overkoepelende aanbevelingen. Gebruik deze interactieve checklist als praktisch handvat.</p>
+            <div id="algemeneAanbevelingenChecklist" class="space-y-3">
+            </div>
+            <p class="mt-6 text-sm text-stone-600">Deze aanbevelingen vormen een geïntegreerd systeem. Proactief investeren in governance, risicomanagement en educatie stelt organisaties in staat de vruchten van GenAI te plukken en valkuilen te vermijden.</p>
+        </section>
+    </main>
+
+    <footer class="bg-sky-800 text-white text-center p-6 mt-12">
+        <p class="text-sm">&copy; <span id="currentYear"></span> Interactieve Gids GenAI Whitepaper. Gebaseerd op whitepaper d.d. 23 mei 2025.</p>
+        <p class="text-xs mt-1">Deze applicatie is bedoeld ter illustratie en vereenvoudiging. Raadpleeg altijd het volledige whitepaper en win deskundig advies in.</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const arrow = button.querySelector('.arrow-icon');
+                button.classList.toggle('active');
+                if (button.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    content.style.maxHeight = '0';
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+        
+        function wrapLabels(label, maxWidth) {
+            const words = label.split(' ');
+            let line = '';
+            const lines = [];
+            for (const word of words) {
+                if ((line + word).length > maxWidth) {
+                    lines.push(line.trim());
+                    line = '';
+                }
+                line += word + ' ';
+            }
+            lines.push(line.trim());
+            return lines;
+        }
+
+        Chart.defaults.font.family = 'Inter, sans-serif';
+
+        const aiAdoptieCtx = document.getElementById('aiAdoptieChart').getContext('2d');
+        new Chart(aiAdoptieCtx, {
+            type: 'bar',
+            data: {
+                labels: ['AI Adoptie NL (CBS 2024)', 'AI Adoptie NL (AWS 2025)', 'Groei AI Adoptie YoY (CBS 23-24)'],
+                datasets: [{
+                    label: 'Percentage (%)',
+                    data: [22.7, 49, 64.5],
+                    backgroundColor: ['#38bdf8', '#2dd4bf', '#94a3b8'],
+                    borderColor: ['#0ea5e9', '#14b8a6', '#64748b'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, suggestedMax: 70, ticks: { color: '#4b5563'} },
+                    x: { ticks: { color: '#4b5563',
+                        callback: function(value) {
+                            return wrapLabels(this.getLabelForValue(value), 15);
+                        }
+                    }}
+                },
+                plugins: { legend: { display: false }, tooltip: { titleFont: {size: 14}, bodyFont: {size:12} } }
+            }
+        });
+
+        const aiAdoptieGrootteCtx = document.getElementById('aiAdoptieGrootteChart').getContext('2d');
+        new Chart(aiAdoptieGrootteCtx, {
+            type: 'bar',
+            data: {
+                labels: ['10-19 werknemers', '500+ werknemers', 'Prognose 100+ (2025)'],
+                datasets: [{
+                    label: 'Percentage (%)',
+                    data: [17.8, 59.2, 67.6],
+                    backgroundColor: ['#60a5fa', '#5eead4', '#a5b4fc'],
+                    borderColor: ['#3b82f6', '#10b981', '#818cf8'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, suggestedMax: 75, ticks: { color: '#4b5563'} },
+                     x: { ticks: { color: '#4b5563',
+                        callback: function(value) {
+                            return wrapLabels(this.getLabelForValue(value), 10);
+                        }
+                    }}
+                },
+                plugins: { legend: { display: false }, tooltip: { titleFont: {size: 14}, bodyFont: {size:12} } }
+            }
+        });
+
+        const sectoralePenetratieCtx = document.getElementById('sectoralePenetratieChart').getContext('2d');
+        new Chart(sectoralePenetratieCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Info & Communicatie', 'Specialistische Zakelijke Dienstverlening', 'Financiële Dienstverlening'],
+                datasets: [{
+                    label: 'AI Adoptie 2024 (%)',
+                    data: [58, 39.8, 37.4],
+                    backgroundColor: ['#38bdf8', '#2dd4bf', '#94a3b8'],
+                     borderColor: ['#0ea5e9', '#14b8a6', '#64748b'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { beginAtZero: true, suggestedMax: 60, ticks: { color: '#4b5563'} },
+                    y: { ticks: { color: '#4b5563',
+                        callback: function(value) {
+                            return wrapLabels(this.getLabelForValue(value), 20);
+                        }
+                     }}
+                },
+                plugins: { legend: { display: false }, tooltip: { titleFont: {size: 14}, bodyFont: {size:12} } }
+            }
+        });
+
+        const populaireToolsCtx = document.getElementById('populaireToolsChart').getContext('2d');
+        new Chart(populaireToolsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['ChatGPT', 'Microsoft Copilot', 'Google Gemini', 'Overig'],
+                datasets: [{
+                    label: 'Gebruik (%)',
+                    data: [76, 32, 9, 5], // Assuming 'Overig' makes up the rest to illustrate
+                    backgroundColor: ['#38bdf8', '#2dd4bf', '#94a3b8', '#e5e7eb'],
+                    borderColor: ['#0ea5e9', '#14b8a6', '#64748b', '#d1d5db'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { position: 'bottom', labels: { color: '#4b5563', font: {size: 11} } },
+                    tooltip: { titleFont: {size: 14}, bodyFont: {size:12} }
+                }
+            }
+        });
+
+        const risicoManagementItems = [
+            { category: 'Technisch', item: 'Implementeer geavanceerde DLP-tools (context-aware, LLM-workflow ondersteunend).', tip: 'Voorkom datalekken van gevoelige data via prompts of output.' },
+            { category: 'Technisch', item: 'Creëer beveiligde "AI Sandbox"-omgevingen.', tip: 'Faciliteer veilig experimenteren met goedgekeurde GenAI-tools.' },
+            { category: 'Technisch', item: 'Zet monitoring-software en UBA in; implementeer IAM, MFA, RBAC.', tip: 'Volg AI-toolgebruik, detecteer afwijkend gedrag, beheer toegang.' },
+            { category: 'Organisatorisch', item: 'Ontwikkel een alomvattend, top-down gedragen AI-gebruiksbeleid.', tip: 'Definieer acceptabel gebruik, datahantering, ethiek, IE, toezicht, consequenties.' },
+            { category: 'Organisatorisch', item: 'Stel een AI Governance Team of Ethische Commissie in.', tip: 'Toezicht beleid, beoordeel implementaties, adviseer ethische/juridische kwesties.' },
+            { category: 'Organisatorisch', item: 'Werk het Incident Response Plan bij voor AI-specifieke incidenten.', tip: 'Voorbereid op datalekken via GenAI, IP-verlies, deepfakes, etc.' },
+            { category: 'Contractueel', item: 'Voer grondige due diligence uit bij selectie GenAI-leveranciers.', tip: 'Beoordeel beveiliging, dataverwerking, compliance, IE-bescherming.' },
+            { category: 'Contractueel', item: 'Zorg voor duidelijke contractuele afspraken (data-eigendom, gebruik, aansprakelijkheid, IE, audit).', tip: 'Bescherm bedrijfsdata/IE; verbied gebruik data voor training publieke modellen zonder toestemming.' },
+            { category: 'Beleid & Governance', item: 'Formuleer een top-down gedragen GenAI-beleid en communiceer dit actief.', tip: 'Zorg voor consistentie, standaardisatie, strategische afstemming.' },
+            { category: 'Training & Bewustzijn', item: 'Implementeer een doorlopend, rolgebaseerd trainingsprogramma.', tip: 'Focus op AI-geletterdheid, risicobewustzijn, datahygiëne, ethiek, bias/hallucinaties.' },
+            { category: 'Regelgeving & Compliance', item: 'Analyseer impact EU AI Act en neem stappen voor compliance.', tip: 'Essentieel, vooral voor hoogrisico AI-systemen.' },
+            { category: 'Cultuur & Communicatie', item: 'Stimuleer een open dialoog over GenAI-gebruik en risico\'s.', tip: 'Creëer veilige omgeving voor vragen, meldingen, ideeën.' }
+        ];
+
+        const risicoChecklistContainer = document.getElementById('risicomanagementChecklist');
+        risicoManagementItems.forEach((el, index) => {
+            const div = document.createElement('div');
+            div.className = 'flex items-start p-2 bg-stone-50 rounded hover:bg-stone-100 transition-colors';
+            div.innerHTML = `
+                <input type="checkbox" id="risicoItem${index}" class="mt-1 h-4 w-4 text-sky-600 border-stone-300 rounded focus:ring-sky-500">
+                <label for="risicoItem${index}" class="ml-3 block text-sm text-stone-700">
+                    <span class="font-medium">${el.category}:</span> ${el.item}
+                    <p class="text-xs text-stone-500">${el.tip}</p>
+                </label>
+            `;
+            risicoChecklistContainer.appendChild(div);
+        });
+        
+        const trainingDoelgroepenData = [
+            { 
+                doelgroep: "C-Suite (Strategisch Niveau)", 
+                leerdoelen: "Begrijpen strategische implicaties; Nemen governance-verantwoordelijkheden.",
+                onderwerpen: "AI-strategie/-visie; ROI; concurrentievoordelen; ethische/juridische kaders (EU AI Act); risicomanagement (bestuurlijk).",
+                boodschap: "GenAI: strategische kans én significant risico; leiderschap & visie cruciaal."
+            },
+            { 
+                doelgroep: "Top- en Middenmanagement (Tactisch/Operationeel)", 
+                leerdoelen: "Implementeren AI-beleid; Begeleiden teams; Monitoren risico's.",
+                onderwerpen: "Detail AI-beleid; risico-identificatie/-mitigatie; change management; aansturen AI-projecten; impactmonitoring.",
+                boodschap: "U bent sleutel tot succesvolle/verantwoorde adoptie; voorbeeldgedrag & sturing essentieel."
+            },
+            {
+                doelgroep: "Werknemers die Actief GenAI Gebruiken (Operationeel)",
+                leerdoelen: "Veilig/effectief gebruik goedgekeurde tools; Beschermen bedrijfsdata; Kritisch beoordelen AI-output.",
+                onderwerpen: "Diepgaand beleid; datahygiëne (geen gevoelige info publiek); herkennen deepfakes/desinfo; prompt engineering; beperkingen; meldprocedures.",
+                boodschap: "Gebruik goedgekeurde tools verantwoord binnen kaders; bescherm data; wees kritisch."
+            },
+            {
+                doelgroep: "Werknemers die Nog Geen GenAI Gebruiken (Algemeen Bewustzijn)",
+                leerdoelen: "Basisbegrip GenAI & impact; Bewustzijn risico's & beleid.",
+                onderwerpen: "Intro GenAI; toepassingen; algemene risico's (privacy, security); belang goedgekeurde tools; waarheen voor info/vragen.",
+                boodschap: "Wees bewust van opkomst GenAI & basisregels; gebruik alleen goedgekeurde tools; wees alert."
+            }
+        ];
+
+        const trainingContainer = document.getElementById('trainingDoelgroepenContainer');
+        trainingDoelgroepenData.forEach(data => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <button class="accordion-button w-full text-left text-lg font-medium text-stone-700 p-3 bg-stone-50 hover:bg-stone-200 rounded-md focus:outline-none transition duration-300 ease-in-out flex justify-between items-center">
+                    <span>${data.doelgroep}</span>
+                    <span class="arrow-icon transform transition-transform duration-300">▼</span>
+                </button>
+                <div class="accordion-content bg-white p-4 border border-t-0 border-stone-200 rounded-b-md">
+                    <p class="mb-1"><strong class="text-stone-600">Leerdoelen:</strong> ${data.leerdoelen}</p>
+                    <p class="mb-1"><strong class="text-stone-600">Kernonderwerpen:</strong> ${data.onderwerpen}</p>
+                    <p class="italic text-sky-600"><strong class="text-stone-600">Boodschap:</strong> ${data.boodschap}</p>
+                </div>
+            `;
+            trainingContainer.appendChild(div);
+        });
+        // Re-initialize accordion listeners for dynamically added training items
+        trainingContainer.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const arrow = button.querySelector('.arrow-icon');
+                button.classList.toggle('active');
+                if (button.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    content.style.maxHeight = '0';
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        const algemeneAanbevelingen = [
+            { item: "Ontwikkel en Implementeer een Duidelijk GenAI-Beleid", toelichting: "Formuleer een alomvattend, top-down gedragen beleid (acceptabel gebruik, datahantering, ethiek, IE, consequenties). Communiceer actief en update regelmatig." },
+            { item: "Investeer in AI-Geletterdheid en Training", toelichting: "Implementeer een doorlopend, rolgebaseerd trainingsprogramma (risicobewustzijn, datahygiëne, ethiek, bias/hallucinaties, beperkingen)." },
+            { item: "Implementeer Robuuste Technische Maatregelen", toelichting: "Zet geavanceerde controles in (DLP, AI Sandbox, monitoring, UBA, IAM/MFA/RBAC). Versterk endpoint/netwerkbeveiliging." },
+            { item: "Stel een AI Governance Structuur In", toelichting: "Richt een multidisciplinair team/commissie op voor ontwikkeling, implementatie, handhaving en herziening AI-beleid; advies ethische/juridische kwesties." },
+            { item: "Voer Grondige Risicobeoordelingen Uit", toelichting: "Identificeer en evalueer periodiek specifieke GenAI-risico's (gesanctioneerd & schaduwgebruik). Pas strategieën hierop aan." },
+            { item: "Wees Zorgvuldig bij Contracteren van GenAI-Leveranciers", toelichting: "Uitgebreide due diligence; robuuste contracten (data-eigendom, gebruiksrechten, aansprakelijkheid, beveiliging, audit)." },
+            { item: "Stimuleer een Open Dialoog", toelichting: "Creëer cultuur en kanalen voor vragen, meldingen, ideeën over GenAI. Cruciaal voor vroegsignalering en draagvlak." },
+            { item: "Bereid u voor op de EU AI Act", toelichting: "Analyseer proactief impact EU AI Act, neem tijdig stappen voor compliance (vooral bij hoogrisico AI)." }
+        ];
+        
+        const algemeneChecklistContainer = document.getElementById('algemeneAanbevelingenChecklist');
+        algemeneAanbevelingen.forEach((el, index) => {
+            const div = document.createElement('div');
+            div.className = 'p-3 bg-stone-50 rounded-lg hover:bg-stone-100 transition-colors shadow';
+            div.innerHTML = `
+                <div class="flex items-start">
+                    <input type="checkbox" id="algemeenItem${index}" class="mt-1 h-5 w-5 text-sky-600 border-stone-400 rounded focus:ring-sky-500">
+                    <label for="algemeenItem${index}" class="ml-3 block text-md font-semibold text-sky-700">${el.item}</label>
+                </div>
+                <p class="ml-8 mt-1 text-sm text-stone-600">${el.toelichting}</p>
+            `;
+            algemeneChecklistContainer.appendChild(div);
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('header nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Update active link
+                    document.querySelectorAll('header nav a').forEach(link => link.classList.remove('active', 'font-bold'));
+                    this.classList.add('active', 'font-bold');
+                }
+            });
+        });
+
+        // Active link highlighting on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('header nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 90) { // 90 to account for sticky header height + some margin
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active', 'font-bold');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active', 'font-bold');
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>
