@@ -1,6 +1,9 @@
 # AICompetent
 In deze respository zijn HTML files opgeslagen.
+
+
 📚 Onderwijsmaterialen & Werkvormen
+
 Welkom bij deze repository! Hier vind je een verzameling onderwijsmaterialen en actieve werkvormen in de vorm van eenvoudige HTML-bestanden. Deze zijn ontworpen om direct te gebruiken of aan te passen voor verschillende onderwijscontexten.
 
 🔍 Wat kun je hier vinden?
