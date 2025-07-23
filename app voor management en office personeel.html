@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktische Gids GenAI: Risico's voor Managers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Light gray background */
+            color: #1f2937; /* Darker gray for text */
+        }
+        .nav-active {
+            color: #059669; /* Emerald green for active nav */
+            font-weight: 600;
+        }
+        .risk-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .risk-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        #modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        #modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white sticky top-0 z-40 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">GenAI Gids voor Managers</h1>
+            <div class="hidden md:flex space-x-8 text-gray-600">
+                <a href="#risks" class="hover:text-emerald-600">Risico's</a>
+                <a href="#playbook" class="hover:text-emerald-600">Playbook</a>
+                <a href="#scenarios" class="hover:text-emerald-600">Scenario's</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-16">
+
+        <section id="intro" class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Generatieve AI in Jouw Team</h2>
+            <p class="mt-4 text-lg text-gray-600">Generatieve AI is een krachtig hulpmiddel dat de productiviteit kan verhogen, maar het brengt ook nieuwe verantwoordelijkheden met zich mee. Deze gids is ontworpen om jou, als manager, te helpen de operationele risico's te herkennen, te begrijpen en proactief te beheren binnen jouw team.</p>
+        </section>
+
+        <section id="risks">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-900">Operationele Risico's: Waar Let Je Op?</h3>
+                <p class="mt-3 text-gray-600 max-w-2xl mx-auto">Klik op een risicogebied om te zien wat dit in de praktijk betekent voor jouw team en wat jij kunt doen om dit te beheersen.</p>
+            </div>
+            <div id="risk-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                </div>
+        </section>
+
+        <section id="playbook" class="mt-24 md:mt-32 bg-white p-8 md:p-12 rounded-2xl shadow-lg border border-gray-200">
+             <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-900">Jouw Manager's Playbook</h3>
+                <p class="mt-3 text-gray-600 max-w-2xl mx-auto">Jouw invloed is cruciaal. Gebruik deze checklist als leidraad om een cultuur van verantwoord AI-gebruik te bevorderen en je team te ondersteunen.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-x-12 gap-y-8 max-w-5xl mx-auto">
+                <div>
+                    <h4 class="text-xl font-semibold text-emerald-700 mb-4">Jouw Rol & Verantwoordelijkheden</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">✔️</span><span><strong class="font-semibold text-gray-800">Wees het Goede Voorbeeld:</strong> Laat zien hoe je AI bewust en veilig gebruikt.</span></li>
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">✔️</span><span><strong class="font-semibold text-gray-800">Maak je Team Bewust:</strong> Bespreek de risico's en het bedrijfsbeleid.</span></li>
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">✔️</span><span><strong class="font-semibold text-gray-800">Stimuleer Kritisch Denken:</strong> Moedig aan om AI-output altijd te controleren.</span></li>
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">✔️</span><span><strong class="font-semibold text-gray-800">Ken het Beleid:</strong> Weet welke tools zijn toegestaan en waarom.</span></li>
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">✔️</span><span><strong class="font-semibold text-gray-800">Begeleid en Ondersteun:</strong> Wees een aanspreekpunt voor vragen en dilemma's.</span></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h4 class="text-xl font-semibold text-emerald-700 mb-4">Concrete Actiepunten voor Jouw Team</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">➡️</span><span><strong class="font-semibold text-gray-800">Plan een Teamoverleg:</strong> Deel de belangrijkste inzichten uit deze gids.</span></li>
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">➡️</span><span><strong class="font-semibold text-gray-800">Identificeer Risico's:</strong> Waar in jullie processen kan GenAI een rol spelen?</span></li>
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">➡️</span><span><strong class="font-semibold text-gray-800">Check Toolgebruik:</strong> Inventariseer welke tools er worden gebruikt.</span></li>
+                        <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">➡️</span><span><strong class="font-semibold text-gray-800">Herinner aan Datahygiëne:</strong> Geen gevoelige info in publieke tools!</span></li>
+                         <li class="flex items-start"><span class="mr-3 mt-1 text-emerald-600">➡️</span><span><strong class="font-semibold text-gray-800">Maak een Afspraak:</strong> Hoe controleren jullie als team de output van AI?</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="scenarios" class="mt-24 md:mt-32">
+             <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-900">"Wat als..." Scenario's</h3>
+                <p class="mt-3 text-gray-600 max-w-2xl mx-auto">Gebruik deze herkenbare situaties om de discussie in je team te starten over verantwoord AI-gebruik.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bg-amber-50 border border-amber-200 p-8 rounded-lg">
+                    <h4 class="font-bold text-amber-900 text-lg mb-2">Scenario 1: Data Delen</h4>
+                    <p class="text-amber-800">"Een teamlid vraagt een publieke AI-chatbot om feedback op een concept-klantpresentatie vol met nog niet-openbare productinformatie."</p>
+                    <p class="mt-4 font-semibold text-amber-900">Discussiepunten: Wat zijn hier de risico's? Wat had anders gemoeten? Hoe instrueer je het team hierover?</p>
+                </div>
+                 <div class="bg-amber-50 border border-amber-200 p-8 rounded-lg">
+                    <h4 class="font-bold text-amber-900 text-lg mb-2">Scenario 2: Kwaliteit van Werk</h4>
+                    <p class="text-amber-800">"Voor een belangrijk intern rapport gebruikt een collega snel GenAI om data samen te vatten. De samenvatting bevat cruciale onjuistheden die pas laat ontdekt worden."</p>
+                     <p class="mt-4 font-semibold text-amber-900">Discussiepunten: Wat zijn de gevolgen? Hoe voorkom je dit? Welke rol speelt de 'human-in-the-loop'?</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-24 md:mt-32 border-t pt-8 pb-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <h4 class="font-semibold text-gray-700 mb-2">Hulp en Hulpmiddelen</h4>
+            <p>Onzeker? Neem contact op met je leidinggevende, IT, of de Security/Privacy Officer.</p>
+            <p class="mt-6 text-sm">&copy; 2025 [Uw Bedrijfsnaam]. Gids voor verantwoord AI-gebruik.</p>
+        </div>
+    </footer>
+
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden" aria-hidden="true"></div>
+    <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 opacity-0">
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const riskData = [
+                {
+                    id: 'data',
+                    icon: '🔒',
+                    title: 'Dataveiligheid & Privacy',
+                    subtitle: 'Gevoelige informatie in verkeerde handen',
+                    description: 'Het grootste operationele risico is het invoeren van vertrouwelijke bedrijfs- of klantdata in publieke GenAI-tools. Zodra data de beveiligde omgeving verlaat, is er geen controle meer over wie deze kan inzien of waarvoor deze wordt gebruikt.',
+                    examples: [
+                        'Een teamlid vraagt AI om een e-mail aan een klant te verbeteren, met daarin vertrouwelijke projectdetails.',
+                        'Het samenvatten van een intern rapport met gevoelige HR- of financiële informatie.',
+                        'Plakken van broncode in een AI-tool om fouten te zoeken.'
+                    ],
+                    actions: [
+                        'Hanteer een gouden regel: "Als je het niet op een publiek forum zou posten, voer het dan niet in een publieke AI in."',
+                        'Maak duidelijk onderscheid tussen goedgekeurde, private bedrijfs-AI en publieke tools.',
+                        'Herinner je team er periodiek aan wat als vertrouwelijke data geldt.'
+                    ]
+                },
+                {
+                    id: 'quality',
+                    icon: '📉',
+                    title: 'Foutieve Informatie & Kwaliteitsverlies',
+                    subtitle: 'Vertrouwen op onjuiste AI-output',
+                    description: 'Generatieve AI kan fouten maken, zogenaamde "hallucinaties". Het presenteert deze onjuistheden vaak met grote overtuiging, wat het risico op overname van fouten verhoogt en de kwaliteit van het werk kan ondermijnen.',
+                    examples: [
+                        'Een rapport gebaseerd op een door AI gegenereerde samenvatting die cruciale nuances mist of feiten verdraait.',
+                        'Beslissingen die worden genomen op basis van een foutieve, door AI gemaakte data-analyse.',
+                        'Klantcommunicatie met onjuiste informatie die door een AI-assistent is opgesteld.'
+                    ],
+                    actions: [
+                        'Implementeer een "human-in-the-loop" principe: AI-output is een concept, geen eindproduct.',
+                        'Stimuleer je team om feiten, cijfers en cruciale beweringen altijd te verifiëren via betrouwbare bronnen.',
+                        'Vraag teamleden om niet alleen de output, maar ook de oorspronkelijke vraag aan de AI te beoordelen op kwaliteit.'
+                    ]
+                },
+                {
+                    id: 'ip',
+                    icon: '©️',
+                    title: 'Intellectueel Eigendom & Plagiaat',
+                    subtitle: 'Problemen met copyright en bronvermelding',
+                    description: 'GenAI-tools zijn getraind op enorme hoeveelheden data, inclusief auteursrechtelijk beschermd materiaal. De output kan (delen van) werk van anderen bevatten, wat tot juridische problemen en plagiaatclaims kan leiden.',
+                    examples: [
+                        'Het gebruiken van een door AI gegenereerde afbeelding in een externe presentatie, zonder te weten wat de bronrechten zijn.',
+                        'Een blogpost publiceren die grotendeels uit AI-gegenereerde tekst bestaat die te veel lijkt op bestaande artikelen.',
+                        'Code gebruiken die door AI is voorgesteld, zonder de licentievoorwaarden van de mogelijke bron te controleren.'
+                    ],
+                    actions: [
+                        'Sta alleen het gebruik van door het bedrijf goedgekeurde en gescreende AI-tools toe.',
+                        'Wees extra voorzichtig met AI-output die extern wordt gepubliceerd (marketing, sales, etc.).',
+                        'Maak duidelijk dat de eindverantwoordelijkheid voor de originaliteit van het werk altijd bij de medewerker ligt.'
+                    ]
+                },
+                {
+                    id: 'bias',
+                    icon: '⚖️',
+                    title: 'Verborgen Vooroordelen (Bias)',
+                    subtitle: 'Onbewuste discriminatie door AI',
+                    description: 'AI-modellen nemen de vooroordelen over uit de data waarop ze zijn getraind. Dit kan onbedoeld leiden tot oneerlijke of discriminerende uitkomsten in werkprocessen, wat de diversiteits- en inclusiedoelstellingen schaadt.',
+                    examples: [
+                        'Een AI-tool gebruiken om vacatureteksten op te stellen die onbewust gender-gekleurd taalgebruik bevatten.',
+                        'AI inzetten om CV\'s te screenen, waarbij het systeem kandidaten met bepaalde achtergronden onterecht benadeelt.',
+                        'Het genereren van stereotype afbeeldingen voor interne communicatie.'
+                    ],
+                    actions: [
+                        'Wees kritisch op de output van AI, met name in HR- en communicatieprocessen.',
+                        'Zorg ervoor dat de finale beslissingen (bv. aanwervingen) altijd door mensen worden genomen, met AI hoogstens als ondersteunend middel.',
+                        'Moedig een open discussie aan als een teamlid vermoedt dat een AI-tool bevooroordeelde output geeft.'
+                    ]
+                },
+                {
+                    id: 'skills',
+                    icon: '🧠',
+                    title: 'Verlies van Vaardigheden',
+                    subtitle: 'Overmatige afhankelijkheid van AI',
+                    description: 'Het gemak van AI kan ertoe leiden dat teamleden minder hun eigen kritische denk- en basisvaardigheden oefenen. Op lange termijn kan dit de expertise en het probleemoplossend vermogen van het team verminderen.',
+                    examples: [
+                        'Een junior medewerker die nooit leert een professionele e-mail op te stellen omdat altijd een AI-tool wordt gebruikt.',
+                        'Teamleden die niet meer zelf brainstormen, maar direct een AI om ideeën vragen.',
+                        'Een analist die te veel vertrouwt op de interpretatie van AI en de onderliggende data niet meer kritisch analyseert.'
+                    ],
+                    actions: [
+                        'Positioneer AI als een "copiloot" om te leren en te verbeteren, niet als een "autopilot" die het werk overneemt.',
+                        'Stimuleer de ontwikkeling van basisvaardigheden, bijvoorbeeld door peer reviews of schrijftrainingen.',
+                        'Vraag teamleden niet alleen naar het resultaat, maar ook naar het proces en hoe AI hen heeft geholpen (of gehinderd).'
+                    ]
+                },
+                 {
+                    id: 'policy',
+                    icon: '📜',
+                    title: 'Regels & Richtlijnen',
+                    subtitle: 'Handelen zonder duidelijke spelregels',
+                    description: 'Handelen zonder duidelijke richtlijnen creëert onzekerheid en verhoogt alle andere risico\'s. Het is essentieel dat managers en medewerkers weten wat de spelregels zijn voor AI-gebruik binnen de organisatie.',
+                    examples: [
+                        'Een team dat op eigen initiatief een betaald abonnement neemt op een niet-goedgekeurde AI-tool.',
+                        'Medewerkers die uit onwetendheid de bedrijfsregels overtreden omdat deze niet duidelijk gecommuniceerd zijn.',
+                        'Verschillende teams die tegenstrijdige "ongeschreven regels" hanteren.'
+                    ],
+                    actions: [
+                        'Zorg dat je zelf het bedrijfsbeleid kent en dit actief communiceert naar je team.',
+                        'Verwijs regelmatig naar de locatie van de richtlijnen (intranet, etc.).',
+                        'Maak bij twijfel duidelijk dat de stelregel is: "liever niet gebruiken en eerst vragen".'
+                    ]
+                }
+            ];
+
+            const riskGrid = document.getElementById('risk-grid');
+            riskData.forEach(risk => {
+                const card = document.createElement('div');
+                card.className = 'risk-card bg-white p-6 rounded-xl border border-gray-200 cursor-pointer flex flex-col items-center text-center';
+                card.setAttribute('data-risk-id', risk.id);
+                card.innerHTML = `
+                    <div class="text-5xl mb-4">${risk.icon}</div>
+                    <h4 class="text-lg font-bold text-gray-800">${risk.title}</h4>
+                    <p class="text-sm text-gray-500 mt-1">${risk.subtitle}</p>
+                `;
+                riskGrid.appendChild(card);
+            });
+
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const modalContainer = document.getElementById('modal-container');
+            const modalContent = document.getElementById('modal-content');
+
+            function openModal(risk) {
+                modalContent.innerHTML = `
+                    <div class="p-6 md:p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900">${risk.icon} ${risk.title}</h3>
+                                <p class="text-gray-500">${risk.subtitle}</p>
+                            </div>
+                            <button id="close-modal-btn" class="text-gray-400 hover:text-gray-800 text-3xl">&times;</button>
+                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">Wat is het risico?</h4>
+                                <p class="text-gray-600">${risk.description}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">Voorbeelden uit de praktijk:</h4>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    ${risk.examples.map(ex => `<li>${ex}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-lg">
+                                <h4 class="font-bold text-emerald-800 mb-2">Wat kun JIJ doen als manager?</h4>
+                                <ul class="list-disc list-inside text-emerald-900 space-y-1">
+                                     ${risk.actions.map(ac => `<li>${ac}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                modalBackdrop.classList.remove('hidden');
+                modalContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    modalBackdrop.classList.add('opacity-100');
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                    document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modalBackdrop.classList.remove('opacity-100');
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    modalBackdrop.classList.add('hidden');
+                    modalContainer.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+
+            riskGrid.addEventListener('click', function(e) {
+                const card = e.target.closest('.risk-card');
+                if (card) {
+                    const riskId = card.getAttribute('data-risk-id');
+                    const risk = riskData.find(r => r.id === riskId);
+                    if (risk) {
+                        openModal(risk);
+                    }
+                }
+            });
+
+            modalBackdrop.addEventListener('click', closeModal);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape" && !modalContainer.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

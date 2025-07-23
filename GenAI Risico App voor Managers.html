@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI Risico App voor Managers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        .accordion-button {
+            background-color: #e5e7eb; /* Gray 200 */
+            color: #1f2937; /* Gray 800 */
+            font-weight: 600;
+        }
+        .accordion-button:hover {
+            background-color: #d1d5db; /* Gray 300 */
+        }
+        .accordion-content {
+            background-color: #f9fafb; /* Gray 50 */
+            border: 1px solid #e5e7eb; /* Gray 200 */
+            border-top: none;
+        }
+        .nav-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-button.active {
+            background-color: #3b82f6; /* Blue 500 */
+            color: white;
+        }
+        .nav-button:not(.active):hover {
+            background-color: #dbeafe; /* Blue 100 */
+        }
+        .quiz-option:hover {
+            background-color: #eff6ff; /* Blue 50 */
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 0.5rem;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h1 class="text-4xl font-bold">Wegwijs in Generatieve AI Risico's</h1>
+            <p class="mt-2 text-lg opacity-90">Essentiële inzichten voor Middenmanagers</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-center space-x-2 sm:space-x-4">
+            <button onclick="showSection('intro')" class="nav-button active px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm font-medium">Introductie</button>
+            <button onclick="showSection('risks')" class="nav-button px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm font-medium">Risico's</button>
+            <button onclick="showSection('role')" class="nav-button px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm font-medium">Uw Rol</button>
+            <button onclick="showSection('recommendations')" class="nav-button px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm font-medium">Aanbevelingen</button>
+            <button onclick="startNewQuiz()" class="nav-button px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm font-medium">Kennischeck</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 sm:p-6">
+        <!-- Introductie Sectie -->
+        <section id="intro" class="content-section space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-blue-600 mb-4">Welkom, Manager!</h2>
+                <p class="mb-4">Generatieve AI (GenAI) zoals ChatGPT, Copilot en Gemini transformeert onze werkomgeving in een razendsnel tempo. Deze tools bieden enorme kansen voor productiviteit en efficiëntie, maar brengen ook significante risico's met zich mee, vooral bij ongeautoriseerd gebruik ("schaduw-AI").</p>
+                <p class="mb-4">Als middenmanager speelt u een cruciale rol in het navigeren van uw team door dit nieuwe landschap. Deze app is ontworpen om u te voorzien van de kennis en handvatten om de kansen van GenAI te benutten en tegelijkertijd de inherente risico's proactief te beheersen.</p>
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md" role="alert">
+                    <p class="font-bold">Belangrijk context:</p>
+                    <p>De informatie in deze app is gebaseerd op inzichten en aanbevelingen, zoals beschreven in het whitepaper "De Explosieve Groei en Ongeautoriseerde Implementatie van Generatieve AI" (d.d. 28 mei 2025).</p>
+                </div>
+            </div>
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold text-blue-600 mb-3">De Opkomst van GenAI</h3>
+                <p class="mb-2"><strong class="font-medium">Snelle Adoptie:</strong> In Nederland gebruikte in 2024 al 22,7% van de bedrijven AI, een groei van 64,5% in één jaar. Grotere bedrijven lopen voorop.</p>
+                <p class="mb-2"><strong class="font-medium">Werknemersgebruik:</strong> Ongeveer 28% van de Nederlandse werknemers gebruikt GenAI voor werk, wat neerkomt op potentieel meer dan 2,7 miljoen werknemers.</p>
+                <p class="mb-2"><strong class="font-medium">Schaduw-AI:</strong> Een significant deel van dit gebruik (circa 22% van alle werknemers) vindt plaats zonder toestemming van de werkgever. Dit introduceert substantiële risico's.</p>
+                <p class="text-sm text-gray-600 mt-3">Bron: CBS, Deloitte, MT/Sprout (2023-2025)</p>
+            </div>
+        </section>
+
+        <!-- Risico's Sectie -->
+        <section id="risks" class="content-section hidden space-y-6">
+            <h2 class="text-2xl font-semibold text-blue-600 mb-4 text-center">Kernrisico's van (Ongeautoriseerd) GenAI Gebruik</h2>
+            <p class="text-center mb-6 text-gray-700">Ongeautoriseerd gebruik van GenAI, of "schaduw-AI", is wijdverbreid. Werknemers voeren vaak vertrouwelijke bedrijfsdata, klantgegevens of intellectueel eigendom in publieke GenAI-modellen. Dit brengt de volgende risico's met zich mee:</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Juridische Risico's -->
+                <div class="card">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-red-600 mb-3">Juridische Risico's</h3>
+                        <div class="accordion">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Privacy & AVG/GDPR
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <ul class="list-disc list-inside space-y-2 text-sm">
+                                    <li><strong>Datalekken:</strong> Invoeren van persoonsgegevens kan een datalek vormen (boetes tot €20M of 4% jaaromzet).</li>
+                                    <li><strong>Onrechtmatige Verwerking:</strong> Gebruik van persoonsgegevens zonder geldige rechtsgrond.</li>
+                                    <li><strong>Aansprakelijkheid Werkgever:</strong> Werkgever is primair aansprakelijk, ook bij ongeautoriseerd gebruik door werknemer.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Intellectueel Eigendom (IE)
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <ul class="list-disc list-inside space-y-2 text-sm">
+                                    <li><strong>Auteursrecht Output:</strong> Status van AI-output is complex; vaak niet beschermd zonder menselijke creatieve inbreng.</li>
+                                    <li><strong>Inbreuk door Input:</strong> Risico op IE-inbreuk door invoeren beschermd materiaal.</li>
+                                    <li><strong>Verlies Bedrijfsgeheimen:</strong> Invoeren vertrouwelijke info kan status als bedrijfsgeheim tenietdoen.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Aansprakelijkheid Foutieve Output
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <ul class="list-disc list-inside space-y-2 text-sm">
+                                    <li><strong>Werkgeversaansprakelijkheid:</strong> Voor schade door fouten werknemer (art. 6:170 BW), ook bij gebruik incorrecte AI-info.</li>
+                                    <li><strong>Professionele Aansprakelijkheid:</strong> Risico op beroepsfouten in adviserende beroepen.</li>
+                                </ul>
+                            </div>
+                        </div>
+                         <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Strafrechtelijke Risico's
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <ul class="list-disc list-inside space-y-2 text-sm">
+                                    <li><strong>Schending Beroepsgeheim:</strong> Lekken bedrijfsgeheimen kan strafbaar zijn voor werknemer (art. 272/273 Sr).</li>
+                                    <li><strong>Spionage:</strong> Onzorgvuldig omgaan met data via GenAI-tools gehost in bepaalde staten kan vallen onder nieuwe spionagewetgeving.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operationele Risico's -->
+                <div class="card">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-yellow-600 mb-3">Operationele Risico's</h3>
+                        <div class="accordion">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Incorrecte Besluitvorming
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <p class="text-sm">Beslissingen gebaseerd op foutieve, bevooroordeelde of "gehallucineerde" AI-output kunnen leiden tot strategische misstappen en financiële verliezen.</p>
+                            </div>
+                        </div>
+                        <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Verlies Concurrentievoordeel
+                                 <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <p class="text-sm">Lekkage van IE, strategische plannen of R&D-data via ongeautoriseerde tools kan concurrentievoordeel ondermijnen.</p>
+                            </div>
+                        </div>
+                        <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Bias en Discriminatie
+                                 <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <p class="text-sm">GenAI-modellen kunnen vooroordelen uit trainingsdata versterken, leidend tot discriminerende uitkomsten in bijv. HR of klantinteracties.</p>
+                            </div>
+                        </div>
+                        <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Cybersecurity Risico's
+                                 <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <p class="text-sm">Ongeautoriseerde tools kunnen malware bevatten. GenAI kan misbruikt worden voor geavanceerde phishing of genereren van kwaadaardige code.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reputatierisico's -->
+                <div class="card">
+                     <div class="p-6">
+                        <h3 class="text-xl font-semibold text-purple-600 mb-3">Reputatierisico's</h3>
+                        <div class="accordion">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Verlies Klantvertrouwen
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <p class="text-sm">Datalekken met klantgegevens of onethisch AI-gebruik kan klantvertrouwen ernstig schaden.</p>
+                            </div>
+                        </div>
+                        <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Beschadiging Merkimago
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <p class="text-sm">Incidenten zoals verspreiding AI-misinformatie of onthulling bevooroordeelde systemen kan leiden tot negatieve publiciteit.</p>
+                            </div>
+                        </div>
+                         <div class="accordion mt-2">
+                            <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                                Aantasting Werkgeversmerk
+                                <span class="transform transition-transform duration-300 ">▼</span>
+                            </button>
+                            <div class="accordion-content p-4 rounded-b-md hidden">
+                                <p class="text-sm">Gebrek aan duidelijke richtlijnen en controle kan leiden tot onrust onder werknemers en negatieve perceptie bij talent.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 text-blue-700 rounded-md">
+                <p><strong class="font-semibold">EU AI Act:</strong> Deze wetgeving stelt eisen aan AI-systemen, met name hoogrisico AI (o.a. in werkgelegenheid). Organisaties moeten zorgen voor AI-geletterdheid bij personeel. De Act pakt schaduw-AI niet direct aan, wat sterke interne beleidsvorming cruciaal maakt.</p>
+            </div>
+        </section>
+
+        <!-- Uw Rol als Manager Sectie -->
+        <section id="role" class="content-section hidden space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-blue-600 mb-4">Uw Cruciale Rol als Middenmanager</h2>
+                <p class="mb-4">Als middenmanager bent u de spilfiguur in het succesvol en verantwoord implementeren van GenAI binnen uw team en afdeling. Uw leiderschap en begeleiding zijn essentieel om de risico's te minimaliseren en de voordelen te maximaliseren.</p>
+                
+                <h3 class="text-xl font-semibold text-gray-700 mt-6 mb-3">Belangrijkste Verantwoordelijkheden:</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li>
+                        <strong class="font-medium text-gray-800">Beleidsimplementatie:</strong> Zorg voor een grondige kennis van het bedrijfsbrede AI-beleid en zie toe op de correcte implementatie ervan binnen uw team. Wees het eerste aanspreekpunt voor vragen over dit beleid.
+                    </li>
+                    <li>
+                        <strong class="font-medium text-gray-800">Teambegeleiding:</strong> Begeleid uw teamleden actief in het verantwoord en ethisch gebruik van (goedgekeurde) GenAI-tools. Stimuleer een cultuur van voorzichtigheid en kritisch denken.
+                    </li>
+                    <li>
+                        <strong class="font-medium text-gray-800">Risico-identificatie en -mitigatie:</strong> Wees alert op potentiële risico's binnen uw afdeling, inclusief tekenen van schaduw-AI. Neem proactieve stappen om deze risico's te adresseren en te mitigeren.
+                    </li>
+                    <li>
+                        <strong class="font-medium text-gray-800">Workflow Integratie:</strong> Onderzoek hoe GenAI op een veilige en effectieve manier kan worden geïntegreerd in de bestaande werkprocessen van uw team om productiviteit en efficiëntie te verhogen.
+                    </li>
+                    <li>
+                        <strong class="font-medium text-gray-800">Monitoring en Compliance:</strong> Houd toezicht op het gebruik van GenAI binnen uw team en zorg ervoor dat dit in lijn is met het bedrijfsbeleid, wettelijke vereisten (zoals de AVG en EU AI Act) en ethische richtlijnen.
+                    </li>
+                    <li>
+                        <strong class="font-medium text-gray-800">AI-Geletterdheid Bevorderen:</strong> Stimuleer en faciliteer training en ontwikkeling op het gebied van AI-geletterdheid voor uw teamleden. Zorg dat zij de mogelijkheden, maar ook de beperkingen en risico's van GenAI begrijpen.
+                    </li>
+                    <li>
+                        <strong class="font-medium text-gray-800">Change Management:</strong> Begeleid uw team door de veranderingen die GenAI met zich meebrengt. Adresseer zorgen, communiceer duidelijk en bevorder een positieve houding ten opzichte van verantwoorde innovatie.
+                    </li>
+                     <li>
+                        <strong class="font-medium text-gray-800">Open Dialoog:</strong> Creëer een veilige omgeving waarin teamleden openlijk vragen kunnen stellen, zorgen kunnen uiten en ideeën kunnen aandragen met betrekking tot GenAI.
+                    </li>
+                </ul>
+                 <div class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-md">
+                    <p><strong class="font-semibold">Top-Down Beleid, Bottom-Up Input:</strong> Hoewel een top-down benadering voor AI-beleid essentieel is voor consistentie en compliance, is uw input en die van uw team waardevol. Rapporteer over praktijkervaringen en draag bij aan de continue verbetering van het beleid.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aanbevelingen Sectie -->
+        <section id="recommendations" class="content-section hidden space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-blue-600 mb-4">Concrete Aanbevelingen voor U als Manager</h2>
+                <p class="mb-6">Om de risico's van GenAI effectief te beheren en uw team succesvol te leiden, kunt u de volgende concrete stappen ondernemen:</p>
+
+                <div class="space-y-4">
+                    <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">1. Verdiep u in het AI-Beleid</h3>
+                        <p class="text-sm text-gray-600">Zorg dat u het GenAI-beleid van de organisatie volledig begrijpt: wat is toegestaan, wat niet, hoe om te gaan met data, en wat de consequenties zijn van overtredingen. Wees voorbereid om vragen van uw team hierover te beantwoorden.</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">2. Organiseer Teamdiscussies</h3>
+                        <p class="text-sm text-gray-600">Plan regelmatige bijeenkomsten om GenAI, de risico's en het beleid te bespreken. Gebruik casestudies (anoniem indien nodig) om de gevaren van datalekken, IE-schending of foute output te illustreren.</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">3. Promoot Goedgekeurde Tools & Sandboxing</h3>
+                        <p class="text-sm text-gray-600">Wijs uw teamleden actief op de door de organisatie goedgekeurde GenAI-tools en eventuele sandbox-omgevingen waar veilig geëxperimenteerd kan worden. Leg uit waarom ongeautoriseerde tools een risico vormen.</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">4. Integreer AI-bewustzijn in Werkprocessen</h3>
+                        <p class="text-sm text-gray-600">Help uw team kritisch na te denken over waar GenAI waarde kan toevoegen en waar menselijk toezicht en verificatie absoluut noodzakelijk zijn. Stimuleer het dubbelchecken van AI-gegenereerde output, vooral bij belangrijke beslissingen.</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">5. Wees een Voorbeeld</h3>
+                        <p class="text-sm text-gray-600">Demonstreer zelf verantwoord GenAI-gebruik. Wees transparant over wanneer en hoe u AI gebruikt en benadruk het belang van datahygiëne (geen gevoelige info in publieke tools!).</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">6. Faciliteer Training</h3>
+                        <p class="text-sm text-gray-600">Moedig deelname aan AI-trainingen aan. Identificeer eventuele kennishiaten in uw team en bespreek opleidingsbehoeften met HR of de AI-governancecommissie.</p>
+                    </div>
+                    <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">7. Rapporteer Zorgen en Incidenten</h3>
+                        <p class="text-sm text-gray-600">Zorg dat uw team weet hoe en waar ze (vermoedelijke) datalekken, ethische dilemma's of andere AI-gerelateerde incidenten kunnen melden. Handel zelf ook adequaat bij dergelijke meldingen conform het incident response plan.</p>
+                    </div>
+                     <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <h3 class="font-semibold text-lg text-gray-700 mb-1">8. Blijf Geïnformeerd</h3>
+                        <p class="text-sm text-gray-600">De ontwikkelingen rond GenAI gaan snel. Blijf op de hoogte van nieuwe tools, risico's en best practices, en deel relevante updates met uw team.</p>
+                    </div>
+                </div>
+                 <div class="mt-6 p-4 bg-teal-50 border-l-4 border-teal-500 text-teal-700 rounded-md">
+                    <p><strong class="font-semibold">Voorbereiding op EU AI Act:</strong> Maak uzelf en uw team bewust van de implicaties van de EU AI Act, vooral als uw afdeling AI-systemen gebruikt die als hoogrisico kunnen worden geclassificeerd (bijv. in HR, klantbeoordeling).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kennischeck Sectie -->
+        <section id="quiz" class="content-section hidden space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-blue-600 mb-4">Kennischeck: Test uw GenAI Risicobewustzijn</h2>
+                <div id="quiz-container" class="space-y-8">
+                    <!-- Vragen worden hier dynamisch ingeladen -->
+                </div>
+                <div id="quiz-navigation" class="mt-8 flex justify-between items-center">
+                    <button id="submit-quiz" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                        Controleer Antwoorden
+                    </button>
+                </div>
+                <div id="quiz-results" class="mt-6 hidden">
+                    <h3 id="score-title" class="text-xl font-semibold"></h3>
+                    <p id="score" class="my-2"></p>
+                    <div id="feedback" class="space-y-2"></div>
+                    <div id="post-quiz-nav" class="mt-6 flex flex-col sm:flex-row gap-4">
+                        <button onclick="startNewQuiz()" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                            Nieuwe Quiz Starten
+                        </button>
+                        <button onclick="showSection('recommendations')" class="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                            Terug naar Aanbevelingen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm">&copy; <span id="currentYear"></span> Jouw Organisatie - GenAI Awareness Initiative</p>
+            <p class="text-xs mt-1">Gebaseerd op whitepaper "De Explosieve Groei en Ongeautoriseerde Implementatie van Generatieve AI" (28 mei 2025)</p>
+        </div>
+    </footer>
+
+    <!-- Modal voor Quiz Feedback -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" class="text-xl font-semibold mb-3"></h3>
+            <p id="modalMessage" class="mb-4"></p>
+            <button onclick="closeModal()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Sluiten
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA ---
+        const allQuestions = [
+            // Categorie: Juridische Risico's (AVG/GDPR)
+            { question: "Een teamlid voert een lijst met klantnamen en e-mailadressen in een publieke GenAI-tool om marketingteksten te genereren. Wat is het voornaamste juridische risico?", options: ["Schending van auteursrecht", "Verlies van bedrijfsgeheimen", "Een datalek onder de AVG/GDPR", "Professionele aansprakelijkheid"], answer: "Een datalek onder de AVG/GDPR", explanation: "Het invoeren van persoonsgegevens in een publieke tool is een potentiële datalek en onrechtmatige verwerking onder de AVG/GDPR, waarvoor de werkgever aansprakelijk is." },
+            { question: "Wie is primair verwerkingsverantwoordelijke en dus aansprakelijk voor een datalek via GenAI onder de AVG?", options: ["De medewerker die de data invoerde", "De ontwikkelaar van de GenAI-tool", "De werkgever (de organisatie)", "De Autoriteit Persoonsgegevens"], answer: "De werkgever (de organisatie)", explanation: "Onder de AVG is de werkgever de verwerkingsverantwoordelijke en daarmee primair aansprakelijk voor datalekken, ook als deze door een werknemer worden veroorzaakt." },
+
+            // Categorie: Juridische Risico's (Intellectueel Eigendom)
+            { question: "Een werknemer gebruikt GenAI om een logo te ontwerpen voor een nieuw product. Is dit logo automatisch auteursrechtelijk beschermd?", options: ["Ja, altijd.", "Nee, output zonder significant menselijk creatief ingrijpen is vaak niet beschermd.", "Ja, maar alleen als een betaalde versie van de tool is gebruikt.", "Alleen als de AI-tool dit expliciet vermeldt."], answer: "Nee, output zonder significant menselijk creatief ingrijpen is vaak niet beschermd.", explanation: "De auteursrechtelijke status van AI-output is complex. Jurisprudentie neigt ernaar dat er significante menselijke creativiteit nodig is voor bescherming." },
+            { question: "Wat gebeurt er met een 'bedrijfsgeheim' als een werknemer de details ervan invoert in een publieke GenAI-tool?", options: ["Het wordt automatisch versleuteld en blijft geheim.", "De AI-provider wordt mede-eigenaar van het geheim.", "Het verliest waarschijnlijk zijn status als bedrijfsgeheim.", "Niets, de data wordt niet opgeslagen."], answer: "Het verliest waarschijnlijk zijn status als bedrijfsgeheim.", explanation: "Het invoeren van vertrouwelijke informatie in een externe tool kan de status als bedrijfsgeheim tenietdoen, met onherstelbare schade tot gevolg." },
+            
+            // Categorie: Juridische Risico's (Aansprakelijkheid)
+            { question: "Een financieel adviseur in uw team gebruikt GenAI voor een marktanalyse. De AI 'hallucineert' data, wat leidt tot foutief advies en financiële schade voor een klant. Wie is waarschijnlijk aansprakelijk?", options: ["Alleen de medewerker.", "Alleen de AI-ontwikkelaar.", "De werkgever, op basis van werkgeversaansprakelijkheid (art. 6:170 BW).", "Niemand, dit is overmacht."], answer: "De werkgever, op basis van werkgeversaansprakelijkheid (art. 6:170 BW).", explanation: "Werkgevers zijn doorgaans aansprakelijk voor schade veroorzaakt door fouten van werknemers tijdens hun werk, ook als onbetrouwbare AI-output de oorzaak is." },
+
+            // Categorie: Operationele Risico's
+            { question: "Wat is 'hallucinatie' in de context van GenAI?", options: ["Het vermogen van AI om creatieve afbeeldingen te maken.", "Een beveiligingslek in het AI-model.", "Het genereren van feitelijk onjuiste of verzonnen informatie die overtuigend klinkt.", "Een speciale modus voor fictieve verhalen."], answer: "Het genereren van feitelijk onjuiste of verzonnen informatie die overtuigend klinkt.", explanation: "Hallucinaties zijn een bekend operationeel risico waarbij de AI plausibel klinkende maar onjuiste informatie produceert, wat kan leiden tot incorrecte besluitvorming." },
+            { question: "Waarom is 'bias' in een AI-model een operationeel risico voor een HR-afdeling?", options: ["Het kan de werving en selectie sneller maken.", "Het kan leiden tot discriminerende uitkomsten en juridische gevolgen.", "Het zorgt ervoor dat alleen de beste kandidaten worden geselecteerd.", "Het is geen risico, maar een feature."], answer: "Het kan leiden tot discriminerende uitkomsten en juridische gevolgen.", explanation: "AI-modellen kunnen vooroordelen uit trainingsdata versterken, wat kan resulteren in discriminerende HR-processen, met operationele, juridische en reputatieschade tot gevolg." },
+            { question: "Hoe kan GenAI een cybersecurity risico vormen?", options: ["Door firewalls te versterken.", "Door het genereren van geavanceerde phishing-e-mails of kwaadaardige code.", "Door automatisch alle virussen te detecteren.", "Door wachtwoorden van gebruikers te onthouden."], answer: "Door het genereren van geavanceerde phishing-e-mails of kwaadaardige code.", explanation: "GenAI kan misbruikt worden door kwaadwillenden voor het creëren van zeer overtuigende phishing-aanvallen of het schrijven van malware, wat een direct cybersecurity risico is." },
+
+            // Categorie: Reputatierisico's
+            { question: "Welk type incident met GenAI kan het klantvertrouwen het meest direct schaden?", options: ["Een interne discussie over het AI-beleid.", "Een datalek waarbij klantgegevens betrokken zijn.", "Een werknemer die een AI-training volgt.", "Een lichte stijging in operationele kosten."], answer: "Een datalek waarbij klantgegevens betrokken zijn.", explanation: "Het lekken van klantgegevens is een ernstig incident dat het vertrouwen van klanten direct en ernstig kan schaden, leidend tot reputatieschade." },
+            { question: "Een gebrek aan een duidelijk GenAI-beleid binnen een organisatie kan leiden tot...", options: ["Een hoger werknemersmoreel.", "Aantasting van het werkgeversmerk.", "Automatische kostenbesparingen.", "Minder noodzaak voor training."], answer: "Aantasting van het werkgeversmerk.", explanation: "Onrust onder werknemers en een negatieve perceptie bij potentieel talent door een onduidelijk beleid kunnen het werkgeversmerk aantasten." },
+
+            // Categorie: Regelgeving (EU AI Act)
+            { question: "Valt een AI-systeem dat wordt gebruikt voor het filteren van CV's voor een vacature waarschijnlijk onder de EU AI Act?", options: ["Nee, de wet geldt alleen voor medische AI.", "Nee, de wet geldt alleen voor overheden.", "Ja, waarschijnlijk als een hoogrisico AI-systeem.", "Ja, maar alleen als het discrimineert."], answer: "Ja, waarschijnlijk als een hoogrisico AI-systeem.", explanation: "AI-systemen gebruikt in werkgelegenheid, zoals voor werving en selectie, worden onder de EU AI Act doorgaans als 'hoogrisico' geclassificeerd, met strenge eisen als gevolg." },
+            { question: "Wat is een belangrijke verplichting voor organisaties onder de EU AI Act met betrekking tot hun personeel?", options: ["Zorgen voor voldoende AI-geletterdheid.", "Alle werknemers een eigen AI-assistent geven.", "Het gebruik van AI tijdens werktijd verbieden.", "Werknemers laten betalen voor AI-gebruik."], answer: "Zorgen voor voldoende AI-geletterdheid.", explanation: "Artikel 4 van de EU AI Act legt organisaties de verplichting op om te zorgen voor voldoende AI-geletterdheid bij personeel dat met AI-systemen werkt." },
+            
+            // Categorie: Uw Rol als Manager
+            { question: "Wat is de meest effectieve eerste stap voor een manager om 'schaduw-AI' in een team aan te pakken?", options: ["Iedereen die het gebruikt onmiddellijk een waarschuwing geven.", "Het bedrijfsbrede AI-beleid duidelijk communiceren en bespreken.", "Alle toegang tot het internet blokkeren.", "Het probleem negeren, het lost zichzelf op."], answer: "Het bedrijfsbrede AI-beleid duidelijk communiceren en bespreken.", explanation: "Proactieve communicatie over het beleid, de risico's en de goedgekeurde alternatieven is een cruciale eerste stap om schaduw-AI te managen." },
+            { question: "Een teamlid is onzeker over het gebruik van een goedgekeurde AI-tool voor een specifieke taak. Wat is uw rol als manager?", options: ["Zeggen dat ze het zelf maar moeten uitzoeken.", "De vraag doorsturen naar de directie.", "Een open dialoog faciliteren en de medewerker helpen de richtlijnen toe te passen.", "Het gebruik van de tool voor die taak verbieden."], answer: "Een open dialoog faciliteren en de medewerker helpen de richtlijnen toe te passen.", explanation: "Het creëren van een veilige omgeving waar vragen gesteld kunnen worden en het begeleiden van teamleden is een kernverantwoordelijkheid van de manager." },
+            { question: "Waarom is een 'top-down' benadering voor AI-beleid noodzakelijk?", options: ["Omdat werknemers niet geïnteresseerd zijn in AI.", "Om consistentie, standaardisatie en juridische compliance te waarborgen.", "Omdat het de goedkoopste optie is.", "Om innovatie van onderop te stoppen."], answer: "Om consistentie, standaardisatie en juridische compliance te waarborgen.", explanation: "Een top-down benadering is cruciaal vanwege de hoge risico's en de noodzaak voor een uniforme toepassing van regels en ethische principes in de hele organisatie." },
+            
+            // Categorie: Aanbevelingen
+            { question: "Wat is 'datahygiëne' in de context van GenAI?", options: ["Het opschonen van je computer na gebruik van AI.", "Het principe om geen gevoelige of vertrouwelijke informatie in publieke tools in te voeren.", "Een software die de AI-output controleert op virussen.", "Het updaten van de GenAI-tool."], answer: "Het principe om geen gevoelige of vertrouwelijke informatie in publieke tools in te voeren.", explanation: "Goede datahygiëne, zoals het niet invoeren van persoonsgegevens, bedrijfsgeheimen of andere gevoelige data, is een fundamentele aanbeveling om risico's te mitigeren." },
+            { question: "Wat is het doel van een 'AI Sandbox' omgeving?", options: ["Een plek waar AI-modellen worden bestraft voor fouten.", "Een beveiligde omgeving waar werknemers veilig kunnen experimenteren met goedgekeurde tools.", "Een chatgroep om over AI te praten.", "Een fysieke ruimte met AI-robots."], answer: "Een beveiligde omgeving waar werknemers veilig kunnen experimenteren met goedgekeurde tools.", explanation: "Een sandbox stelt werknemers in staat om te leren en innoveren met AI zonder bedrijfsdata bloot te stellen aan de risico's van publieke modellen." },
+            { question: "Welke contractuele maatregel is cruciaal bij de aanschaf van een GenAI-dienst?", options: ["Zorgen dat de leverancier de laagste prijs biedt.", "Duidelijke afspraken maken over data-eigendom en het gebruik van bedrijfsdata voor training.", "Een contract voor minimaal 10 jaar afsluiten.", "De algemene voorwaarden niet lezen om tijd te besparen."], answer: "Duidelijke afspraken maken over data-eigendom en het gebruik van bedrijfsdata voor training.", explanation: "Contracten moeten expliciet ingaan op data-eigendom, gebruiksrechten, aansprakelijkheid en beveiliging om de organisatie te beschermen." },
+
+            // Categorie: Gemengd
+            { question: "Welke norm kan organisaties helpen bij het opzetten van een AI-managementsysteem?", options: ["ISO 9001 (Kwaliteitsmanagement)", "ISO 14001 (Milieumanagement)", "ISO/IEC 42001 (AI Management Systems)", "ISO 31000 (Risicomanagement)"], answer: "ISO/IEC 42001 (AI Management Systems)", explanation: "ISO 42001, gepubliceerd in dec 2023, biedt een specifiek raamwerk voor het opzetten en onderhouden van een managementsysteem voor verantwoorde AI." },
+            { question: "Een werknemer gebruikt een ongeautoriseerde GenAI tool en veroorzaakt een groot datalek. Wat is een mogelijk arbeidsrechtelijk gevolg?", options: ["Een verplichte bonus.", "Een formele waarschuwing of zelfs ontslag.", "Promotie voor het tonen van initiatief.", "Geen, want de werkgever is altijd volledig verantwoordelijk."], answer: "Een formele waarschuwing of zelfs ontslag.", explanation: "Ongeautoriseerd gebruik dat leidt tot schade kan arbeidsrechtelijke gevolgen hebben voor de werknemer, mits er duidelijke interne richtlijnen zijn." },
+            { question: "De output van een GenAI-tool kan niet worden herleid naar de bronnen die het heeft gebruikt. Hoe wordt dit risico genoemd?", options: ["'Black Box' probleem", "'Sandbox' probleem", "'Firewall' probleem", "'Cloud' probleem"], answer: "'Black Box' probleem", explanation: "Het 'Black Box' karakter van sommige AI-modellen, waarbij de redenering niet transparant is, is een significant risico, met name waar verklaarbaarheid cruciaal is." },
+            { question: "Wat is een belangrijke drijfveer voor werknemers om ongeautoriseerde GenAI-tools te gebruiken?", options: ["Verveling", "De wens om de productiviteit te verhogen en het werk te vergemakkelijken.", "De opdracht van hun manager.", "Het testen van de IT-beveiliging."], answer: "De wens om de productiviteit te verhogen en het werk te vergemakkelijken.", explanation: "De belangrijkste drijfveer is de belofte van efficiëntiewinst, wat de noodzaak voor het aanbieden van veilige, goedgekeurde alternatieven benadrukt." },
+            { question: "Welke van de volgende is GEEN kernverantwoordelijkheid van een middenmanager m.b.t. GenAI?", options: ["Beleidsimplementatie", "Teambegeleiding", "Het schrijven van de broncode voor de AI-modellen van de organisatie.", "Risico-identificatie"], answer: "Het schrijven van de broncode voor de AI-modellen van de organisatie.", explanation: "De rol van de manager is gericht op beleid, begeleiding en risicobeheer, niet op de technische ontwikkeling van de AI-modellen zelf." },
+            { question: "Een teamlid gebruikt AI om een samenvatting van een vertrouwelijk rapport te maken en plakt de tekst in een publieke tool. Wat is het voornaamste risico?", options: ["Het kan de AI-tool slimmer maken.", "De informatie kan worden gebruikt voor training van het model en kan lekken.", "Het bespaart tijd, dus er zijn geen risico's.", "Het rapport wordt automatisch vertaald."], answer: "De informatie kan worden gebruikt voor training van het model en kan lekken.", explanation: "Het invoeren van vertrouwelijke data in publieke tools creëert een risico dat deze data wordt opgeslagen en gebruikt door de provider, wat kan leiden tot datalekken en verlies van bedrijfsgeheimen." },
+            { question: "De EU AI Act verbiedt bepaalde AI-toepassingen op de werkvloer. Welke van de volgende is een voorbeeld?", options: ["AI voor het plannen van vergaderingen.", "AI voor emotieherkenning bij werknemers.", "AI voor het spellen van woorden in een teksteditor.", "AI voor het berekenen van salarissen."], answer: "AI voor emotieherkenning bij werknemers.", explanation: "De EU AI Act verbiedt expliciet het gebruik van AI voor emotieherkenning in de context van werk en onderwijs, omdat dit als een onaanvaardbaar risico wordt gezien." }
+        ];
+
+        let currentQuizQuestions = [];
+        let firstAttempt = true;
+
+        // --- CORE FUNCTIONS ---
+
+        // Navigation
+        const sections = document.querySelectorAll('.content-section');
+        const navButtons = document.querySelectorAll('.nav-button');
+
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+            navButtons.forEach(button => {
+                const buttonText = button.textContent.toLowerCase();
+                const isActive = sectionId.startsWith(buttonText.substring(0, 4)) || (sectionId === 'quiz' && buttonText === 'kennischeck');
+                if (isActive) {
+                     button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+             // Ensure the first nav button is active if 'intro' is shown
+             if (sectionId === 'intro') {
+                navButtons[0].classList.add('active');
+            }
+        }
+        
+        // Accordion functionality
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('span');
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        // Quiz functionality
+        const quizContainer = document.getElementById('quiz-container');
+        const submitButton = document.getElementById('submit-quiz');
+        const resultsContainer = document.getElementById('quiz-results');
+        const scoreElement = document.getElementById('score');
+        const scoreTitleElement = document.getElementById('score-title');
+        const feedbackElement = document.getElementById('feedback');
+
+        function startNewQuiz() {
+            // 1. Select 5 random questions
+            const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+            currentQuizQuestions = shuffled.slice(0, 5);
+            firstAttempt = true;
+            
+            // 2. Load the questions into the UI
+            loadQuiz();
+            
+            // 3. Reset UI state
+            resultsContainer.classList.add('hidden');
+            submitButton.classList.remove('hidden');
+            submitButton.disabled = false;
+            
+            // 4. Show the quiz section
+            showSection('quiz');
+        }
+
+        function loadQuiz() {
+            quizContainer.innerHTML = '';
+            currentQuizQuestions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('mb-6', 'p-4', 'border', 'border-gray-300', 'rounded-lg', 'bg-white');
+                let optionsHTML = '';
+                q.options.forEach(option => {
+                    optionsHTML += `
+                        <label class="block quiz-option p-3 my-1 border border-gray-200 rounded-md cursor-pointer hover:bg-blue-50">
+                            <input type="radio" name="question${index}" value="${option}" class="mr-2">
+                            ${option}
+                        </label>
+                    `;
+                });
+                questionElement.innerHTML = `
+                    <p class="font-semibold text-md mb-3">${index + 1}. ${q.question}</p>
+                    <div class="space-y-2">${optionsHTML}</div>
+                `;
+                quizContainer.appendChild(questionElement);
+            });
+        }
+        
+        submitButton.addEventListener('click', () => {
+            if (!firstAttempt) return; // Only allow one submission
+
+            let score = 0;
+            feedbackElement.innerHTML = ''; 
+            resultsContainer.classList.remove('hidden');
+
+            currentQuizQuestions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                const questionFeedback = document.createElement('div');
+                questionFeedback.classList.add('p-3', 'rounded-md', 'mb-2');
+
+                if (selectedOption) {
+                    if (selectedOption.value === q.answer) {
+                        score++;
+                        questionFeedback.classList.add('bg-green-100', 'border-green-500', 'text-green-700', 'border-l-4');
+                        questionFeedback.innerHTML = `<p><strong>Vraag ${index + 1}: Goed!</strong></p>`;
+                    } else {
+                        questionFeedback.classList.add('bg-red-100', 'border-red-500', 'text-red-700', 'border-l-4');
+                        questionFeedback.innerHTML = `
+                            <p><strong>Vraag ${index + 1}: Fout.</strong></p>
+                            <p class="text-sm">Het juiste antwoord is: "${q.answer}"</p>
+                            <p class="text-xs mt-1"><em>Uitleg: ${q.explanation}</em></p>
+                        `;
+                    }
+                } else {
+                    questionFeedback.classList.add('bg-yellow-100', 'border-yellow-500', 'text-yellow-700', 'border-l-4');
+                    questionFeedback.innerHTML = `
+                        <p><strong>Vraag ${index + 1}: Niet beantwoord.</strong></p>
+                        <p class="text-sm">Het juiste antwoord is: "${q.answer}"</p>
+                        <p class="text-xs mt-1"><em>Uitleg: ${q.explanation}</em></p>
+                    `;
+                }
+                feedbackElement.appendChild(questionFeedback);
+            });
+            
+            // Disable button and set firstAttempt to false
+            submitButton.disabled = true;
+            firstAttempt = false;
+
+            scoreTitleElement.textContent = "Resultaten van uw eerste poging:";
+            scoreElement.textContent = `U heeft ${score} van de ${currentQuizQuestions.length} vragen correct beantwoord.`;
+            
+            let modalTitleText, modalMessageText;
+            if (score === currentQuizQuestions.length) {
+                modalTitleText = "Fantastisch!";
+                modalMessageText = `U had alle ${currentQuizQuestions.length} vragen correct in uw eerste poging. Uitstekend!`;
+            } else if (score >= Math.floor(currentQuizQuestions.length * 0.7)) {
+                modalTitleText = "Goed gedaan!";
+                modalMessageText = `U had ${score} van de ${currentQuizQuestions.length} vragen correct in uw eerste poging. Bekijk de feedback voor de details.`;
+            } else {
+                modalTitleText = "Nog even oefenen";
+                modalMessageText = `U had ${score} van de ${currentQuizQuestions.length} vragen correct in uw eerste poging. Het is aanbevolen de informatie nogmaals door te nemen.`;
+            }
+            showModal(modalTitleText, modalMessageText);
+            feedbackElement.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Modal
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Close modal if user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Initial load
+        showSection('intro');
+
+    </script>
+</body>
+</html>
