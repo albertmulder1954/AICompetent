@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVG & AI Gids</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .quiz-option {
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .quiz-option.correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #22c55e; /* green-500 */
+            color: #166534; /* green-800 */
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2; /* red-100 */
+            border-color: #ef4444; /* red-500 */
+            color: #991b1b; /* red-800 */
+        }
+        .quiz-option:disabled {
+            cursor: not-allowed;
+        }
+        .action-btn {
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        .info-card {
+            background-color: #f3f4f6; /* gray-100 */
+            border-left: 4px solid #3b82f6; /* blue-500 */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        .do-card {
+            background-color: #f0fdf4; /* green-50 */
+            border-left: 4px solid #22c55e; /* green-500 */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        .dont-card {
+            background-color: #fef2f2; /* red-50 */
+            border-left: 4px solid #ef4444; /* red-500 */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <!-- Header -->
+        <header class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-blue-600">AVG & AI Gids</h1>
+            <p class="text-center text-gray-500 mt-2">Privacy-bewust werken met Artificiële Intelligentie.</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white rounded-xl shadow-md p-4 mb-8 flex flex-wrap justify-center gap-2">
+            <button onclick="showSection('intro')" class="nav-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Introductie</button>
+            <button onclick="showSection('personal-data')" class="nav-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Persoonsgegevens</button>
+            <button onclick="showSection('principles')" class="nav-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">AVG Kernprincipes</button>
+            <button onclick="showSection('dos-donts')" class="nav-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Do's & Don'ts</button>
+            <button onclick="showSection('quiz')" class="nav-btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Test je Kennis!</button>
+        </nav>
+
+        <main id="main-content" class="bg-white rounded-xl shadow-md p-6 md:p-8">
+
+            <!-- Intro Section -->
+            <div id="intro" class="section">
+                <h2 class="text-2xl font-bold mb-4 text-gray-700">AI en Privacy: Een Belangrijke Combinatie</h2>
+                <p class="mb-4">Artificiële Intelligentie (AI) biedt geweldige mogelijkheden, maar zodra je met informatie over mensen werkt, komt de Algemene Verordening Gegevensbescherming (AVG) om de hoek kijken. Het is cruciaal om te begrijpen hoe je AI kunt gebruiken op een manier die de privacy van iedereen respecteert en beschermt.</p>
+                <p class="mb-4">Deze gids geeft je de handvatten om bewust en veilig met AI en persoonsgegevens om te gaan.</p>
+                 <div class="flex justify-center">
+                    <img src="https://placehold.co/600x350/3b82f6/ffffff?text=Privacy+&+AI" alt="[Een afbeelding die een schild van privacy voor een AI-logo toont]" class="rounded-lg shadow-lg">
+                </div>
+            </div>
+
+            <!-- Personal Data Section -->
+            <div id="personal-data" class="section">
+                <h2 class="text-2xl font-bold mb-4">Wat zijn Persoonsgegevens ook alweer?</h2>
+                <p class="mb-6">De AVG is van toepassing op 'persoonsgegevens'. Dit is alle informatie over een geïdentificeerde of identificeerbare natuurlijke persoon. Het is breder dan je misschien denkt:</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="info-card">
+                        <h3 class="font-bold text-lg mb-2">Directe gegevens</h3>
+                        <ul class="list-disc list-inside">
+                            <li>Namen, adressen, e-mailadressen</li>
+                            <li>Telefoonnummers, geboortedata</li>
+                            <li>Foto's, BSN-nummers</li>
+                        </ul>
+                    </div>
+                     <div class="info-card">
+                        <h3 class="font-bold text-lg mb-2">Indirecte gegevens</h3>
+                        <ul class="list-disc list-inside">
+                            <li>Klantnummers, orderhistorie</li>
+                            <li>IP-adressen, locatiegegevens</li>
+                            <li>Feedback of beoordelingen gekoppeld aan een persoon</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="dont-card mt-6">
+                    <h3 class="font-bold text-lg mb-2 text-red-700">Extra Gevoelig: Bijzondere Persoonsgegevens</h3>
+                    <p>Informatie over gezondheid, ras, religie, of vakbondslidmaatschap is extra beschermd. De regel is simpel: <strong>VERMIJD DEZE IN AI-INPUT!</strong></p>
+                </div>
+            </div>
+
+            <!-- Principles Section -->
+            <div id="principles" class="section">
+                <h2 class="text-2xl font-bold mb-4">Kernprincipes van de AVG voor AI</h2>
+                <p class="mb-6">De AVG heeft een aantal kernprincipes die je checklist vormen bij het gebruik van AI.</p>
+                <div class="space-y-4">
+                    <div class="p-4 rounded-lg border border-gray-200 shadow-sm"><h3 class="font-bold text-lg text-blue-700">1. Doelbinding</h3><p>Gebruik persoonsgegevens alleen voor een duidelijk, vooraf bepaald doel. Stop niet zomaar data in een AI "om te experimenteren".</p></div>
+                    <div class="p-4 rounded-lg border border-yellow-400 shadow-sm"><h3 class="font-bold text-lg text-yellow-800">2. Dataminimalisatie (SUPER BELANGRIJK!)</h3><p>Voer NOOIT meer persoonsgegevens in dan strikt noodzakelijk. Anonimiseer (verwijder herleidbare info) of pseudonimiseer (vervang met codes) waar mogelijk. Vraag jezelf altijd af: "Is deze naam écht nodig voor de output?"</p></div>
+                    <div class="p-4 rounded-lg border border-gray-200 shadow-sm"><h3 class="font-bold text-lg text-blue-700">3. Transparantie</h3><p>Wees open over het gebruik van AI als dit (verborgen) persoonsgegevens verwerkt.</p></div>
+                    <div class="p-4 rounded-lg border border-gray-200 shadow-sm"><h3 class="font-bold text-lg text-blue-700">4. Integriteit & Vertrouwelijkheid</h3><p>Gebruik ALLEEN door de organisatie goedgekeurde en beveiligde AI-tools. Wees extreem voorzichtig met gratis online tools.</p></div>
+                    <div class="p-4 rounded-lg border border-gray-200 shadow-sm"><h3 class="font-bold text-lg text-blue-700">5. Verantwoordelijkheid</h3><p>JIJ en de organisatie blijven verantwoordelijk voor de data die je invoert en de output die je gebruikt. Controleer AI-resultaten altijd kritisch.</p></div>
+                </div>
+            </div>
+
+            <!-- Do's & Don'ts Section -->
+            <div id="dos-donts" class="section">
+                 <h2 class="text-2xl font-bold mb-4">Praktische Do's & Don'ts</h2>
+                 <p class="mb-6">Een eenvoudige checklist voor de praktijk.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-green-700">DO</h3>
+                        <div class="space-y-4">
+                            <div class="do-card"><p><strong>DENK NA</strong> voordat je data invoert in een AI.</p></div>
+                            <div class="do-card"><p>Gebruik <strong>goedgekeurde AI-tools</strong> volgens organisatiebeleid.</p></div>
+                            <div class="do-card"><p><strong>Minimaliseer</strong> de hoeveelheid persoonsgegevens in je prompts.</p></div>
+                            <div class="do-card"><p><strong>Controleer de output</strong> van AI kritisch, zeker als het persoonsgegevens bevat.</p></div>
+                            <div class="do-card"><p><strong>VRAAG BIJ TWIJFEL</strong> je leidinggevende, de Functionaris Gegevensbescherming (FG) of Security Officer.</p></div>
+                        </div>
+                    </div>
+                     <div>
+                        <h3 class="text-xl font-bold mb-4 text-red-600">DON'T</h3>
+                        <div class="space-y-4">
+                            <div class="dont-card"><p><strong>NOOIT</strong> zomaar bijzondere persoonsgegevens of grote hoeveelheden klantdata in (externe) AI-tools plakken.</p></div>
+                            <div class="dont-card"><p><strong>Vertrouw blindelings</strong> op de output van AI zonder menselijke check.</p></div>
+                            <div class="dont-card"><p>Gebruik <strong>niet-goedgekeurde "handige" online tools</strong> voor werk met gevoelige data.</p></div>
+                            <div class="dont-card"><p>Deel <strong>bedrijfsgeheimen</strong> via onbeveiligde AI-kanalen.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quiz" class="section">
+                <h2 class="text-2xl font-bold mb-2 text-center">Test je AVG & AI Kennis!</h2>
+                <div id="quiz-progress" class="text-center text-gray-600 font-semibold mb-4"></div>
+                <div id="quiz-container" class="bg-gray-50 p-6 rounded-lg min-h-[250px]"></div>
+                <div id="quiz-actions" class="text-center mt-4 h-10"></div>
+                <div id="quiz-result" class="text-center mt-6 font-bold text-xl"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- SETUP ---
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('intro');
+        });
+
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('quiz-result');
+        const progressContainer = document.getElementById('quiz-progress');
+        const actionsContainer = document.getElementById('quiz-actions');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedQuestions = [];
+        
+        // --- NAVIGATION ---
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.toggle('active', section.id === id);
+            });
+            if (id === 'quiz') {
+                startQuiz();
+            }
+        }
+
+        // --- ENTIRE QUESTION BANK ---
+        const questionBank = [
+            { question: "Welk van de volgende items is een persoonsgegeven volgens de AVG?", options: ["Een bedrijfsnaam", "Een e-mailadres zoals 'jan.jansen@email.com'", "Een anonieme enqûete", "De naam van een product"], answer: "Een e-mailadres zoals 'jan.jansen@email.com'" },
+            { question: "Welk AVG-kernprincipe stelt dat je gegevens alleen voor een duidelijk, vooraf bepaald doel mag gebruiken?", options: ["Dataminimalisatie", "Doelbinding", "Transparantie", "Verantwoordelijkheid"], answer: "Doelbinding" },
+            { question: "Wat is het belangrijkste advies over dataminimalisatie bij het gebruik van AI?", options: ["Gebruik zoveel mogelijk data voor een beter resultaat.", "Voer nooit meer persoonsgegevens in dan strikt noodzakelijk.", "Gebruik alleen data van klanten, niet van medewerkers.", "Controleer de data op spelfouten."], answer: "Voer nooit meer persoonsgegevens in dan strikt noodzakelijk." },
+            { question: "Mag je een gratis online AI-tool gebruiken om een lijst met klantgegevens te analyseren?", options: ["Ja, als de tool handig is.", "Ja, want gratis tools zijn veilig.", "Nee, je weet vaak niet wat er met de data gebeurt en het is niet goedgekeurd.", "Nee, want AI kan niet met lijsten omgaan."], answer: "Nee, je weet vaak niet wat er met de data gebeurt en het is niet goedgekeurd." },
+            { question: "Wie is eindverantwoordelijk voor de output die een AI genereert op basis van jouw input?", options: ["De maker van de AI-tool.", "Niemand, het is de schuld van de AI.", "Jij en de organisatie.", "De Functionaris Gegevensbescherming."], answer: "Jij en de organisatie." },
+            { question: "Wat is 'anonimiseren'?", options: ["De data versleutelen.", "Alle herleidbare informatie verwijderen.", "De data in een andere taal omzetten.", "Een backup maken van de data."], answer: "Alle herleidbare informatie verwijderen." },
+            { question: "Welk type persoonsgegevens wordt als 'extra gevoelig' beschouwd en moet je vermijden in AI-input?", options: ["Klantnummers", "IP-adressen", "Informatie over gezondheid", "Orderhistorie"], answer: "Informatie over gezondheid" },
+            { question: "Wat is een belangrijke 'DO' voordat je data invoert in een AI?", options: ["Denk na en minimaliseer de data.", "Zoek de meest geavanceerde tool, ongeacht de veiligheid.", "Vraag een collega om het voor je te doen.", "Voer de data zo snel mogelijk in."], answer: "Denk na en minimaliseer de data." },
+            { question: "Welke van de volgende acties is een duidelijke 'DON'T'?", options: ["De output van AI kritisch controleren.", "Een goedgekeurde AI-tool gebruiken.", "Blindelings vertrouwen op de output van AI zonder check.", "Bij twijfel de Security Officer vragen."], answer: "Blindelings vertrouwen op de output van AI zonder check." },
+            { question: "Wat houdt het principe 'Integriteit & Vertrouwelijkheid' in?", options: ["Dat je altijd eerlijk moet zijn tegen de AI.", "Dat je alleen goedgekeurde en beveiligde tools mag gebruiken.", "Dat de AI altijd de waarheid spreekt.", "Dat je open moet zijn over je doelen."], answer: "Dat je alleen goedgekeurde en beveiligde tools mag gebruiken." },
+            { question: "Je wilt AI gebruiken om een concept-uitnodiging te schrijven. Wat is de beste aanpak volgens het principe van dataminimalisatie?", options: ["De volledige lijst met namen en e-mailadressen in de AI plakken.", "De AI vragen een algemeen concept te schrijven, waarna je de namen zelf invult.", "Een niet-goedgekeurde tool gebruiken die dit sneller kan.", "Eerst informatie over de gezondheid van de genodigden invoeren."], answer: "De AI vragen een algemeen concept te schrijven, waarna je de namen zelf invult." },
+            { question: "Is een IP-adres een persoonsgegeven?", options: ["Nee, nooit.", "Ja, want het kan herleidbaar zijn tot een persoon.", "Alleen als het een vast IP-adres is.", "Alleen voor bedrijven, niet voor particulieren."], answer: "Ja, want het kan herleidbaar zijn tot een persoon." },
+            { question: "Wat moet je doen als je twijfelt over het gebruik van AI in combinatie met bepaalde data?", options: ["Het gewoon proberen en kijken wat er gebeurt.", "Een collega vragen die er ook niet zeker van is.", "Je leidinggevende, FG of Security Officer raadplegen.", "De data op een openbaar forum plaatsen en om advies vragen."], answer: "Je leidinggevende, FG of Security Officer raadplegen." },
+            { question: "Waarom is het delen van bedrijfsgeheimen via een onbeveiligde AI-tool een slecht idee?", options: ["De AI kan het geheim niet begrijpen.", "Het is een veiligheidsrisico voor de organisatie.", "Het is alleen een probleem als de concurrent het ziet.", "De AI zal het geheim publiceren."], answer: "Het is een veiligheidsrisico voor de organisatie." },
+            { question: "Het principe 'Verantwoordelijkheid' (Accountability) betekent dat...", options: ["...de AI verantwoordelijk is.", "...je de schuld kunt afschuiven als het fout gaat.", "...jij en je organisatie verantwoordelijk blijven voor datagebruik.", "...je geen verantwoordelijkheid hebt als je een goedgekeurde tool gebruikt."], answer: "...jij en je organisatie verantwoordelijk blijven voor datagebruik." }
+        ];
+
+        // --- QUIZ LOGIC ---
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            const shuffled = [...questionBank].sort(() => 0.5 - Math.random());
+            selectedQuestions = shuffled.slice(0, 5);
+            selectedQuestions.forEach(q => q.attemptStatus = undefined); 
+            resultContainer.textContent = '';
+            actionsContainer.innerHTML = '';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            quizContainer.innerHTML = '';
+            actionsContainer.innerHTML = '';
+            progressContainer.textContent = `Vraag ${currentQuestionIndex + 1} van de ${selectedQuestions.length}`;
+            const currentQuestion = selectedQuestions[currentQuestionIndex];
+            const questionElement = document.createElement('p');
+            questionElement.className = 'font-semibold text-lg mb-4';
+            questionElement.textContent = currentQuestion.question;
+            const optionsElement = document.createElement('div');
+            optionsElement.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'quiz-option bg-white p-4 rounded-lg shadow border-2 border-transparent cursor-pointer text-left hover:bg-blue-100 hover:border-blue-300';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(button, option);
+                optionsElement.appendChild(button);
+            });
+            quizContainer.appendChild(questionElement);
+            quizContainer.appendChild(optionsElement);
+        }
+
+        function selectAnswer(buttonElement, selectedOption) {
+            const currentQuestion = selectedQuestions[currentQuestionIndex];
+            const allOptions = quizContainer.querySelectorAll('.quiz-option');
+            const isFirstAttempt = currentQuestion.attemptStatus === undefined;
+            allOptions.forEach(btn => btn.disabled = true);
+            const isCorrect = selectedOption === currentQuestion.answer;
+            if (isCorrect) {
+                buttonElement.classList.add('correct');
+                if (isFirstAttempt) {
+                    score++;
+                    currentQuestion.attemptStatus = 'passed';
+                }
+                const nextButton = createActionButton('Volgende Vraag', 'bg-blue-500', 'hover:bg-blue-600', nextQuestion);
+                actionsContainer.appendChild(nextButton);
+            } else {
+                buttonElement.classList.add('incorrect');
+                if (isFirstAttempt) {
+                    currentQuestion.attemptStatus = 'failed';
+                }
+                allOptions.forEach(btn => {
+                    if (btn.textContent.trim() === currentQuestion.answer) {
+                        btn.classList.add('correct');
+                    }
+                });
+                const retryButton = createActionButton('Probeer opnieuw', 'bg-orange-500', 'hover:bg-orange-600', retryQuestion);
+                actionsContainer.appendChild(retryButton);
+            }
+        }
+
+        function createActionButton(text, bgColor, hoverBgColor, onClickFn) {
+            const button = document.createElement('button');
+            button.className = `action-btn ${bgColor} ${hoverBgColor} text-white font-bold py-2 px-6 rounded-lg shadow-md`;
+            button.textContent = text;
+            button.onclick = onClickFn;
+            return button;
+        }
+
+        function retryQuestion() {
+            showQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < selectedQuestions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = '';
+            actionsContainer.innerHTML = '';
+            progressContainer.innerHTML = '';
+            resultContainer.textContent = `Je hebt ${score} van de ${selectedQuestions.length} vragen correct beantwoord bij de eerste poging!`;
+            const restartButton = createActionButton('Nieuwe Quiz Starten', 'bg-green-500', 'hover:bg-green-600', startQuiz);
+            actionsContainer.appendChild(restartButton);
+        }
+    </script>
+
+</body>
+</html>
