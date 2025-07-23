@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Risico's van Generatieve AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+        }
+        .nav-active {
+            color: #0891B2;
+            border-bottom-color: #0891B2;
+        }
+        .nav-item {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            color: #0891B2;
+            border-bottom-color: #0891B2;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 60vh;
+            max-height: 450px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-gray-800">GenAI Strategie</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="nav-item">Overzicht</a>
+                    <a href="#risks" class="nav-item">Risico's</a>
+                    <a href="#cases" class="nav-item">Casussen</a>
+                    <a href="#strategy" class="nav-item">Strategie</a>
+                    <a href="#action" class="nav-item">Actieplan</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="bg-white py-20 md:py-28">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">Generatieve AI op de Werkvloer</h1>
+                <p class="mt-4 text-lg md:text-xl text-gray-600 font-light max-w-3xl mx-auto">Kansen optimaliseren, risico's beheersen: een strategisch perspectief voor de C-Suite.</p>
+            </div>
+        </section>
+        
+        <section id="overview" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Panorama van Potentiële Risico's</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Generatieve AI biedt ongekende mogelijkheden, maar de adoptie ervan introduceert een nieuw spectrum aan strategische risico's. Dit dashboard biedt een overzicht. Zweef over een risicogebied voor een korte toelichting of klik op een label om dieper in de materie te duiken.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="riskRadarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="risks" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Risico's in Detail</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Een diepgaande blik op de zes kernrisico's. Elk brengt unieke uitdagingen met zich mee die proactief management vereisen om de bedrijfsvoering, reputatie en concurrentiepositie te beschermen. Klik op een risico om de details te bekijken.</p>
+                </div>
+                <div id="accordion-container" class="max-w-4xl mx-auto space-y-4">
+                </div>
+            </div>
+        </section>
+
+        <section id="cases" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Praktijkvoorbeelden</h2>
+                     <p class="mt-4 text-gray-600 max-w-2xl mx-auto">De risico's zijn niet theoretisch. Deze geanonimiseerde casussen illustreren hoe onbeheerd gebruik van Generatieve AI kan leiden tot concrete, kostbare gevolgen. Ze benadrukken de urgentie van een robuust beleid en duidelijke richtlijnen.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold mb-4">Casus 1: Het Gevoelige Memo dat Publiek Werd</h3>
+                        <p class="text-gray-600 mb-4"><strong class="text-gray-700">Scenario:</strong> Een manager gebruikt een publieke GenAI-tool om een gevoelig intern reorganisatie-memo op te stellen, inclusief vertrouwelijke personeels- en strategiedetails.</p>
+                        <p class="text-gray-600"><strong class="text-gray-700">Resultaat:</strong> De ingevoerde data wordt onderdeel van de trainingsset. Details lekken later indirect uit, wat leidt tot interne onrust en speculatie.</p>
+                        <div class="mt-6 p-4 bg-red-50 text-red-800 border-l-4 border-red-500 rounded">
+                            <h4 class="font-semibold">Mogelijke Gevolgen</h4>
+                            <ul class="list-disc list-inside mt-2 text-sm">
+                                <li>Ernstige reputatieschade</li>
+                                <li>Verlies van vertrouwen bij personeel</li>
+                                <li>Potentiële juridische stappen</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-xl font-bold mb-4">Casus 2: De Auteursrechtelijke Nachtmerrie</h3>
+                        <p class="text-gray-600 mb-4"><strong class="text-gray-700">Scenario:</strong> Het marketingteam genereert beelden voor een nieuwe campagne met een GenAI-tool. De beelden lijken sterk op het beschermde werk van een bekende kunstenaar.</p>
+                        <p class="text-gray-600"><strong class="text-gray-700">Resultaat:</strong> Na lancering van de campagne dient de kunstenaar een copyrightclaim in, wat leidt tot een juridisch geschil.</p>
+                         <div class="mt-6 p-4 bg-red-50 text-red-800 border-l-4 border-red-500 rounded">
+                            <h4 class="font-semibold">Mogelijke Gevolgen</h4>
+                            <ul class="list-disc list-inside mt-2 text-sm">
+                                <li>Hoge juridische kosten en schadevergoeding</li>
+                                <li>Gedwongen terugtrekking van campagne</li>
+                                <li>Negatieve publiciteit en merkschade</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Strategie voor Risicobeheersing</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Een robuuste mitigatiestrategie is essentieel om de risico's van GenAI effectief te beheersen. Deze aanpak rust op drie fundamentele pijlers die samen een veerkrachtig en verantwoordelijk kader vormen voor de inzet van AI binnen de organisatie.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-center">
+                    <div class="bg-gray-50 p-8 rounded-lg border border-gray-200">
+                        <div class="text-4xl mb-4">📜</div>
+                        <h3 class="text-xl font-bold mb-2">1. Beleid & Governance</h3>
+                        <p class="text-gray-600">Duidelijke richtlijnen en verantwoordelijkheden. Dit omvat het opstellen van een AI-gebruiksbeleid, het toewijzen van rollen, en het waarborgen van compliance met wet- en regelgeving zoals de AVG en de AI Act.</p>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-lg border border-gray-200">
+                        <div class="text-4xl mb-4">🛡️</div>
+                        <h3 class="text-xl font-bold mb-2">2. Technologie & Tools</h3>
+                        <p class="text-gray-600">Veilige omgevingen en gecontroleerde toegang. Investeer in private GenAI-oplossingen, creëer 'sandboxes' voor experimenten, en implementeer monitorings- en detectietools om misbruik te voorkomen.</p>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-lg border border-gray-200">
+                         <div class="text-4xl mb-4">🧠</div>
+                        <h3 class="text-xl font-bold mb-2">3. Training & Bewustwording</h3>
+                        <p class="text-gray-600">Kennis en vaardigheden voor medewerkers. Train personeel in veilig en ethisch gebruik, focus op het herkennen van risico's en stimuleer kritisch denken en menselijke validatie van AI-output.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="action" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Actieplan voor de C-Suite</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Verantwoorde innovatie vereist actief leiderschap. Uw rol is cruciaal in het vormgeven van de strategie en cultuur rondom Generatieve AI. De volgende stappen bieden een concreet startpunt om de organisatie voor te bereiden op een veilige AI-toekomst.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">Uw Rol: Sturen op Verantwoorde Innovatie</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-cyan-600 font-bold text-xl mr-4 mt-1">✔</span>
+                                <div><strong class="text-gray-800">Championing:</strong> Draag de visie uit voor verantwoord AI-gebruik en integreer dit in de bedrijfsstrategie.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-600 font-bold text-xl mr-4 mt-1">✔</span>
+                                <div><strong class="text-gray-800">Resource Allocation:</strong> Wijs budget en middelen toe voor beleid, veilige tools en essentiële training.</div>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-cyan-600 font-bold text-xl mr-4 mt-1">✔</span>
+                                <div><strong class="text-gray-800">Risk Oversight:</strong> Integreer GenAI-risico's in het algehele enterprise risk management framework.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-600 font-bold text-xl mr-4 mt-1">✔</span>
+                                <div><strong class="text-gray-800">Cultuur:</strong> Stimuleer een cultuur van openheid, ethisch bewustzijn, en continu leren.</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-bold mb-6">Voorgestelde Volgende Stappen</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                               <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold mr-4 flex-shrink-0">1</div>
+                               <p>Initiëren van een interne, cross-functionele taskforce GenAI-risicomanagement.</p>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold mr-4 flex-shrink-0">2</div>
+                                <p>Plannen van een diepgaande risicoanalyse specifiek voor onze business units.</p>
+                            </li>
+                             <li class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold mr-4 flex-shrink-0">3</div>
+                                <p>Ontwikkelen (of aanscherpen) van het AI-gebruiksbeleid binnen het komende kwartaal.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 [Uw Bedrijfsnaam]. Alle rechten voorbehouden.</p>
+            <p class="text-sm text-gray-400 mt-2">Strategisch Overzicht Generatieve AI Risico's</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const riskData = {
+                labels: [
+                    'Dataveiligheid & Privacy', 
+                    'Intellectueel Eigendom', 
+                    'Bias & Discriminatie', 
+                    'Desinformatie & Manipulatie', 
+                    'Kwaliteitscontrole', 
+                    'Afhankelijkheid & Deskilling'
+                ],
+                datasets: [{
+                    label: 'Inherent Risiconiveau',
+                    data: [9, 8, 7, 8, 7, 6],
+                    backgroundColor: 'rgba(8, 145, 178, 0.2)',
+                    borderColor: 'rgb(8, 145, 178)',
+                    pointBackgroundColor: 'rgb(8, 145, 178)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(8, 145, 178)'
+                }]
+            };
+
+            const riskChartCtx = document.getElementById('riskRadarChart').getContext('2d');
+            const riskRadarChart = new Chart(riskChartCtx, {
+                type: 'radar',
+                data: riskData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                color: '#374151',
+                                callback: function(label) {
+                                    const maxLabelWidth = 16;
+                                    if (label.length > maxLabelWidth) {
+                                        const words = label.split(' ');
+                                        let lines = [''];
+                                        let currentLine = 0;
+                                        words.forEach(word => {
+                                            if ((lines[currentLine] + word).length > maxLabelWidth) {
+                                                currentLine++;
+                                                lines[currentLine] = '';
+                                            }
+                                            lines[currentLine] += word + ' ';
+                                        });
+                                        return lines.map(line => line.trim());
+                                    }
+                                    return label;
+                                }
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                stepSize: 2,
+                                display: false
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const tooltips = [
+                                        'Lekkage van vertrouwelijke bedrijfs- en klantdata.',
+                                        'Schending van copyright en IP-rechten.',
+                                        'Versterking van vooroordelen en ongelijkheid.',
+                                        'Verspreiding van foutieve informatie en deepfakes.',
+                                        'Onnauwkeurigheden en gebrek aan verificatie.',
+                                        'Verlies van kritische vaardigheden en expertise.'
+                                    ];
+                                    return tooltips[context.dataIndex];
+                                }
+                            }
+                        }
+                    },
+                    onClick: (e) => {
+                        const activePoints = riskRadarChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+                        if (activePoints.length) {
+                             document.querySelector('#risks').scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                }
+            });
+            
+            const accordionData = [
+                {
+                    title: '🛡️ Dataveiligheid en Privacy',
+                    content: 'Medewerkers voeren gevoelige data (klantinfo, strategieën, broncode) in publieke GenAI-tools. Het risico bestaat dat deze data wordt gebruikt voor training van modellen of toegankelijk wordt voor derden.',
+                    consequences: ['Verlies van concurrentievoordeel', 'Reputatieschade en klantverlies', 'Hoge boetes (AVG/GDPR: tot 4% van omzet)']
+                },
+                {
+                    title: '💡 Intellectueel Eigendom (IP)',
+                    content: 'GenAI-modellen zijn vaak getraind op auteursrechtelijk beschermd materiaal. De output kan onbewust delen van beschermd werk bevatten, wat kan leiden tot juridische claims tegen uw bedrijf.',
+                    consequences: ['Kostbare rechtszaken en schikkingen', 'Verplichting tot staken gebruik van materiaal', 'Schade aan merkintegriteit']
+                },
+                {
+                    title: '⚖️ Bias en Discriminatie',
+                    content: 'AI-modellen reflecteren en versterken biases uit hun trainingsdata (gender, etniciteit, etc.). Toepassing in HR of marketing kan leiden tot discriminerende en oneerlijke uitkomsten.',
+                    consequences: ['Onjuiste en oneerlijke besluitvorming', 'Negatieve impact op diversiteit en inclusie', 'Juridische en reputatierisico\'s']
+                },
+                {
+                    title: '🤖 Desinformatie en Manipulatie',
+                    content: 'GenAI kan overtuigende maar incorrecte informatie genereren ("hallucinaties") en worden ingezet voor realistische deepfakes voor fraude of misleiding.',
+                    consequences: ['Ondermijning van vertrouwen', 'Verkeerde strategische beslissingen', 'Financiële schade door fraude']
+                },
+                {
+                    title: '🔎 Kwaliteitscontrole en Betrouwbaarheid',
+                    content: 'De output van GenAI is niet per definitie accuraat of volledig. De zelfverzekerde toon kan misleidend zijn. Kritisch menselijk toezicht en validatie blijven essentieel.',
+                    consequences: ['Fouten in rapportages, analyses, producten', 'Verlies van geloofwaardigheid', 'Operationele problemen']
+                },
+                 {
+                    title: '📉 Afhankelijkheid en "Deskilling"',
+                    content: 'Medewerkers kunnen te afhankelijk worden, wat leidt tot het verlies van fundamentele, kritische vaardigheden. Dit bedreigt het innovatief vermogen en de bedrijfscontinuïteit op de lange termijn.',
+                    consequences: ['Verminderd innovatief vermogen', 'Moeite met complexe probleemoplossing', 'Kwetsbaarheid bij technologische disrupties']
+                }
+            ];
+
+            const accordionContainer = document.getElementById('accordion-container');
+            accordionData.forEach((item, index) => {
+                const accordionItem = document.createElement('div');
+                accordionItem.className = 'border border-gray-200 rounded-lg bg-white shadow-sm';
+                
+                accordionItem.innerHTML = `
+                    <button class="accordion-header w-full text-left p-6 flex justify-between items-center transition duration-300 ease-in-out focus:outline-none">
+                        <h3 class="text-lg font-semibold text-gray-800">${item.title}</h3>
+                        <span class="transform transition-transform duration-300 text-cyan-600 text-2xl font-light">+</span>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6">
+                            <p class="text-gray-600 mb-4">${item.content}</p>
+                            <div class="mt-4 p-4 bg-amber-50 text-amber-800 border-l-4 border-amber-500 rounded">
+                                <h4 class="font-semibold">Mogelijke Gevolgen</h4>
+                                <ul class="list-disc list-inside mt-2 text-sm space-y-1">
+                                    ${item.consequences.map(c => `<li>${c}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                accordionContainer.appendChild(accordionItem);
+
+                const header = accordionItem.querySelector('.accordion-header');
+                const content = accordionItem.querySelector('.accordion-content');
+                const icon = accordionItem.querySelector('span');
+
+                header.addEventListener('click', () => {
+                    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+                    
+                    document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = '0px');
+                    document.querySelectorAll('.accordion-header span').forEach(i => {
+                        i.classList.remove('rotate-45');
+                        i.innerHTML = '+';
+                    });
+
+                    if (!isOpen) {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.classList.add('rotate-45');
+                         icon.innerHTML = '-'; 
+                    } else {
+                        icon.innerHTML = '+';
+                    }
+                });
+            });
+
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = document.querySelectorAll('main section');
+            
+            function updateActiveNav() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) { 
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('nav-active');
+                    }
+                })
+            }
+            window.addEventListener('scroll', updateActiveNav);
+            updateActiveNav(); 
+        });
+    </script>
+</body>
+</html>
