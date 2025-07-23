@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI Verandermanagement App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        .accordion-button {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            font-weight: 600;
+        }
+        .accordion-button:hover {
+            background-color: #d1d5db;
+        }
+        .accordion-content {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+        }
+        .nav-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-button.active {
+            background-color: #10b981; /* Emerald 500 */
+            color: white;
+        }
+        .nav-button:not(.active):hover {
+            background-color: #d1fae5; /* Emerald 100 */
+        }
+        .quiz-option:hover {
+            background-color: #f0fdf4; /* Green 50 */
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 0.5rem;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h1 class="text-4xl font-bold">GenAI Adoptie & Verandermanagement</h1>
+            <p class="mt-2 text-lg opacity-90">Leiderschap en strategie voor een succesvolle transformatie</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-center flex-wrap gap-2">
+            <button onclick="showSection('intro')" class="nav-button active px-3 py-2 rounded-md text-sm font-medium">Introductie</button>
+            <button onclick="showSection('leiderschap')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Leiderschap</button>
+            <button onclick="showSection('verandermodellen')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Verandermodellen</button>
+            <button onclick="showSection('implementatie')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Implementatie</button>
+            <button onclick="showSection('barrieres')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Barrières</button>
+            <button onclick="startNewQuiz()" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Kennischeck</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 sm:p-6">
+        <!-- Introductie Sectie -->
+        <section id="intro" class="content-section space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-emerald-600 mb-4">De Noodzaak van Verandering</h2>
+                <p class="mb-4">De implementatie van Generatieve AI is geen geïsoleerde technologische upgrade, maar een diepgaande organisatorische transformatie. Het raakt medewerkers, processen en de cultuur. Zonder zorgvuldig verandermanagement lopen organisaties een significant risico op mislukking, weerstand en het niet realiseren van de beloofde voordelen.</p>
+                <p class="mb-4">De disruptieve aard van GenAI creëert onzekerheid en angst. Traditionele, langzame veranderprocessen zijn niet adequaat. Verandermanagement is daarom geen optie, maar een fundamentele voorwaarde voor succes.</p>
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md" role="alert">
+                    <p class="font-bold">Kerninzicht:</p>
+                    <p>Verandermanagement is de kritische succesfactor die de structuur en methoden biedt om de menselijke kant van de GenAI-transitie effectief te adresseren.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leiderschap Sectie -->
+        <section id="leiderschap" class="content-section hidden space-y-6">
+            <h2 class="text-2xl font-semibold text-emerald-600 mb-4 text-center">De Faciliterende Rol van Leiderschap</h2>
+            <p class="text-center mb-6 text-gray-700">Effectief leiderschap is de spil waar succesvolle GenAI-transformaties om draaien. Leiders moeten verder kijken dan techniek en begrijpen hoe mens en machine optimaal kunnen samenwerken.</p>
+
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Essentiële Leiderschapscompetenties</h3>
+                <p class="mb-4">De integratie van AI vereist een nieuwe vorm van leiderschap. De volgende competenties zijn cruciaal:</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Strategische Visie:</strong> De langetermijnimpact overzien en een duidelijke, inspirerende toekomstvisie communiceren.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Ethisch Besef:</strong> Een cultuur van verantwoord AI-gebruik bevorderen, die verder gaat dan enkel compliance.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Adaptiviteit:</strong> Flexibel reageren op snelle veranderingen en een cultuur van experimenteren stimuleren.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Communicatie:</strong> Complexiteit helder en empathisch overbrengen om angst weg te nemen en vertrouwen te bouwen.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Technologische Affiniteit:</strong> Een basisbegrip hebben van GenAI om geïnformeerde beslissingen te nemen.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Empathie & Mensgerichtheid:</strong> De impact op medewerkers begrijpen en hen ondersteunen in de transitie.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Talentontwikkeling:</strong> Investeren in upskilling en reskilling om een AI-voorbereid personeelsbestand te creëren.</div>
+                    <div class="p-4 bg-gray-50 rounded-lg"><strong>Samenwerking:</strong> Cross-functionele samenwerking bevorderen en silo's doorbreken.</div>
+                </div>
+            </div>
+
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Drie Leiderschapsmindsets</h3>
+                <p class="mb-4">Voor een succesvolle GenAI-transformatie worden drie complementaire leiderschapsmindsets onderscheiden:</p>
+                <ul class="list-none space-y-3">
+                    <li class="flex items-start"><span class="text-emerald-500 font-bold mr-2">1. The Thinker (Strategic):</span> Begrijpt de langetermijnimplicaties en ontwikkelt een toekomstvisie.</li>
+                    <li class="flex items-start"><span class="text-emerald-500 font-bold mr-2">2. The Builder (Technical):</span> Beschikt over technische expertise en kan systemen realiseren en opschalen.</li>
+                    <li class="flex items-start"><span class="text-emerald-500 font-bold mr-2">3. The Value Creator (Champion):</span> Stelt de eindgebruiker centraal en zorgt voor concrete, tastbare waarde.</li>
+                </ul>
+            </div>
+            
+            <div class="card p-6">
+                 <h3 class="text-xl font-semibold text-gray-700 mb-3">De Rol van het Middenmanagement</h3>
+                 <p class="mb-2">Het middenkader speelt een cruciale, maar vaak onderschatte rol. Zij zijn de 'vertalers' tussen strategie en operatie.</p>
+                 <ul class="list-disc list-inside space-y-2 text-sm">
+                    <li>Zij vertalen de overkoepelende strategie naar concrete acties voor hun teams.</li>
+                    <li>Zij vertalen zorgen van de werkvloer terug naar het hoger management.</li>
+                    <li>Hun rol evolueert van controlerend naar faciliterend en coachend.</li>
+                    <li>Automatisering van taken geeft hen meer tijd voor people leadership: coachen, talentontwikkeling en teambuilding.</li>
+                 </ul>
+            </div>
+
+        </section>
+
+        <!-- Verandermodellen Sectie -->
+        <section id="verandermodellen" class="content-section hidden space-y-6">
+            <h2 class="text-2xl font-semibold text-emerald-600 mb-4 text-center">Verandermanagementmodellen voor GenAI</h2>
+            <p class="text-center mb-6 text-gray-700">Klassieke en moderne verandermodellen bieden theoretische kaders die toepasbaar zijn op GenAI-initiatieven. De keuze hangt af van de context, aard van de verandering en de uitdagingen.</p>
+            
+            <div class="accordion">
+                <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                    Kotter's 8-Stappenmodel
+                    <span class="transform transition-transform duration-300 ">▼</span>
+                </button>
+                <div class="accordion-content p-4 rounded-b-md hidden">
+                    <p class="font-semibold">Sterk voor GenAI:</p>
+                    <p class="text-sm mb-2">Biedt een gestructureerde, top-down aanpak die nuttig is voor grootschalige transformaties. De focus op visie en communicatie is cruciaal.</p>
+                    <p class="font-semibold">Aandachtspunt:</p>
+                    <p class="text-sm">Kan rigide zijn en heeft minder focus op individuele psychologische transitie of snelle iteratie.</p>
+                </div>
+            </div>
+            <div class="accordion mt-2">
+                <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                    ADKAR Model (Awareness, Desire, Knowledge, Ability, Reinforcement)
+                    <span class="transform transition-transform duration-300 ">▼</span>
+                </button>
+                <div class="accordion-content p-4 rounded-b-md hidden">
+                    <p class="font-semibold">Sterk voor GenAI:</p>
+                    <p class="text-sm mb-2">Heeft een sterke focus op de individuele verandering die medewerkers moeten doormaken. Zeer praktisch en resultaatgericht om mensen vaardig te maken (Knowledge, Ability).</p>
+                    <p class="font-semibold">Aandachtspunt:</p>
+                    <p class="text-sm">Vereist een goede diagnose per individu/groep en heeft minder focus op organisatiebrede, systemische veranderingen.</p>
+                </div>
+            </div>
+            <div class="accordion mt-2">
+                <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                    Bridges' Transition Model (Endings, Neutral Zone, New Beginnings)
+                    <span class="transform transition-transform duration-300 ">▼</span>
+                </button>
+                <div class="accordion-content p-4 rounded-b-md hidden">
+                    <p class="font-semibold">Sterk voor GenAI:</p>
+                    <p class="text-sm mb-2">Focust op de psychologische processen van individuen. Zeer relevant voor het begeleiden van medewerkers door de onzekerheid ('neutral zone') die de introductie van een disruptieve technologie als GenAI met zich meebrengt.</p>
+                    <p class="font-semibold">Aandachtspunt:</p>
+                    <p class="text-sm">Is minder een complete organisatorische strategie en meer een aanvulling op andere modellen om de menselijke kant te managen.</p>
+                </div>
+            </div>
+             <div class="accordion mt-2">
+                <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">
+                    HNT CM Model (Healthcare Novel Technology Change Management)
+                    <span class="transform transition-transform duration-300 ">▼</span>
+                </button>
+                <div class="accordion-content p-4 rounded-b-md hidden">
+                    <p class="font-semibold">Sterk voor GenAI:</p>
+                    <p class="text-sm mb-2">Specifiek ontwikkeld voor de implementatie van nieuwe technologieën. De focus op een agile aanpak, proactief risicomanagement en het samenstellen van een expertteam is zeer relevant voor GenAI.</p>
+                    <p class="font-semibold">Aandachtspunt:</p>
+                    <p class="text-sm">Hoewel ontwikkeld voor de zorg, zijn de principes breed toepasbaar.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Implementatie Sectie -->
+        <section id="implementatie" class="content-section hidden space-y-6">
+             <h2 class="text-2xl font-semibold text-emerald-600 mb-4 text-center">Kernaspecten van Implementatie</h2>
+             <p class="text-center mb-6 text-gray-700">Succesvolle implementatie vereist een holistische benadering die verder gaat dan alleen de technologie. Data, cultuur, vaardigheden en processen zijn fundamentele bouwstenen.</p>
+
+             <div class="grid md:grid-cols-2 gap-6">
+                <div class="card p-6">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">1. Datastrategie & Governance</h3>
+                    <p class="text-sm text-gray-600">Data is de levensader van GenAI. Investeren in robuuste datastructuren, -processen en -governance is een essentiële voorwaarde. Zonder kwalitatief hoogwaardige, accurate en onbevooroordeelde data, zal de output onbetrouwbaar zijn. Een solide datagovernance minimaliseert risico's en bouwt vertrouwen op.</p>
+                </div>
+                 <div class="card p-6">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">2. Organisatorische Gereedheid</h3>
+                    <p class="text-sm text-gray-600">Een cultuur die openstaat voor verandering, innovatie en leren is een vruchtbare bodem. Leiders moeten een "pro-AI" cultuur bevorderen. Voer een 'readiness assessment' uit om te bepalen waar de organisatie staat op het gebied van cultuur, vaardigheden en infrastructuur.</p>
+                </div>
+                 <div class="card p-6">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">3. Vaardigheden & Training (Upskilling)</h3>
+                    <p class="text-sm text-gray-600">De transitie vereist nieuwe vaardigheden. Upskilling en reskilling zijn cruciaal. Dit omvat technische training, maar ook bredere competenties zoals data-geletterdheid, kritisch denken en ethisch redeneren. Bevorder een cultuur van continu leren.</p>
+                </div>
+                 <div class="card p-6">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">4. Procesintegratie</h3>
+                    <p class="text-sm text-gray-600">Om de volledige waarde te ontsluiten, moet GenAI naadloos worden geïntegreerd in bedrijfsprocessen. Dit vereist vaak een fundamentele herinrichting. Voorkom de valkuil om GenAI slechts als een 'add-on' te zien. Een kritische evaluatie en herontwerp van kernprocessen is noodzakelijk.</p>
+                </div>
+             </div>
+        </section>
+        
+        <!-- Barrières Sectie -->
+        <section id="barrieres" class="content-section hidden space-y-6">
+            <h2 class="text-2xl font-semibold text-emerald-600 mb-4 text-center">Barrières en Mitigatiestrategieën</h2>
+            <p class="text-center mb-6 text-gray-700">De implementatie van GenAI kent diverse uitdagingen. Een proactieve identificatie en gerichte mitigatie zijn essentieel voor succes.</p>
+
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Barrières -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-red-600 mb-3">Veelvoorkomende Barrières</h3>
+                    <div class="accordion">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Technisch<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Slechte datakwaliteit, modelcomplexiteit ('black box'), en moeilijke integratie met legacy IT-systemen.</div>
+                    </div>
+                    <div class="accordion mt-2">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Organisatorisch<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Gebrek aan een duidelijke strategie, trage aanpassing van verandermanagement, en complexe, rigide processen.</div>
+                    </div>
+                    <div class="accordion mt-2">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Menselijk<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Weerstand tegen verandering door angst voor baanverlies, gebrek aan AI-vaardigheden, en zorgen over de 'menselijke maat'.</div>
+                    </div>
+                    <div class="accordion mt-2">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Ethisch & Regelgevend<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Algoritmische bias, privacyrisico's, gebrek aan transparantie, en het snel evoluerende landschap van regelgeving (EU AI Act).</div>
+                    </div>
+                </div>
+
+                <!-- Mitigatie -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-green-600 mb-3">Mitigatiestrategieën voor Leiders</h3>
+                    <p class="text-sm mb-3">Leiderschap is cruciaal in het proactief adresseren van deze uitdagingen:</p>
+                     <ul class="list-disc list-inside space-y-2 text-sm">
+                        <li><strong>Communiceer een heldere visie:</strong> Geef richting en mobiliseer medewerkers.</li>
+                        <li><strong>Investeer in datagovernance:</strong> Zorg voor datakwaliteit, -beveiliging en -privacy.</li>
+                        <li><strong>Bevorder een pro-AI cultuur:</strong> Stimuleer openheid voor verandering en experimenteren.</li>
+                        <li><strong>Investeer in upskilling:</strong> Rust medewerkers uit met de benodigde AI- en data-vaardigheden.</li>
+                        <li><strong>Adresseer angsten proactief:</strong> Communiceer open en eerlijk en betrek medewerkers.</li>
+                        <li><strong>Implementeer ethische kaders:</strong> Ga verder dan wettelijke minima en zorg voor transparantie.</li>
+                     </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kennischeck Sectie -->
+        <section id="quiz" class="content-section hidden space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-emerald-600 mb-4">Kennischeck: GenAI Verandermanagement</h2>
+                <div id="quiz-container" class="space-y-8">
+                    <!-- Vragen worden hier dynamisch ingeladen -->
+                </div>
+                <div id="quiz-navigation" class="mt-8 flex justify-between items-center">
+                    <button id="submit-quiz" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                        Controleer Antwoorden
+                    </button>
+                </div>
+                <div id="quiz-results" class="mt-6 hidden">
+                    <h3 id="score-title" class="text-xl font-semibold"></h3>
+                    <p id="score" class="my-2"></p>
+                    <div id="feedback" class="space-y-2"></div>
+                    <div id="post-quiz-nav" class="mt-6 flex flex-col sm:flex-row gap-4">
+                        <button onclick="startNewQuiz()" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                            Nieuwe Quiz Starten
+                        </button>
+                        <button onclick="showSection('implementatie')" class="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                            Terug naar Implementatie
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm">&copy; <span id="currentYear"></span> Jouw Organisatie - GenAI Change Initiative</p>
+            <p class="text-xs mt-1">Gebaseerd op literatuuroverzicht "Verandermanagement en de Facilitering door Leiderschap"</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Quiz Feedback -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" class="text-xl font-semibold mb-3"></h3>
+            <p id="modalMessage" class="mb-4"></p>
+            <button onclick="closeModal()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Sluiten
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA ---
+        const allQuestions = [
+            // Leiderschap
+            { question: "Welke leiderschapscompetentie is cruciaal voor het wegnemen van angst en het bouwen van vertrouwen tijdens een GenAI-transitie?", options: ["Technologische Affiniteit", "Communicatievaardigheden", "Strategische Visie", "Samenwerking & Integratie"], answer: "Communicatievaardigheden", explanation: "Heldere, transparante en empathische communicatie is essentieel om angst weg te nemen, vertrouwen op te bouwen en betrokkenheid te bevorderen." },
+            { question: "Welke van de drie leiderschapsmindsets focust primair op de technische realisatie en het opschalen van AI-systemen?", options: ["The Thinker (Strategic)", "The Builder (Technical)", "The Value Creator (Champion)", "The Manager (Operational)"], answer: "The Builder (Technical)", explanation: "'The Builder' beschikt over de technische expertise om engineeringteams aan te sturen en de AI-platformen te realiseren." },
+            { question: "Wat is de evoluerende rol van het middenmanagement in de context van GenAI-adoptie?", options: ["Zij worden overbodig door automatisering.", "Hun rol wordt puur administratief.", "Zij worden 'vertalers' tussen strategie en operatie, met een focus op coaching.", "Zij worden de belangrijkste technische experts."], answer: "Zij worden 'vertalers' tussen strategie en operatie, met een focus op coaching.", explanation: "Middenmanagers evolueren van controlerend naar faciliterend en coachend, en fungeren als een cruciale schakel tussen topmanagement en de werkvloer." },
+            { question: "Waarom wordt de introductie van een Chief Innovation and Transformation Officer (CITO) bepleit?", options: ["Om de IT-afdeling te vervangen.", "Omdat traditionele rollen (zoals CIO) vaak onvoldoende mandaat hebben voor de diepgaande culturele verandering.", "Om de kosten van de transformatie te verhogen.", "Om enkel de technologie te managen."], answer: "Omdat traditionele rollen (zoals CIO) vaak onvoldoende mandaat hebben voor de diepgaande culturele verandering.", explanation: "Een CITO is ontworpen om de complexe, organisatiebrede culturele en strategische aspecten van de transformatie te overzien, wat vaak buiten het mandaat van traditionele rollen valt." },
+            { question: "Welk kenmerk van transformationeel leiderschap is NIET expliciet genoemd als positief gecorreleerd met werktevredenheid tijdens AI-veranderingen?", options: ["Inspirerende motivatie", "Geïdealiseerde invloed", "Autoritair gezag", "Intellectuele stimulatie"], answer: "Autoritair gezag", explanation: "Transformationeel leiderschap richt zich op inspiratie, als rolmodel fungeren, individuele aandacht en intellectuele stimulatie, niet op autoritair gezag." },
+            
+            // Verandermodellen
+            { question: "Welk verandermodel legt de focus specifiek op de individuele verandering die medewerkers moeten doormaken (Awareness, Desire, etc.)?", options: ["Kotter's 8-stappenmodel", "Lewin's 3-fasenmodel", "ADKAR Model", "McKinsey 7-S Model"], answer: "ADKAR Model", explanation: "Het ADKAR-model is gericht op de individuele transitie en de vijf bouwstenen die een persoon nodig heeft om succesvol te veranderen." },
+            { question: "Voor welk aspect van een GenAI-implementatie is het Bridges' Transition Model (Endings, Neutral Zone, New Beginnings) bijzonder relevant?", options: ["Het opstellen van een projectplan.", "Het begeleiden van de psychologische transitie en onzekerheid van medewerkers.", "Het selecteren van de juiste technologie.", "Het meten van de financiële ROI."], answer: "Het begeleiden van de psychologische transitie en onzekerheid van medewerkers.", explanation: "Dit model focust op het psychologische proces dat mensen doormaken, met name de 'neutral zone' van onzekerheid, wat zeer relevant is bij disruptieve technologie." },
+            { question: "Wat is een sterk punt van het HNT CM Model voor GenAI-implementaties?", options: ["Het is het oudste en meest bekende model.", "Het is specifiek ontworpen voor nieuwe technologie en heeft een agile focus.", "Het focust uitsluitend op de financiële aspecten.", "Het vereist geen leiderschapsbetrokkenheid."], answer: "Het is specifiek ontworpen voor nieuwe technologie en heeft een agile focus.", explanation: "Het HNT CM Model is ontwikkeld voor de implementatie van nieuwe technologieën en benadrukt een agile aanpak, wat goed past bij de iteratieve aard van GenAI-projecten." },
+
+            // Implementatie
+            { question: "Wat is de 'levensader' van elk AI-systeem en daarmee een kritische succesfactor voor GenAI?", options: ["De snelheid van de computers.", "De hoeveelheid budget.", "De kwaliteit, toegankelijkheid en het beheer van data.", "Het aantal medewerkers in het projectteam."], answer: "De kwaliteit, toegankelijkheid en het beheer van data.", explanation: "Data vormt de absolute basis voor GenAI. Zonder hoogwaardige data zal het systeem niet effectief en betrouwbaar functioneren." },
+            { question: "Wat wordt bedoeld met een 'organisational readiness assessment'?", options: ["Een test van de GenAI-software.", "Een evaluatie van de huidige capaciteiten, cultuur en vaardigheden om risico's te identificeren.", "Een enquête over medewerkerstevredenheid.", "Een financieel plan voor de implementatie."], answer: "Een evaluatie van de huidige capaciteiten, cultuur en vaardigheden om risico's te identificeren.", explanation: "Een gereedheidsbeoordeling analyseert of de organisatie klaar is voor de verandering door te kijken naar o.a. cultuur, vaardigheden en infrastructuur." },
+            { question: "Waarom is het herontwerpen van processen vaak nodig bij GenAI-implementatie?", options: ["Omdat de oude processen te snel waren.", "Om de transformatieve potentie van GenAI ten volle te benutten en niet enkel als 'add-on' te gebruiken.", "Om meer managementlagen toe te voegen.", "Omdat de wet dit altijd verplicht."], answer: "Om de transformatieve potentie van GenAI ten volle te benutten en niet enkel als 'add-on' te gebruiken.", explanation: "Het simpelweg 'inpluggen' van GenAI in een verouderd proces levert suboptimale resultaten op. Herontwerp is nodig om de ware kracht te ontsluiten." },
+            { question: "Welke vaardigheid valt onder 'AI-geletterdheid'?", options: ["Het kunnen schrijven van complexe AI-code.", "Het begrijpen van de basisprincipes, mogelijkheden en beperkingen van AI.", "Het kunnen repareren van de hardware waarop AI draait.", "Het ontwerpen van marketingcampagnes."], answer: "Het begrijpen van de basisprincipes, mogelijkheden en beperkingen van AI.", explanation: "AI-geletterdheid gaat over het conceptuele begrip van AI, zodat medewerkers de technologie en de output ervan kritisch kunnen evalueren en effectief kunnen gebruiken." },
+            
+            // Barrières
+            { question: "Welke van de volgende is een typische 'menselijke' barrière bij GenAI-adoptie?", options: ["Gebrek aan computationele resources.", "Slechte datakwaliteit.", "Weerstand tegen verandering door angst voor baanverlies.", "Onvoldoende datagovernance-structuren."], answer: "Weerstand tegen verandering door angst voor baanverlies.", explanation: "Angst voor baanverlies, verlies van controle en onzekerheid zijn fundamentele menselijke reacties die weerstand kunnen veroorzaken." },
+            { question: "Het 'black box' effect van sommige GenAI-modellen is een voorbeeld van welke categorie barrière?", options: ["Menselijk", "Organisatorisch", "Ethisch & Regelgevend", "Technisch"], answer: "Technisch", explanation: "De complexiteit en het gebrek aan interpreteerbaarheid ('black box') van de modellen zelf is een technische uitdaging bij implementatie en onderhoud." },
+            { question: "Wat is een belangrijke organisatorische barrière voor succesvolle GenAI-adoptie?", options: ["De hoge kosten van softwarelicenties.", "Een gebrek aan een duidelijke, goed gecommuniceerde strategie en visie.", "De aanwezigheid van te veel data.", "Te veel enthousiasme op de werkvloer."], answer: "Een gebrek aan een duidelijke, goed gecommuniceerde strategie en visie.", explanation: "Zonder een duidelijke strategie ontbreekt het aan richting, wat leidt tot gefragmenteerde inspanningen en verspilde middelen." },
+            { question: "Hoe kan leiderschap de barrière van 'algoritmische bias' proactief aanpakken?", options: ["Door de bias te negeren.", "Door enkel data te gebruiken van één specifieke bron.", "Door ethische kaders op te stellen en te testen op bias.", "Door de verantwoordelijkheid volledig bij de IT-afdeling te leggen."], answer: "Door ethische kaders op te stellen en te testen op bias.", explanation: "Een proactieve mitigatiestrategie omvat het implementeren van ethische raamwerken, het uitvoeren van risico-assessments op bias en het zorgen voor diversiteit in data en teams." },
+            
+            // Gemengd
+            { question: "De ongeschreven verwachtingen tussen werknemer en werkgever worden het ... genoemd.", options: ["Arbeidscontract", "Functioneringsgesprek", "Psychologisch contract", "Bedrijfsreglement"], answer: "Psychologisch contract", explanation: "Het psychologisch contract omvat de ongeschreven verwachtingen. GenAI kan dit contract verstoren door veranderingen in werkzekerheid en rollen." },
+            { question: "Ethisch leiderschap bij GenAI-adoptie wordt gezien als...", options: ["Een noodzakelijk kwaad dat de adoptie vertraagt.", "Een strategisch instrument dat vertrouwen bouwt en adoptie faciliteert.", "Iets dat alleen relevant is voor de juridische afdeling.", "Een optionele activiteit voor na de implementatie."], answer: "Een strategisch instrument dat vertrouwen bouwt en adoptie faciliteert.", explanation: "Door ethische zorgen proactief te adresseren, bouwt leiderschap vertrouwen op, vermindert het angst en faciliteert het zo een hogere adoptiegraad." },
+            { question: "Wat is GEEN aanbeveling voor leiders in de GenAI-transitie?", options: ["Stel een duidelijke visie op.", "Investeer in 'Change Leadership'.", "Prioriteer de menselijke factor.", "Start direct met een grootschalige, organisatiebrede uitrol zonder pilots."], answer: "Start direct met een grootschalige, organisatiebrede uitrol zonder pilots.", explanation: "De aanbeveling is juist om doelgericht te beginnen met pilots om snel te leren en de aanpak te verfijnen alvorens op te schalen." },
+            { question: "De neiging om GenAI enkel te gebruiken voor marginale verbeteringen i.p.v. fundamentele procestransformatie heet de...", options: ["Innovatieparadox", "Automatiseringparadox", "Procesoptimalisatie-paradox", "Managementparadox"], answer: "Procesoptimalisatie-paradox", explanation: "De procesoptimalisatie-paradox beschrijft hoe de integratie van GenAI in bestaande processen een barrière kan vormen voor de fundamentele transformatie die de technologie mogelijk maakt." },
+             { question: "Welke van de volgende is GEEN fase in het Bridges' Transition Model?", options: ["Endings", "Neutral Zone", "Refreezing", "New Beginnings"], answer: "Refreezing", explanation: "'Refreezing' is een fase uit het model van Lewin. Het model van Bridges bestaat uit Endings, Neutral Zone en New Beginnings." },
+            { question: "Waarom is een 'pro-AI' cultuur belangrijk?", options: ["Omdat medewerkers dan geen vragen meer stellen.", "Omdat het helpt weerstand te overwinnen en de voordelen te maximaliseren.", "Omdat het de noodzaak voor een datastrategie wegneemt.", "Omdat de software dan goedkoper wordt."], answer: "Omdat het helpt weerstand te overwinnen en de voordelen te maximaliseren.", explanation: "Een cultuur waarin medewerkers de potentie van AI zien en bereid zijn nieuwe werkwijzen te adopteren, is essentieel voor succes." },
+            { question: "Wat is een van de belangrijkste taken van een middenmanager als 'people leader' in het GenAI-tijdperk?", options: ["Het schrijven van code.", "Het uitvoeren van administratieve taken.", "Coachen en talentontwikkeling.", "Het controleren van de urenregistratie."], answer: "Coachen en talentontwikkeling.", explanation: "Door automatisering van routinetaken, kunnen middenmanagers meer tijd besteden aan waardecreërend people leadership, zoals coachen en talentontwikkeling." },
+            { question: "Wat is een belangrijke reden dat traditionele veranderingsprocessen mogelijk niet adequaat zijn voor GenAI?", options: ["Ze zijn te duur.", "Ze zijn te veel gericht op de menselijke kant.", "De extreem hoge snelheid van GenAI-ontwikkelingen.", "Ze vereisen te veel leiderschap."], answer: "De extreem hoge snelheid van GenAI-ontwikkelingen.", explanation: "De snelheid waarmee GenAI evolueert, stelt hoge eisen aan het aanpassingsvermogen en maakt traditionele, vaak langzamere, processen minder geschikt." },
+            { question: "Het risico dat GenAI bestaande maatschappelijke vooroordelen versterkt heet...", options: ["Datacomplexiteit", "Algoritmische bias", "IT-integratieprobleem", "Hallucinatie"], answer: "Algoritmische bias", explanation: "Algoritmische bias is het risico dat een AI-model vooroordelen uit de trainingsdata overneemt en versterkt, wat leidt tot oneerlijke uitkomsten." }
+        ];
+
+        let currentQuizQuestions = [];
+        let firstAttempt = true;
+
+        // --- CORE FUNCTIONS ---
+        const sections = document.querySelectorAll('.content-section');
+        const navButtons = document.querySelectorAll('.nav-button');
+
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.toggle('hidden', section.id !== sectionId);
+            });
+            navButtons.forEach(button => {
+                const buttonText = button.textContent.toLowerCase();
+                const isActive = sectionId.startsWith(buttonText.substring(0, 4)) || (sectionId === 'quiz' && buttonText === 'kennischeck');
+                button.classList.toggle('active', isActive);
+            });
+            if (sectionId === 'intro') {
+                navButtons[0].classList.add('active');
+            }
+        }
+        
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('span');
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        const quizContainer = document.getElementById('quiz-container');
+        const submitButton = document.getElementById('submit-quiz');
+        const resultsContainer = document.getElementById('quiz-results');
+        const scoreElement = document.getElementById('score');
+        const scoreTitleElement = document.getElementById('score-title');
+        const feedbackElement = document.getElementById('feedback');
+
+        function startNewQuiz() {
+            const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+            currentQuizQuestions = shuffled.slice(0, 5);
+            firstAttempt = true;
+            
+            loadQuiz();
+            
+            resultsContainer.classList.add('hidden');
+            submitButton.classList.remove('hidden');
+            submitButton.disabled = false;
+            
+            showSection('quiz');
+        }
+
+        function loadQuiz() {
+            quizContainer.innerHTML = '';
+            currentQuizQuestions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'mb-6 p-4 border border-gray-300 rounded-lg bg-white';
+                let optionsHTML = q.options.map(option => `
+                    <label class="block quiz-option p-3 my-1 border border-gray-200 rounded-md cursor-pointer hover:bg-green-50">
+                        <input type="radio" name="question${index}" value="${option}" class="mr-2">
+                        ${option}
+                    </label>
+                `).join('');
+                
+                questionElement.innerHTML = `
+                    <p class="font-semibold text-md mb-3">${index + 1}. ${q.question}</p>
+                    <div class="space-y-2">${optionsHTML}</div>
+                `;
+                quizContainer.appendChild(questionElement);
+            });
+        }
+        
+        submitButton.addEventListener('click', () => {
+            if (!firstAttempt) return;
+
+            let score = 0;
+            feedbackElement.innerHTML = ''; 
+            resultsContainer.classList.remove('hidden');
+
+            currentQuizQuestions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                const questionFeedback = document.createElement('div');
+                questionFeedback.className = 'p-3 rounded-md mb-2';
+
+                if (selectedOption) {
+                    if (selectedOption.value === q.answer) {
+                        score++;
+                        questionFeedback.className += ' bg-green-100 border-green-500 text-green-800 border-l-4';
+                        questionFeedback.innerHTML = `<p><strong>Vraag ${index + 1}: Goed!</strong></p>`;
+                    } else {
+                        questionFeedback.className += ' bg-red-100 border-red-500 text-red-800 border-l-4';
+                        questionFeedback.innerHTML = `
+                            <p><strong>Vraag ${index + 1}: Fout.</strong></p>
+                            <p class="text-sm">Het juiste antwoord is: "<strong>${q.answer}</strong>"</p>
+                            <p class="text-xs mt-1"><em>Uitleg: ${q.explanation}</em></p>
+                        `;
+                    }
+                } else {
+                    questionFeedback.className += ' bg-yellow-100 border-yellow-500 text-yellow-800 border-l-4';
+                    questionFeedback.innerHTML = `
+                        <p><strong>Vraag ${index + 1}: Niet beantwoord.</strong></p>
+                        <p class="text-sm">Het juiste antwoord is: "<strong>${q.answer}</strong>"</p>
+                        <p class="text-xs mt-1"><em>Uitleg: ${q.explanation}</em></p>
+                    `;
+                }
+                feedbackElement.appendChild(questionFeedback);
+            });
+            
+            submitButton.disabled = true;
+            firstAttempt = false;
+
+            scoreTitleElement.textContent = "Resultaten van uw eerste poging:";
+            scoreElement.textContent = `U heeft ${score} van de ${currentQuizQuestions.length} vragen correct beantwoord.`;
+            
+            showModal(
+                score === currentQuizQuestions.length ? "Fantastisch!" : (score >= Math.floor(currentQuizQuestions.length * 0.7) ? "Goed gedaan!" : "Nog even oefenen"),
+                `U had ${score} van de ${currentQuizQuestions.length} vragen correct in uw eerste poging.`
+            );
+            feedbackElement.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        showSection('intro');
+
+    </script>
+</body>
+</html>
