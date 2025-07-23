@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metacognitie voor GenAI App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f5; /* Zinc 100 */
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        .accordion-button {
+            background-color: #e4e4e7; /* Zinc 200 */
+            color: #18181b; /* Zinc 900 */
+            font-weight: 600;
+        }
+        .accordion-button:hover {
+            background-color: #d4d4d8; /* Zinc 300 */
+        }
+        .accordion-content {
+            background-color: #fafafa; /* Zinc 50 */
+            border: 1px solid #e4e4e7;
+            border-top: none;
+        }
+        .nav-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-button.active {
+            background-color: #8b5cf6; /* Violet 500 */
+            color: white;
+        }
+        .nav-button:not(.active):hover {
+            background-color: #ede9fe; /* Violet 100 */
+        }
+        .quiz-option:hover {
+            background-color: #f5f3ff; /* Violet 50 */
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 0.5rem;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-violet-600 to-indigo-700 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h1 class="text-4xl font-bold">Metacognitie & GenAI</h1>
+            <p class="mt-2 text-lg opacity-90">De kunst van het denken over denken in het AI-tijdperk</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-center flex-wrap gap-2">
+            <button onclick="showSection('intro')" class="nav-button active px-3 py-2 rounded-md text-sm font-medium">Introductie</button>
+            <button onclick="showSection('metacognitie')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Wat is het?</button>
+            <button onclick="showSection('cyclus')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">De Cyclus</button>
+            <button onclick="showSection('uitdagingen')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Uitdagingen</button>
+            <button onclick="showSection('ontwikkelen')" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Ontwikkelen</button>
+            <button onclick="startNewQuiz()" class="nav-button px-3 py-2 rounded-md text-sm font-medium">Kennischeck</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 sm:p-6">
+        <!-- Introductie Sectie -->
+        <section id="intro" class="content-section space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-violet-600 mb-4">De Essentiële Rol van Metacognitie</h2>
+                <p class="mb-4">Effectief werken met Generatieve AI vereist meer dan passieve consumptie. De automatisering van basistaken door AI verhoogt juist de vraag naar geavanceerde menselijke denkvaardigheden. GenAI is geen instrument, maar een "cognitieve partner".</p>
+                <p class="mb-4">Deze samenwerking stelt hoge eisen aan de gebruiker. De vrijgekomen denkkracht moet geïnvesteerd worden in het plannen van de interactie, het monitoren van het proces, en het kritisch evalueren van de output. Dit zijn de kernaspecten van <strong>metacognitie</strong>.</p>
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md" role="alert">
+                    <p class="font-bold">Kerninzicht:</p>
+                    <p>Metacognitie - het denken over je eigen denken - is de fundamentele competentie om de complexiteit van GenAI te navigeren, het potentieel te maximaliseren en de valkuilen te vermijden.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wat is Metacognitie Sectie -->
+        <section id="metacognitie" class="content-section hidden space-y-6">
+            <h2 class="text-2xl font-semibold text-violet-600 mb-4 text-center">Wat is Metacognitie?</h2>
+            <p class="text-center mb-6 text-gray-700">Metacognitie is het vermogen om na te denken over hoe je denkt, leert en problemen oplost. Het bestaat uit twee hoofdcomponenten die continu met elkaar interacteren.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">1. Kennis over Cognitie</h3>
+                    <p class="text-sm text-gray-600 mb-4">Het bewustzijn van je eigen cognitieve capaciteiten en processen.</p>
+                    <div class="accordion">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Persoonsvariabelen<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Kennis over je eigen sterke en zwakke punten als lerende (bv. "Ik leer beter visueel").</div>
+                    </div>
+                    <div class="accordion mt-2">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Taakvariabelen<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Kennis over de aard van een taak en wat deze van je vraagt (bv. "Samenvatten vereist andere vaardigheden dan brainstormen").</div>
+                    </div>
+                    <div class="accordion mt-2">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Strategievariabelen<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Kennis over verschillende denk- en leerstrategieën en wanneer je deze moet toepassen (bv. "Voor deze taak moet ik eerst een plan maken").</div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">2. Regulatie van Cognitie</h3>
+                    <p class="text-sm text-gray-600 mb-4">De vaardigheden om je eigen denkprocessen actief te sturen en te controleren.</p>
+                     <div class="accordion">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Planning<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Doelen formuleren, strategieën selecteren en middelen toewijzen vóórdat je aan een taak begint.</div>
+                    </div>
+                    <div class="accordion mt-2">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Monitoring<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Tijdens de taak je eigen begrip en voortgang volgen en controleren of je strategie effectief is.</div>
+                    </div>
+                    <div class="accordion mt-2">
+                        <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Evaluatie / Reflectie<span class="transform transition-transform duration-300 ">▼</span></button>
+                        <div class="accordion-content p-4 rounded-b-md hidden text-sm">Na afloop de resultaten en de effectiviteit van je aanpak beoordelen en reflecteren op wat beter kan. Dit leidt tot zelfcorrectie.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- De Cyclus Sectie -->
+        <section id="cyclus" class="content-section hidden space-y-6">
+            <h2 class="text-2xl font-semibold text-violet-600 mb-4 text-center">De "Prompt-Monitor-Evaluate" Cyclus</h2>
+            <p class="text-center mb-6 text-gray-700">Effectief werken met GenAI is geen lineair proces, maar een dynamische en iteratieve cyclus waarin je continu plant, de interactie stuurt en de output evalueert.</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">1. De Planfase</h3>
+                    <p class="text-sm font-semibold mb-2">Doelgericht Prompts Formuleren</p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                        <li><strong>Doelen Bepalen:</strong> Formuleer expliciet wat je wilt bereiken. Deel complexe taken op in kleinere, behapbare deeltaken.</li>
+                        <li><strong>Prompt Engineering:</strong> Ontwerp en verfijn je instructies (prompts). Dit is een iteratief proces van formuleren, testen en aanpassen.</li>
+                        <li><strong>Zelfbewustzijn:</strong> Wees je bewust van je eigen kennisniveau, je aannames en wat voor soort output je precies nodig hebt.</li>
+                    </ul>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">2. De Monitorfase</h3>
+                     <p class="text-sm font-semibold mb-2">Actief de Interactie Sturen</p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                        <li><strong>Voortgang Monitoren:</strong> Controleer continu of je de output begrijpt en of de AI de taak naar wens uitvoert. Vraag de AI om uitleg.</li>
+                        <li><strong>Effectiviteit Evalueren:</strong> Werkt je prompt-strategie? Ligt een slecht resultaat aan de prompt, het model, of de taak?</li>
+                        <li><strong>Flexibiliteit Tonen:</strong> Herken wanneer je aanpak niet werkt en pas je strategie aan. Dit vereist cognitieve flexibiliteit.</li>
+                    </ul>
+                </div>
+                 <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">3. De Evaluatiefase</h3>
+                    <p class="text-sm font-semibold mb-2">Kritisch Beoordelen & Reflecteren</p>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                        <li><strong>Kwaliteit Beoordelen:</strong> Accepteer output nooit klakkeloos. Gebruik methodes (zoals SIFT) om de accuraatheid, relevantie en bias te beoordelen.</li>
+                        <li><strong>Verificatie & Fact-checking:</strong> Controleer feitelijke claims en bronnen rigoureus via betrouwbare externe bronnen om "hallucinaties" te voorkomen.</li>
+                        <li><strong>Reflecteren & Corrigeren:</strong> Denk na over het proces. Wat ging goed, wat kan beter? Gebruik feedback (ook van de AI zelf) om je werk en begrip te verbeteren.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Uitdagingen Sectie -->
+        <section id="uitdagingen" class="content-section hidden space-y-6">
+             <h2 class="text-2xl font-semibold text-violet-600 mb-4 text-center">Metacognitie als Kompas bij Uitdagingen</h2>
+             <p class="text-center mb-6 text-gray-700">Metacognitieve vaardigheden helpen je navigeren door de specifieke uitdagingen van GenAI.</p>
+
+            <div class="accordion">
+                <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Navigeren door Bias (Eigen & AI)<span class="transform transition-transform duration-300 ">▼</span></button>
+                <div class="accordion-content p-4 rounded-b-md hidden text-sm space-y-2">
+                    <p><strong>De Uitdaging:</strong> Je moet zowel de potentiële bias in de AI (die maatschappelijke vooroordelen kan versterken) als je eigen cognitieve biases (zoals <em>confirmation bias</em>) herkennen.</p>
+                    <p><strong>Metacognitieve Strategie:</strong> Wees je bewust van je eigen aannames. Zoek actief naar diverse perspectieven die je overtuigingen tegenspreken. Vergelijk AI-output altijd met geverifieerde, externe bronnen.</p>
+                </div>
+            </div>
+            <div class="accordion mt-2">
+                <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Voorkomen van Cognitieve Passiviteit<span class="transform transition-transform duration-300 ">▼</span></button>
+                <div class="accordion-content p-4 rounded-b-md hidden text-sm space-y-2">
+                    <p><strong>De Uitdaging:</strong> GenAI produceert vaak zeer overtuigende, vloeiende output, zelfs als deze onjuist is ("hallucinaties"). Dit verleidt tot "lui denken" of "cognitive offloading".</p>
+                    <p><strong>Metacognitieve Strategie:</strong> Blijf altijd kritisch denken. Beoordeel de validiteit van argumenten en blijf zelfstandig informatie zoeken en formuleren om je eigen denkvermogen te trainen en te onderhouden.</p>
+                </div>
+            </div>
+            <div class="accordion mt-2">
+                <button class="accordion-button w-full text-left px-4 py-3 rounded-t-md flex justify-between items-center">Omgaan met de "Black Box"<span class="transform transition-transform duration-300 ">▼</span></button>
+                <div class="accordion-content p-4 rounded-b-md hidden text-sm space-y-2">
+                    <p><strong>De Uitdaging:</strong> De interne werking van veel AI-modellen is ondoorzichtig. Je kunt niet zien 'hoe' de AI tot een antwoord komt.</p>
+                    <p><strong>Metacognitieve Strategie:</strong> Omdat het proces onduidelijk is, verschuift de volledige verantwoordelijkheid naar de gebruiker. De focus moet liggen op rigoureuze validatie van de *output*. Leer omgaan met de onzekerheid die de probabilistische aard van GenAI met zich meebrengt.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Ontwikkelen Sectie -->
+        <section id="ontwikkelen" class="content-section hidden space-y-6">
+            <h2 class="text-2xl font-semibold text-violet-600 mb-4 text-center">Het Ontwikkelen van Metacognitieve Expertise</h2>
+             <p class="text-center mb-6 text-gray-700">Deze vaardigheden vereisen bewuste training en ondersteuning. Hier zijn enkele effectieve benaderingen en interventies.</p>
+             <div class="grid md:grid-cols-2 gap-6">
+                <div class="card p-6">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">Educatieve Benaderingen</h3>
+                     <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                        <li><strong>Metacognitive Scaffolding:</strong> Het bieden van tijdelijke, gestructureerde ondersteuning (zoals checklists of gerichte vragen) om gebruikers te helpen bij het plannen, monitoren en evalueren.</li>
+                        <li><strong>Expliciete Instructie:</strong> Het direct onderwijzen van wat metacognitieve vaardigheden zijn, waarom ze belangrijk zijn, en hoe je ze toepast in de context van AI.</li>
+                        <li><strong>Reflectie-opdrachten:</strong> Systematisch laten reflecteren op het gebruik van AI, de processen, de inzichten en de ethische aspecten.</li>
+                     </ul>
+                </div>
+                 <div class="card p-6">
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">Praktische Tools & Technieken</h3>
+                     <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                        <li><strong>Bias-bewustzijnstools (bv. DeBiasMe):</strong> Interventies die specifiek ontworpen zijn om bewustzijn van eigen en AI-bias te vergroten.</li>
+                        <li><strong>Fact-check opdrachten:</strong> Geef gebruikers de taak om AI-gegenereerde output actief te controleren en te verifiëren.</li>
+                        <li><strong>Peer Feedback:</strong> Laat gebruikers samenwerken om AI-output te evalueren, bediscussiëren en te verbeteren.</li>
+                        <li><strong>Ethische reflectie:</strong> Stimuleer discussie over de betrouwbaarheid, privacy-implicaties en maatschappelijke impact van AI-gebruik.</li>
+                     </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kennischeck Sectie -->
+        <section id="quiz" class="content-section hidden space-y-6">
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-violet-600 mb-4">Kennischeck: Metacognitie & GenAI</h2>
+                <div id="quiz-container" class="space-y-8">
+                    <!-- Vragen worden hier dynamisch ingeladen -->
+                </div>
+                <div id="quiz-navigation" class="mt-8 flex justify-between items-center">
+                    <button id="submit-quiz" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                        Controleer Antwoorden
+                    </button>
+                </div>
+                <div id="quiz-results" class="mt-6 hidden">
+                    <h3 id="score-title" class="text-xl font-semibold"></h3>
+                    <p id="score" class="my-2"></p>
+                    <div id="feedback" class="space-y-2"></div>
+                    <div id="post-quiz-nav" class="mt-6 flex flex-col sm:flex-row gap-4">
+                        <button onclick="startNewQuiz()" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                            Nieuwe Quiz Starten
+                        </button>
+                        <button onclick="showSection('ontwikkelen')" class="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                            Terug naar Ontwikkelen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm">&copy; <span id="currentYear"></span> Jouw Organisatie - Metacognition & AI Initiative</p>
+            <p class="text-xs mt-1">Gebaseerd op "Essentiële Metacognitieve Vaardigheden voor Effectief Werken met Generatieve AI"</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Quiz Feedback -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" class="text-xl font-semibold mb-3"></h3>
+            <p id="modalMessage" class="mb-4"></p>
+            <button onclick="closeModal()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Sluiten
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA ---
+        const allQuestions = [
+            // Introductie
+            { question: "Waarom verhoogt de automatisering door GenAI juist de vraag naar hogere-orde denkvaardigheden?", options: ["Omdat de AI de gebruiker dwingt om sneller te werken.", "Omdat menselijke cognitieve capaciteit vrijkomt die geïnvesteerd moet worden in plannen, monitoren en evalueren.", "Omdat de AI zelf niet kan denken.", "Omdat de software moeilijk te bedienen is."], answer: "Omdat menselijke cognitieve capaciteit vrijkomt die geïnvesteerd moet worden in plannen, monitoren en evalueren.", explanation: "De automatisering van basistaken geeft de mens de ruimte en de noodzaak om zich te richten op metacognitieve taken zoals plannen, monitoren en evalueren." },
+            { question: "Hoe wordt de relatie tussen een gebruiker en GenAI in de introductie omschreven?", options: ["Als meester en slaaf.", "Als een gereedschap.", "Als een 'cognitieve partner'.", "Als een vervanging van de mens."], answer: "Als een 'cognitieve partner'.", explanation: "GenAI functioneert steeds meer als een partner in het denkproces, wat specifieke eisen stelt aan de competenties van de gebruiker." },
+            
+            // Wat is Metacognitie
+            { question: "Uit welke twee hoofdcomponenten bestaat metacognitie?", options: ["Kennis en Intelligentie", "Snelheid en Precisie", "Kennis over cognitie en Regulatie van cognitie", "Planning en Feedback"], answer: "Kennis over cognitie en Regulatie van cognitie", explanation: "Metacognitie omvat zowel de kennis over je eigen denkprocessen als het actief reguleren (sturen) van die processen." },
+            { question: "Weten dat je beter leert met visuele hulpmiddelen is een voorbeeld van welk type metacognitieve kennis?", options: ["Persoonsvariabelen", "Taakvariabelen", "Strategievariabelen", "Regulatievariabelen"], answer: "Persoonsvariabelen", explanation: "Dit is kennis over je eigen sterke en zwakke punten als lerende, wat onder persoonsvariabelen valt." },
+            { question: "Het na afloop van een taak beoordelen van de resultaten en de effectiviteit van de aanpak, is een voorbeeld van welke regulatieve vaardigheid?", options: ["Planning", "Monitoring", "Evaluatie / Reflectie", "Zelfbewustzijn"], answer: "Evaluatie / Reflectie", explanation: "Dit is de fase waarin je terugkijkt op het proces en de uitkomst om ervan te leren voor de toekomst." },
+
+            // De Cyclus
+            { question: "Wat is de eerste en meest cruciale stap in de 'Planfase' van de GenAI-interactiecyclus?", options: ["De snelste AI-tool selecteren.", "Een complex prompt direct invoeren.", "Een helder begrip hebben van wat je wilt bereiken en doelen formuleren.", "De output van de AI voorspellen."], answer: "Een helder begrip hebben van wat je wilt bereiken en doelen formuleren.", explanation: "Zonder een duidelijk doel is het onmogelijk om een effectieve prompt te formuleren en de output correct te beoordelen." },
+            { question: "Wat is 'cognitieve flexibiliteit' in de 'Monitorfase'?", options: ["Aan je oorspronkelijke plan vasthouden, ongeacht de output.", "Je eigen aanpak kunnen veranderen als blijkt dat een strategie niet effectief is.", "De AI meerdere taken tegelijk laten doen.", "Alleen werken met AI als je uitgerust bent."], answer: "Je eigen aanpak kunnen veranderen als blijkt dat een strategie niet effectief is.", explanation: "Cognitieve flexibiliteit is het vermogen om je strategie aan te passen wanneer de situatie (bv. de AI-output) daarom vraagt." },
+            { question: "Wat is een belangrijke activiteit in de 'Evaluatiefase' vanwege het risico op 'hallucinaties'?", options: ["De output direct kopiëren en plakken.", "De output beoordelen op schrijfstijl.", "Rigoureuze verificatie en fact-checking via betrouwbare externe bronnen.", "De AI vragen of de informatie klopt."], answer: "Rigoureuze verificatie en fact-checking via betrouwbare externe bronnen.", explanation: "Omdat GenAI feitelijk onjuiste informatie kan produceren, is het essentieel om alle feitelijke claims te controleren via betrouwbare externe bronnen." },
+            
+            // Uitdagingen
+            { question: "Wat is 'confirmation bias'?", options: ["De neiging van AI om antwoorden te bevestigen.", "De neiging van een gebruiker om informatie te zoeken die de eigen overtuigingen bevestigt.", "De bias die ontstaat door een foute dataset.", "De neiging om de eerste output van AI als de beste te zien."], answer: "De neiging van een gebruiker om informatie te zoeken die de eigen overtuigingen bevestigt.", explanation: "Confirmation bias is een menselijke cognitieve bias waarbij we onbewust op zoek gaan naar bevestiging van wat we al denken." },
+            { question: "Wat is het risico van 'cognitive offloading'?", options: ["De AI wordt er slimmer van.", "Het leidt op termijn tot een afname van het eigen kritisch denkvermogen.", "Het kost extra tijd en moeite.", "Het leidt tot betere en meer accurate resultaten."], answer: "Het leidt op termijn tot een afname van het eigen kritisch denkvermogen.", explanation: "Door complexe denkprocessen te veel aan de machine te delegeren, worden de eigen intellectuele vaardigheden minder getraind en kunnen deze afnemen." },
+            { question: "Wat betekent het 'black box' probleem van AI?", options: ["Dat de AI alleen 's nachts werkt.", "Dat de interne werking van de AI ondoorzichtig is, zelfs voor ontwikkelaars.", "Dat de AI altijd foute antwoorden geeft.", "Dat de AI gevoelig is voor virussen."], answer: "Dat de interne werking van de AI ondoorzichtig is, zelfs voor ontwikkelaars.", explanation: "De 'black box' verwijst naar het feit dat het besluitvormingsproces van de AI niet transparant of te doorgronden is." },
+            { question: "Welke van de volgende is een voorbeeld van 'stereotyping bias' in AI?", options: ["Een AI die sneller rekent dan een mens.", "Een AI die een neutraal nieuwsartikel samenvat.", "Een AI die bepaalde beroepen consistent associeert met één gender.", "Een AI die een spelfout corrigeert."], answer: "Een AI die bepaalde beroepen consistent associeert met één gender.", explanation: "Dit is een voorbeeld waarbij de AI schadelijke maatschappelijke stereotypen uit de trainingsdata overneemt en versterkt." },
+            
+            // Ontwikkelen
+            { question: "Wat is het doel van 'metacognitive scaffolding'?", options: ["Studenten permanent afhankelijk maken van de docent.", "Het bieden van tijdelijke, aangepaste ondersteuning om studenten te helpen plannen, monitoren en reguleren.", "De AI-software sneller maken.", "Het voorkomen dat studenten AI gebruiken."], answer: "Het bieden van tijdelijke, aangepaste ondersteuning om studenten te helpen plannen, monitoren en reguleren.", explanation: "Scaffolding is een tijdelijke hulpstructuur die wordt weggehaald zodra de lerende de vaardigheid zelfstandig beheerst." },
+            { question: "Wat is een belangrijke reden om studenten te laten reflecteren op de ethische implicaties van hun AI-gebruik?", options: ["Om hun schrijfvaardigheid te testen.", "Om het gebruik van AI te ontmoedigen.", "Omdat dit een integraal onderdeel is van verantwoord AI-gebruik en metacognitieve expertise.", "Omdat het een makkelijke opdracht is."], answer: "Omdat dit een integraal onderdeel is van verantwoord AI-gebruik en metacognitieve expertise.", explanation: "Het ontwikkelen van ethisch redeneervermogen is een cruciaal onderdeel van het leren werken met een krachtige technologie als GenAI." },
+            { question: "Wat is het effect van goed ontwikkelde zelfgereguleerde leervaardigheden (SRL) op het gebruik van GenAI?", options: ["Studenten met goede SRL-vaardigheden staan negatiever tegenover GenAI.", "SRL heeft geen invloed op het gebruik van GenAI.", "Studenten met goede SRL-vaardigheden staan meer open voor het productief integreren van GenAI.", "Het maakt studenten volledig afhankelijk van GenAI."], answer: "Studenten met goede SRL-vaardigheden staan meer open voor het productief integreren van GenAI.", explanation: "Studenten die hun eigen leerproces kunnen sturen (SRL) zijn beter in staat om innovatieve tools zoals GenAI effectief en productief te gebruiken." },
+            
+            // Gemengd
+            { question: "De vaardigheid om je eigen denkstrategie aan te passen aan veranderende eisen heet...", options: ["Zelfcorrectie", "Planning", "Cognitieve flexibiliteit", "Zelfmonitoring"], answer: "Cognitieve flexibiliteit", explanation: "Cognitieve flexibiliteit is het vermogen om te schakelen tussen verschillende denkwijzen of strategieën als de situatie daarom vraagt." },
+            { question: "Waarom is metacognitie een duurzamere vaardigheid dan specifieke tool-kennis in het AI-tijdperk?", options: ["Omdat tools nooit veranderen.", "Omdat specifieke tool-kennis snel kan verouderen, terwijl metacognitie helpt om te leren leren met nieuwe systemen.", "Omdat metacognitie makkelijker te leren is.", "Omdat tools geen metacognitie hebben."], answer: "Omdat specifieke tool-kennis snel kan verouderen, terwijl metacognitie helpt om te leren leren met nieuwe systemen.", explanation: "In een snel veranderend technologisch landschap is het vermogen om je aan te passen en nieuwe dingen te leren (een kern van metacognitie) waardevoller dan kennis van een specifieke tool die morgen verouderd kan zijn." },
+            { question: "De neiging om te sterk te leunen op de allereerste informatie die je krijgt, heet...", options: ["Confirmation Bias", "Stereotyping Bias", "Sample Bias", "Anchoring Bias"], answer: "Anchoring Bias", explanation: "Anchoring bias beschrijft de cognitieve neiging om te 'ankeren' aan het eerste stukje informatie, wat latere oordelen beïnvloedt." },
+            { question: "Het systematisch beoordelen van AI-output met een methode zoals SIFT (Stop, Investigate, Find, Trace) is een kernonderdeel van welke fase?", options: ["Planfase", "Monitorfase", "Evaluatiefase", "Reflectiefase"], answer: "Evaluatiefase", explanation: "De SIFT-methode is een concrete strategie voor de evaluatiefase, gericht op het systematisch beoordelen van de geloofwaardigheid en betrouwbaarheid van de output." },
+            { question: "Wat is GEEN component van metacognitieve KENNIS?", options: ["Kennis over persoonsvariabelen", "Kennis over taakvariabelen", "Het actief monitoren van je voortgang", "Kennis over strategievariabelen"], answer: "Het actief monitoren van je voortgang", explanation: "Het monitoren van voortgang is een actieve vaardigheid die valt onder de REGULATIE van cognitie, niet onder de KENNIS over cognitie." },
+            { question: "Welk risico wordt geassocieerd met 'processing fluency' van AI-output?", options: ["De output is vaak te kort en onvolledig.", "De output is overtuigend en vloeiend, waardoor gebruikers deze minder kritisch benaderen.", "De output wordt te langzaam gegenereerd.", "De output bevat altijd spelfouten."], answer: "De output is overtuigend en vloeiend, waardoor gebruikers deze minder kritisch benaderen.", explanation: "De overtuigingskracht van de vloeiende, samenhangende taal kan gebruikers misleiden en cognitieve passiviteit in de hand werken." },
+            { question: "Waarom verhoogt het 'black box' probleem de metacognitieve last voor de gebruiker?", options: ["Omdat de gebruiker de software zelf moet programmeren.", "Omdat de ondoorzichtige processen de volledige verantwoordelijkheid voor validatie bij de gebruiker leggen.", "Omdat de software duurder wordt.", "Omdat de AI de gebruiker constant om input vraagt."], answer: "Omdat de ondoorzichtige processen de volledige verantwoordelijkheid voor validatie bij de gebruiker leggen.", explanation: "Als je niet kunt zien HOE een antwoord tot stand komt, moet je extra rigoureus zijn in het valideren van WAT het antwoord is." },
+            { question: "De continue wisselwerking tussen metacognitieve kennis en regulatie wordt omschreven als een...", options: ["Lineair proces", "Statisch proces", "Afgerond proces", "Dynamisch en iteratief proces"], answer: "Dynamisch en iteratief proces", explanation: "Kennis informeert de regulatie, en de uitkomsten van regulatie leiden weer tot nieuwe kennis, in een voortdurende cyclus." },
+            { question: "Waarom is het belangrijk om te reflecteren op de ethische implicaties van AI-gebruik?", options: ["Het is een pragmatische noodzaak en een ethische imperatief.", "Het vertraagt het werkproces onnodig.", "Het is alleen belangrijk voor filosofen.", "Het is iets wat de AI zelf kan doen."], answer: "Het is een pragmatische noodzaak en een ethische imperatief.", explanation: "Het waarborgen van verantwoord gebruik is niet alleen praktisch slim om fouten te voorkomen, maar ook een ethische plicht gezien de impact van AI." },
+            { question: "Het opdelen van een complexe taak in kleinere, behapbare subdoelen is een strategie voor welke fase?", options: ["Monitorfase", "Evaluatiefase", "Planfase", "Feedbackfase"], answer: "Planfase", explanation: "Taakdecompositie is een klassieke planningsstrategie die helpt om een complexe uitdaging overzichtelijk te maken en te vertalen naar gerichte prompts." }
+        ];
+
+        let currentQuizQuestions = [];
+        let firstAttempt = true;
+
+        // --- CORE FUNCTIONS ---
+        const sections = document.querySelectorAll('.content-section');
+        const navButtons = document.querySelectorAll('.nav-button');
+
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.toggle('hidden', section.id !== sectionId);
+            });
+            navButtons.forEach(button => {
+                const buttonText = button.textContent.toLowerCase();
+                const isActive = sectionId.startsWith(buttonText.substring(0, 4)) || (sectionId === 'quiz' && buttonText === 'kennischeck') || (sectionId === 'metacognitie' && buttonText === 'wat is het?');
+                button.classList.toggle('active', isActive);
+            });
+            if (sectionId === 'intro') {
+                navButtons[0].classList.add('active');
+            }
+        }
+        
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('span');
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        const quizContainer = document.getElementById('quiz-container');
+        const submitButton = document.getElementById('submit-quiz');
+        const resultsContainer = document.getElementById('quiz-results');
+        const scoreElement = document.getElementById('score');
+        const scoreTitleElement = document.getElementById('score-title');
+        const feedbackElement = document.getElementById('feedback');
+
+        function startNewQuiz() {
+            const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+            currentQuizQuestions = shuffled.slice(0, 5);
+            firstAttempt = true;
+            
+            loadQuiz();
+            
+            resultsContainer.classList.add('hidden');
+            submitButton.classList.remove('hidden');
+            submitButton.disabled = false;
+            
+            showSection('quiz');
+        }
+
+        function loadQuiz() {
+            quizContainer.innerHTML = '';
+            currentQuizQuestions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'mb-6 p-4 border border-gray-300 rounded-lg bg-white';
+                let optionsHTML = q.options.map(option => `
+                    <label class="block quiz-option p-3 my-1 border border-gray-200 rounded-md cursor-pointer hover:bg-violet-50">
+                        <input type="radio" name="question${index}" value="${option}" class="mr-2">
+                        ${option}
+                    </label>
+                `).join('');
+                
+                questionElement.innerHTML = `
+                    <p class="font-semibold text-md mb-3">${index + 1}. ${q.question}</p>
+                    <div class="space-y-2">${optionsHTML}</div>
+                `;
+                quizContainer.appendChild(questionElement);
+            });
+        }
+        
+        submitButton.addEventListener('click', () => {
+            if (!firstAttempt) return;
+
+            let score = 0;
+            feedbackElement.innerHTML = ''; 
+            resultsContainer.classList.remove('hidden');
+
+            currentQuizQuestions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                const questionFeedback = document.createElement('div');
+                questionFeedback.className = 'p-3 rounded-md mb-2';
+
+                if (selectedOption) {
+                    if (selectedOption.value === q.answer) {
+                        score++;
+                        questionFeedback.className += ' bg-green-100 border-green-500 text-green-800 border-l-4';
+                        questionFeedback.innerHTML = `<p><strong>Vraag ${index + 1}: Goed!</strong></p>`;
+                    } else {
+                        questionFeedback.className += ' bg-red-100 border-red-500 text-red-800 border-l-4';
+                        questionFeedback.innerHTML = `
+                            <p><strong>Vraag ${index + 1}: Fout.</strong></p>
+                            <p class="text-sm">Het juiste antwoord is: "<strong>${q.answer}</strong>"</p>
+                            <p class="text-xs mt-1"><em>Uitleg: ${q.explanation}</em></p>
+                        `;
+                    }
+                } else {
+                    questionFeedback.className += ' bg-yellow-100 border-yellow-500 text-yellow-800 border-l-4';
+                    questionFeedback.innerHTML = `
+                        <p><strong>Vraag ${index + 1}: Niet beantwoord.</strong></p>
+                        <p class="text-sm">Het juiste antwoord is: "<strong>${q.answer}</strong>"</p>
+                        <p class="text-xs mt-1"><em>Uitleg: ${q.explanation}</em></p>
+                    `;
+                }
+                feedbackElement.appendChild(questionFeedback);
+            });
+            
+            submitButton.disabled = true;
+            firstAttempt = false;
+
+            scoreTitleElement.textContent = "Resultaten van uw eerste poging:";
+            scoreElement.textContent = `U heeft ${score} van de ${currentQuizQuestions.length} vragen correct beantwoord.`;
+            
+            showModal(
+                score === currentQuizQuestions.length ? "Fantastisch!" : (score >= Math.floor(currentQuizQuestions.length * 0.7) ? "Goed gedaan!" : "Nog even oefenen"),
+                `U had ${score} van de ${currentQuizQuestions.length} vragen correct in uw eerste poging.`
+            );
+            feedbackElement.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        showSection('intro');
+
+    </script>
+</body>
+</html>
