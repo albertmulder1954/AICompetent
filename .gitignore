@@ -1,0 +1,46 @@
+# WordPress Development Environment
+# Ignore WordPress core files
+wp-config.php
+wp-config-local.php
+
+# Ignore uploads and cache
+wp-content/uploads/
+wp-content/cache/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+
+# Ignore debug logs
+wp-content/debug.log
+*.log
+
+# Ignore database dumps
+*.sql
+*.sql.gz
+
+# Ignore Docker volumes
+db_data/
+
+# Ignore environment files
+.env.local
+.env.production
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore node modules if using build tools
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore composer files if using Composer
+vendor/
+composer.lock
