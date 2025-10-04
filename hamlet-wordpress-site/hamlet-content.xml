@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:wp="http://wordpress.org/export/1.2/">
+
+<channel>
+	<title>Hamlet Website</title>
+	<link>http://localhost/hamlet-wordpress-site</link>
+	<description>Een website gewijd aan Shakespeare's Hamlet</description>
+	<pubDate>Mon, 04 Oct 2024 12:00:00 +0000</pubDate>
+	<language>nl</language>
+	<wp:wxr_version>1.2</wp:wxr_version>
+
+	<item>
+		<title>Over Hamlet - Een Inleiding</title>
+		<link>http://localhost/hamlet-wordpress-site/over-hamlet/</link>
+		<pubDate>Mon, 04 Oct 2024 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://localhost/hamlet-wordpress-site/?page_id=2</guid>
+		<description></description>
+		<content:encoded><![CDATA[<h2>Hamlet: Een Tijdloos Meesterwerk</h2>
+
+<p>Hamlet, Prins van Denemarken, is een van de meest beroemde en invloedrijke toneelstukken ooit geschreven. William Shakespeare voltooide dit meesterwerk rond 1600-1601, en sindsdien heeft het generaties van lezers, theaterbezoekers en geleerden gefascineerd.</p>
+
+<div class="hamlet-quote">
+"To be, or not to be, that is the question"
+</div>
+
+<h3>Het Verhaal</h3>
+<p>Het verhaal draait om de jonge prins Hamlet van Denemarken, die ontdekt dat zijn vader, de koning, is vermoord door zijn oom Claudius. Claudius heeft niet alleen de troon gestolen, maar is ook getrouwd met Hamlet's moeder Gertrude. Hamlet wordt geconfronteerd met een geest die beweert zijn vader te zijn en hem opdraagt wraak te nemen.</p>
+
+<h3>De Complexiteit van Hamlet</h3>
+<p>Wat Hamlet zo bijzonder maakt, is de psychologische diepte van de hoofdpersoon. Hamlet worstelt niet alleen met wraak, maar ook met existentiële vragen over leven, dood, moraliteit en de betekenis van het bestaan. Zijn innerlijke conflicten maken hem tot een van de meest complexe personages in de literatuurgeschiedenis.</p>
+
+<h3>Belangrijke Thema's</h3>
+<ul>
+<li><strong>Wraak:</strong> Het centrale thema dat het hele stuk doordringt</li>
+<li><strong>Waanzin:</strong> Zowel gespeeld als mogelijk echt</li>
+<li><strong>Moraliteit:</strong> De strijd tussen goed en kwaad</li>
+<li><strong>Dood:</strong> De onvermijdelijkheid en betekenis van de dood</li>
+<li><strong>Betrouwbaarheid:</strong> Het verschil tussen schijn en werkelijkheid</li>
+<li><strong>Familie:</strong> Complexe familierelaties en loyaliteit</li>
+</ul>
+
+<h3>De Blijvende Invloed</h3>
+<p>Hamlet heeft een enorme invloed gehad op de westerse cultuur. Het stuk heeft talloze adaptaties, parodieën en verwijzingen geïnspireerd in literatuur, film, theater en zelfs populaire cultuur. Citaten uit Hamlet zijn zo bekend geworden dat ze deel uitmaken van ons dagelijks taalgebruik.</p>
+
+<p>Het stuk blijft relevant omdat het universele thema's behandelt die mensen van alle tijden en culturen aanspreken: de strijd met moraliteit, de complexiteit van menselijke relaties, en de zoektocht naar betekenis in een vaak onbegrijpelijke wereld.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>2</wp:post_id>
+		<wp:post_date>2024-10-04 12:00:00</wp:post_date>
+		<wp:post_date_gmt>2024-10-04 12:00:00</wp:post_date_gmt>
+		<wp:comment_status>closed</wp:comment_status>
+		<wp:ping_status>closed</wp:ping_status>
+		<wp:post_name>over-hamlet</wp:post_name>
+		<wp:status>publish</wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type>page</wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+	</item>
+
+	<item>
+		<title>De Hoofdpersonages van Hamlet</title>
+		<link>http://localhost/hamlet-wordpress-site/personages/</link>
+		<pubDate>Mon, 04 Oct 2024 12:30:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://localhost/hamlet-wordpress-site/?page_id=3</guid>
+		<description></description>
+		<content:encoded><![CDATA[<h2>De Personages van Hamlet</h2>
+
+<p>Shakespeare's Hamlet bevat een rijke cast van complexe personages, elk met hun eigen motieven, conflicten en ontwikkelingen. Hier is een overzicht van de belangrijkste personages:</p>
+
+<div class="character-card">
+<h3>Hamlet</h3>
+<p><strong>De Prins van Denemarken</strong></p>
+<p>Hamlet is de protagonist van het stuk - een melancholische, filosofische jongeman die worstelt met wraak, moraliteit en existentiële vragen. Hij is intelligent en scherpzinnig, maar wordt geplaagd door twijfel en innerlijke conflicten. Zijn karakterontwikkeling van een bedroefde zoon naar een man die actie onderneemt vormt de kern van het verhaal.</p>
+</div>
+
+<div class="character-card">
+<h3>Claudius</h3>
+<p><strong>De Koning van Denemarken</strong></p>
+<p>Claudius is Hamlet's oom en de antagonist van het stuk. Hij heeft zijn broer (Hamlet's vader) vermoord om de troon te verkrijgen en is getrouwd met Gertrude. Ondanks zijn misdaden toont hij ook menselijke kanten - hij lijdt onder schuldgevoelens en probeert zijn zonden te bidden.</p>
+</div>
+
+<div class="character-card">
+<h3>Gertrude</h3>
+<p><strong>De Koningin van Denemarken</strong></p>
+<p>Gertrude is Hamlet's moeder en Claudius' nieuwe vrouw. Ze is een complex personage - aan de ene kant lijkt ze naïef en onwetend over Claudius' misdaden, aan de andere kant kan ze ook worden gezien als medeplichtig. Haar snelle hertrouwen na de dood van haar eerste echtgenoot is een bron van conflicten met Hamlet.</p>
+</div>
+
+<div class="character-card">
+<h3>Ophelia</h3>
+<p><strong>Hamlet's Geliefde</strong></p>
+<p>Ophelia is de dochter van Polonius en Hamlet's geliefde. Ze is een tragisch personage dat wordt verscheurd tussen haar liefde voor Hamlet en haar loyaliteit aan haar familie. Haar waanzin en uiteindelijke dood vormen een van de meest ontroerende momenten van het stuk.</p>
+</div>
+
+<div class="character-card">
+<h3>Polonius</h3>
+<p><strong>De Hofmeester</strong></p>
+<p>Polonius is de vader van Ophelia en Laertes, en een adviseur van Claudius. Hij is een wijze maar soms bemoeizieke oude man die bekend staat om zijn lange, moralistische toespraken. Zijn dood door Hamlet's hand markeert een keerpunt in het stuk.</p>
+</div>
+
+<div class="character-card">
+<h3>Horatio</h3>
+<p><strong>Hamlet's Trouwe Vriend</strong></p>
+<p>Horatio is Hamlet's beste vriend en een van de weinige personages die Hamlet volledig vertrouwt. Hij is rationeel, loyaal en dient als een tegenwicht voor Hamlet's emotionele uitbarstingen. Hij overleeft het stuk en wordt belast met het vertellen van Hamlet's verhaal.</p>
+</div>
+
+<div class="character-card">
+<h3>Laertes</h3>
+<p><strong>Ophelia's Broer</strong></p>
+<p>Laertes is Polonius' zoon en Ophelia's broer. Hij is een impulsieve, eerzuchtige jongeman die naar Frankrijk vertrekt voor zijn opleiding. Wanneer hij terugkeert en ontdekt wat er is gebeurd met zijn familie, wordt hij een instrument van wraak voor Claudius.</p>
+</div>
+
+<div class="character-card">
+<h3>De Geest van Hamlet's Vader</h3>
+<p><strong>De Overleden Koning</strong></p>
+<p>De geest van Hamlet's vader verschijnt aan Hamlet en onthult de waarheid over zijn moord. Hij is een mysterieus en krachtig personage die Hamlet opdraagt wraak te nemen, maar ook waarschuwt tegen het schaden van Gertrude.</p>
+</div>
+
+<h3>Karakterontwikkeling en Relaties</h3>
+<p>De personages in Hamlet zijn niet statisch - ze ontwikkelen zich door het stuk heen en hun relaties veranderen. Shakespeare toont de complexiteit van menselijke natuur door personages te creëren die zowel goede als slechte eigenschappen hebben, waardoor ze geloofwaardig en herkenbaar blijven voor het publiek.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>3</wp:post_id>
+		<wp:post_date>2024-10-04 12:30:00</wp:post_date>
+		<wp:post_date_gmt>2024-10-04 12:30:00</wp:post_date_gmt>
+		<wp:comment_status>closed</wp:comment_status>
+		<wp:ping_status>closed</wp:ping_status>
+		<wp:post_name>personages</wp:post_name>
+		<wp:status>publish</wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type>page</wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+	</item>
+
+	<item>
+		<title>Beroemde Citaten uit Hamlet</title>
+		<link>http://localhost/hamlet-wordpress-site/citaten/</link>
+		<pubDate>Mon, 04 Oct 2024 13:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">http://localhost/hamlet-wordpress-site/?page_id=4</guid>
+		<description></description>
+		<content:encoded><![CDATA[<h2>Beroemde Citaten uit Hamlet</h2>
+
+<p>Hamlet bevat enkele van de meest beroemde en geciteerde regels uit de Engelse literatuur. Deze citaten hebben de tand des tijds doorstaan en worden nog steeds gebruikt in dagelijks taalgebruik. Hier zijn de belangrijkste citaten met hun context:</p>
+
+<div class="hamlet-quote">
+"To be, or not to be, that is the question"
+</div>
+<p><strong>Act III, Scene 1</strong> - Dit is misschien wel het beroemdste citaat uit Hamlet. Hamlet overweegt hier de vraag of het beter is om te leven en te lijden, of om te sterven en de pijn te ontvluchten. Het is een diep filosofische monoloog over existentiële vragen.</p>
+
+<div class="hamlet-quote">
+"Something is rotten in the state of Denmark"
+</div>
+<p><strong>Act I, Scene 4</strong> - Uitgesproken door Marcellus nadat hij de geest heeft gezien. Dit citaat wordt vaak gebruikt om corruptie of problemen in een organisatie of samenleving aan te duiden.</p>
+
+<div class="hamlet-quote">
+"The lady doth protest too much, methinks"
+</div>
+<p><strong>Act III, Scene 2</strong> - Gertrude zegt dit tijdens het toneelstuk binnen het toneelstuk. Het wordt nu gebruikt wanneer iemand te veel nadruk legt op iets, wat suggereert dat ze misschien niet helemaal eerlijk zijn.</p>
+
+<div class="hamlet-quote">
+"There are more things in heaven and earth, Horatio, than are dreamt of in your philosophy"
+</div>
+<p><strong>Act I, Scene 5</strong> - Hamlet zegt dit tegen Horatio na het zien van de geest. Het drukt uit dat er mysteries in het universum zijn die de menselijke kennis te boven gaan.</p>
+
+<div class="hamlet-quote">
+"This above all: to thine own self be true"
+</div>
+<p><strong>Act I, Scene 3</strong> - Polonius geeft deze wijze raad aan zijn zoon Laertes. Het is een tijdloze boodschap over authenticiteit en integriteit.</p>
+
+<div class="hamlet-quote">
+"Neither a borrower nor a lender be"
+</div>
+<p><strong>Act I, Scene 3</strong> - Ook van Polonius, dit advies over financiële voorzichtigheid is nog steeds relevant.</p>
+
+<div class="hamlet-quote">
+"Brevity is the soul of wit"
+</div>
+<p><strong>Act II, Scene 2</strong> - Polonius zegt dit ironisch genoeg tijdens een van zijn lange toespraken. Het wordt gebruikt om het belang van bondigheid in communicatie te benadrukken.</p>
+
+<div class="hamlet-quote">
+"Get thee to a nunnery"
+</div>
+<p><strong>Act III, Scene 1</strong> - Hamlet zegt dit tegen Ophelia tijdens zijn "getemde waanzin". Het kan zowel betekenen dat ze naar een klooster moet gaan als een verwijzing naar een bordeel.</p>
+
+<div class="hamlet-quote">
+"The play's the thing wherein I'll catch the conscience of the king"
+</div>
+<p><strong>Act II, Scene 2</strong> - Hamlet bedenkt zijn plan om Claudius' schuld te bewijzen door middel van een toneelstuk dat de moord op zijn vader naspeelt.</p>
+
+<div class="hamlet-quote">
+"Alas, poor Yorick! I knew him, Horatio"
+</div>
+<p><strong>Act V, Scene 1</strong> - Hamlet houdt de schedel van Yorick, de hofnar uit zijn jeugd. Dit moment symboliseert de onvermijdelijkheid van de dood en de vergankelijkheid van het leven.</p>
+
+<h3>De Invloed van Deze Citaten</h3>
+<p>Deze citaten zijn zo diep geworteld in de westerse cultuur dat ze vaak worden gebruikt zonder dat mensen zich realiseren dat ze uit Hamlet komen. Ze hebben hun weg gevonden naar films, boeken, politieke toespraken en dagelijks taalgebruik, wat de blijvende relevantie en kracht van Shakespeare's taal bewijst.</p>
+
+<h3>Moderne Adaptaties</h3>
+<p>Veel van deze citaten zijn aangepast en geparodieerd in moderne media. Van cartoons tot films, van reclame tot politieke toespraken - de taal van Hamlet blijft een bron van inspiratie en referentie.</p>]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>4</wp:post_id>
+		<wp:post_date>2024-10-04 13:00:00</wp:post_date>
+		<wp:post_date_gmt>2024-10-04 13:00:00</wp:post_date_gmt>
+		<wp:comment_status>closed</wp:comment_status>
+		<wp:ping_status>closed</wp:ping_status>
+		<wp:post_name>citaten</wp:post_name>
+		<wp:status>publish</wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:post_parent>
+		<wp:post_type>page</wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+	</item>
+
+</channel>
+</rss>
